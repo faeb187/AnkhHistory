@@ -5,9 +5,11 @@ coffee -c -b ./lib/gulpfile.coffee
 
 # deployment
 cd ./lib
-rm -r assets/js
-rm -r assets/css/main.min.css
+rm -r dst
 gulp
+
+# vendor files
+mv ./src/vendor/flexbox-reset.css dst/assets/css
 
 # serve app
 npx http-server ./dst --proxy http://localhost:8080?
