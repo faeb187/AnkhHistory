@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # compile gulpfile
+rm gulpfile.js
 coffee -c -b ./lib/gulpfile.coffee
 
 # deployment
