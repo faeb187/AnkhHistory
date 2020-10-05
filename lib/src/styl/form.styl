@@ -1,0 +1,165 @@
+/*
+  @STYL   form
+  @AUTHOR faeb187
+*/
+select
+  apr   none
+  mrg   0
+
+input
+output
+textarea
+select
+  c     md-blue-900
+  fs    1rem
+  fw    700
+  fx    1 1 auto
+  fxo   1
+
+  &[type=number]
+  &[data-type=currency]
+    ta    right
+
+  &:not([type=range])
+    bc    transparent
+    brd   1px md-grey-400 solid
+    brad  5px
+    pdg   .4rem .7rem
+
+  &[type=number]
+    &::-webkit-inner-spin-button
+    &::-webkit-outer-spin-button
+    &:focus::-webkit-inner-spin-button
+    &:focus::-webkit-outer-spin-button
+      apr none
+      mrg 0
+      -moz-appearance textfield
+
+  &[type=checkbox]
+    fxo   0
+    fx    0 1 auto
+    mrgr  .3rem
+
+    & + label
+      fxo   1
+      w     auto
+      fs    .8rem
+      fx    1 1 auto
+
+  &[type=radio]
+    pos  absolute
+    clip rect( 0, 0, 0, 0 )
+
+    &:checked + label
+      bc    md-blue-900
+      c     md-white
+
+    & + label
+      fxai  flex-start
+      w     auto
+      pdg   .4rem .7rem
+      brd   1px md-grey-400 solid
+      curs  pointer
+
+      &:nth-child(2)
+        btlr  5px
+        bblr  5px
+
+      &:last-child
+        btrr  5px
+        bbrr  5px
+
+  &[type=range]
+    &::thumb
+      w     2.4rem
+      h     2.4rem
+      mrgt  -1rem
+      brad  50%
+      bc    md-white
+      brd   1px md-grey-500 solid
+      bi    url(../img/logo.svg)
+      bgs   60%
+      bgr   no-repeat
+      bgp   center
+      curs  pointer
+
+    &::track
+      h     .2rem
+      bg    md-grey-300
+      curs  pointer
+
+  &::placeholder
+    c   md-grey-500
+
+.ui-form
+.ui-newsletter
+  fx    1 1 auto
+  c     md-black
+  
+  > .grp
+    pdg   1rem 3rem
+    mrgb  1rem
+    brad  10px
+    bc    md-white
+
+  .fld
+    fxd   row
+    pos   relative
+    mrgb  .3rem
+    
+    > label
+      w     15rem
+      mrgr  .3rem
+      fxai  flex-end
+      fxo   0
+      fxjc  center
+
+    > [type=checkbox] + label
+      fxai  flex-start
+    
+    i
+      fs  1.5rem
+
+    .ui-icon
+      dsp none
+      pos absolute
+      rgt -2rem
+      top calc( 50% - 1.2rem )
+
+    &.valid
+      .icon-ok
+        dsp block
+        c   md-green-200
+
+    &.invalid
+      .icon-nok
+        dsp block
+        c   md-red-200
+
+    .ctrls
+      fxd   row
+      fx    1 1 auto
+      fxo   1
+
+      label
+        fx    1 1 auto
+        fxai  center
+        fxjc  center
+        curs  pointer
+
+        &:not(:nth-child(2))
+          brdl  none
+
+#loan-info
+  +above( 'xl' )
+    fxd   row
+
+  > .grp
+    fx    1 1 auto
+    pdg   2rem 4rem 2rem 2rem
+
+  .fld
+    fxd   column
+
+    > label
+      fxai  flex-start

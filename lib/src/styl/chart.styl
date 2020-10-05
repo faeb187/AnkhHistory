@@ -1,0 +1,32 @@
+/**
+ *  UI CHART STYL
+ *  @AUTHOR faeb187
+ */
+.ui-chart
+
+  // PIE chart
+  .pie
+    dsp   block
+    w     6em
+    h     6em
+    brad  50%
+
+    // pseudo masking
+    &::before
+      cnt   ''
+      w     50%
+      mrgl  50%
+      brad  0 100% 100% 0 / 50%
+      bc    inherit
+      trfo  left
+      ani   spin 50s linear infinite, bg 100s step-end infinite
+      anips paused
+      anid  inherit
+
+    @keyframes spin
+      to
+        trf rotate( .5turn )
+
+    @keyframes bg
+      50%
+        bc  red

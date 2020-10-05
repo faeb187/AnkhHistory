@@ -1,0 +1,87 @@
+// GENERAL
+html
+  fs    responsive 10px 21px
+  fr    420px 1280px
+  ff    Brawler
+
+body
+  ff    $ff
+  bc    md-grey-200
+  w     100vw
+
+a
+  curs  pointer
+
+i
+  fs    3rem
+
+img
+  maxw  100%
+
+b
+  fw    700
+
+h2
+  fw    700
+  fs    1rem
+
+small
+  fs    .9rem
+
+  +above( 'xl' )
+    fs  .9rem
+
+// FX
+*[ data-fx = 'in' ]
+  dsp   flex
+
+*[data-fx= 'out' ]
+  dsp   none
+
+// ANKH CONTAINER
+#ankh
+  fx    1 1 auto
+  
+  > div
+    fx  1 1 auto
+
+// CONTENT
+// header/main/footer wrapper
+#cnt
+  fx    1 1 auto
+  w     100%
+  fxai  center
+
+// HEADER
+#h
+  fxd   row
+  fxai  center
+  pdg   1em 0
+  w     100%
+  maxw  $max-w
+
+// MAIN
+#m
+  bc    md-white
+  w     100%
+  maxw  $max-w
+  mrgb  1rem
+  pdgt  13px
+
+// FOOTER
+#f
+  fxd   row
+  fx    0 1 auto
+  fxjc  space-between
+  fxai  center
+  pdg   0 2rem
+  w     calc( 100vw - 4rem )
+
+// LOGO
+#img-logo
+  w     2rem
+
+
+// BEKB
+#h
+  brdt 8px $color-01 solid

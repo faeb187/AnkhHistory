@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/faeb187/ankh-ui
+	branch = master
+	commit = 91953d74bb7e6cbd7428117c52e189407b615232
+	parent = 597d381439a93187e751e14893bcc7bb50f65cfb
+	cmdver = 0.3.1

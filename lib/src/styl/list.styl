@@ -1,0 +1,74 @@
+// NAV TOGGLE
+#navToggle
+  pos absolute
+  top 0
+  rgt 1rem
+  trf translateX( 0 )
+
+  &.active
+    c   md-blue-900
+
+// LIST MEDIA
+#lst-media
+  ul
+    bc    md-grey-300
+
+    +above( 'm' )
+      fxd   row
+
+  li
+    brdt  1px md-grey-400 solid
+    pdg   .4rem 0
+
+    &:first-child
+      ta    center
+      brdt  none
+      c     md-grey-900
+      fs    1.3rem
+
+  img
+    fxas  center
+
+#lst-frm-cr
+  fxd   row
+  fxjc  center
+  fxai  flex-end
+
+  li
+    mrgr  2px
+    pos   relative
+    &:before
+      w     0
+      h     0
+      brdt  50% inset transparent
+      brdl  1rem md-white solid
+      pos   absolute
+      cnt   ''
+      
+    &:after
+      w     0
+      h     0
+      brdt  50% inset transparent
+      brdb  50% inset transparent
+      brdl  1rem solid md-blue-300
+      pos   absolute
+      cnt   ''
+      rgt   -1rem
+      z     2
+
+  a
+    dsp   flex
+    bc    md-blue-300
+    c     md-white
+    mrgr  3px
+    fxjc  center
+    pdg   0 1.5rem
+
+    &.active
+      c   md-black
+      bc  md-white
+      & i
+        fs  2rem
+
+  i
+    fs  1.6rem

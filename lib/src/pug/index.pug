@@ -1,0 +1,50 @@
+doctype html
+html
+  // HEAD
+  head
+    // TITLE
+    title
+
+    // META
+    meta(
+      charset = 'utf-8'
+    )
+    meta(
+      name    = 'viewport'
+      content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2'
+    )
+
+    // CSS
+    link(
+      rel     = 'stylesheet'
+      href    = 'assets/css/flexbox-reset.css'
+    )
+    link(
+      rel     = 'stylesheet'
+      href    = 'https://fonts.googleapis.com/icon?family=Material+Icons'
+    )
+    link(
+      rel     = 'stylesheet'
+      href    = 'https://fonts.googleapis.com/css?family=Brawler'
+    )
+    link(
+      rel     = 'stylesheet'
+      href    = 'assets/css/main.min.css'
+    )
+      
+  // BODY
+  body
+
+    #ankh
+
+    // LOADER
+    // ..until replaced by app
+    .ui-progress
+      progress( value = '0' )
+      .info
+        span.type
+        span.file
+
+    // SCRIPTS
+    script( src= 'https://unpkg.com/ionicons@5.0.0/dist/ionicons.js')
+    script( src= 'assets/js/app.min.js')

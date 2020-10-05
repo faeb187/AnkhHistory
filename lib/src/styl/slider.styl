@@ -1,0 +1,41 @@
+// MENU TO SLIDE UP
+#back
+  pos   absolute
+  h     100vh
+  w     100vw
+  fxd   row
+  fxai  center
+  fxjc  center
+  
+  .ui-slider
+    fx    1
+    fxd   row
+    fxai  center
+    fxjc  center
+
+// SLIDING CONTENT
+#front
+  fxd   column
+  fxai  center
+  trf   translate3d( 0, 0, 0 )
+  tra   transform, .2s
+  ovrx  hidden
+  bc    md-grey-100
+
+  +above( 'xl' )
+    bi    none
+
+  &.from-left
+    flr grayscale( .5 )
+    trf translate3d( 100vw, 0, 0 )
+    & ~ nav i
+      c   md-blue-900
+
+  &.from-right
+    trf translate3d( -100vw, 0, 0 )
+
+  &.from-top
+    trf translate3d( 0, 100vw, 0 )
+
+  &.from-bottom
+    trf translate3d( 0, -100vw, 0 )
