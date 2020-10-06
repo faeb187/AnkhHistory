@@ -438,10 +438,11 @@ module.exports = (->
   $$.history =
 
     # @DESC   update current state
-    # @PARAM  site  MAN {string}  site path
+    # @PARAM  name  MAN {string}  site name
+    # @PARAM  path  MAN {string}  site path (route)
     # @RETURN {$$}
-    go: ( site ) ->
-      history.pushState site: site, site, '/' + site
+    go: ( name, path ) ->
+      history.pushState { site: name }, null, path
 
   # @EXPORT $$
   return $$

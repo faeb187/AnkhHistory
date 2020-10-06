@@ -96,16 +96,6 @@ gulp.task 'bundle', ->
       '-r ./helpers/stalker '             +
       '-r ./helpers/state '               +
 
-      '-r ./conf/back '                     +
-      '-r ./conf/cnt '                      +
-      '-r ./conf/copyright '                +
-      '-r ./conf/footer '                   +
-      '-r ./conf/front '                    +
-      '-r ./conf/lang '                  +
-      '-r ./conf/main '                     +
-      '-r ./conf/nav '                      +
-      '-r ./conf/slider '                   +
-
       '-o ./app.min.js'
     ]
 

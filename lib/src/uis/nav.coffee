@@ -37,7 +37,7 @@ module.exports = (->
       window.addEventListener 'popstate', (e) -> e.preventDefault()
       
       # UI markup
-      $ui     = $$ '<nav/>', id: id, class: 'ui-nav'
+      $ui     = $$ '<nav/>', id: id, class: 'ui-nav', role: "navigation"
 
       # APPEND nav items
       uiList.init

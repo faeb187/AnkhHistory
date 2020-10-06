@@ -1,13 +1,66 @@
 .ui-nav
+  fx 1
+  pos relative
+
   ul
     fxd row
 
     a
       fx    1
-      pdg   .6rem 0
+      pdg   .6rem .3rem
 
       &.active
-        bc   md-white
+        & ~ ul
+          dsp flex
 
     ul
       dsp none
+      pos absolute 
+      lft 0
+      top 100%
+
+// BeKB
+#nav
+  mrgb 4rem
+
+  li
+    a
+      pdg .8rem .8rem .5rem
+
+      &.active
+        bc $grey-03
+
+    ul
+      bc   $grey-03
+      pdgt .8rem
+      w    100vw
+
+      a
+        &.active
+          bc md-white
+
+#navResponsive
+  ul
+    fxd column
+
+    li
+      bdrb 1px $grey-02 solid
+      
+      a
+        pdg 1rem
+
+        &.active
+          bc $grey-01
+          c  md-white
+
+      ul
+        dsp flex
+        pos static
+
+        li
+          &:last-child
+            brdb 0
+
+          a
+            mrgl 2rem
+            brdr 1px $grey-03 solid

@@ -2,6 +2,6 @@
   @CONF   todo
 ###
 module.exports =
-  id  : 'reportsTodo'
+  id  : 'productsTodo'
   name: 'div'
-  text: 'reportsTodo'
+  text: 'todo'

@@ -24,9 +24,7 @@ module.exports = (->
     # @RETURN {void}
     # @PUBLIC
     init: ( opt ) ->
-      console.log 'init'
       initMap = ->
-        console.log 'initting'
         new google.maps.Map opt.target,
           center: opt.center
           scrollwheel: false
@@ -45,9 +43,10 @@ module.exports = (->
             script = undefined
             if !isAbort and callback then callback()
           return
-      console.log 'loading'
+
       getScript url, -> console.log 'loaded'
       return
+
       # DEFINE variables
       opt     = opt or {}
       id      = opt.id

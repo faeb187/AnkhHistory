@@ -35,24 +35,24 @@ module.exports = (->
       care: "Betreuung"
       careTodo: "Betreuung Todo"
       copyright: "&copy; bekb.ch. Alle Rechte vorbehalten."
+      overview: "Übersicht"
       partner: "Partner"
-      partnerTodo: "Partner Todo"
       products: "Produkte"
       productsAdditional: "Zusatzprodukte"
       reports: "Berichte"
-      reportsTodo: "Berichte Todo"
+      todo: "todo"
 
     # english
     en:
       care: "Care",
       careTodo: "Care Todo"
       copyright: "&copy; bekb.ch. All rights reserved."
+      overview: "Overview"
       partner: "Partner"
-      partnerTodo: "PartnerTodo"
       products: "Products"
-      productsAdditional: "Zusatzprodukte"
+      productsAdditional: "Additional Products"
       reports: "Reports"
-      reportsTodo: "Reports Todo"
+      todo: "todo"
 
   #
   # PUBLIC

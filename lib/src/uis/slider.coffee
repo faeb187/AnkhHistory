@@ -42,6 +42,7 @@ module.exports = (->
     # @PUBLIC
     init: ( opt ) ->
       obs.r 'ui-slider-toggle'
+      obs.r 'ui-slider-out'
       opt = opt or {}
       id  = opt.id
       side= opt.side
@@ -57,6 +58,7 @@ module.exports = (->
 
       # REGISTRATE custom events
       obs.l 'ui-slider-toggle', ui.evs.toggle
+      obs.l 'ui-slider-out', ui.evs.out
 
       # APPEND UI to target
       $t.appendChild $ui

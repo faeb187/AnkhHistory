@@ -85,7 +85,6 @@ module.exports = (->
         # zip fills city
         $zip  = $$ '#zip'
         $city = $$ '#city'
-        console.log $ui
 
         if $zip and $city
           $$.listen $zip, 'keyup', ( e ) ->

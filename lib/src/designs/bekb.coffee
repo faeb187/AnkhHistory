@@ -3,6 +3,7 @@ module.exports =
     {
       id  : 'back'
       ids : [
+        { id: 'slider', ids: [{id: 'navResponsive' }]}
       ]
     }
     {
@@ -13,7 +14,7 @@ module.exports =
           ids : [
             {
               id  : 'header'
-              ids : [{ id: 'nav' }]
+              ids : [{ id: 'nav', media: min: 'xs' }]
             }
             {
               id  : 'main'
@@ -30,5 +31,10 @@ module.exports =
         }
       ]
     }
-    { id: 'navToggle' }
+    {
+      id: 'navToggle'
+      media: {
+        max: 'xs'
+      }
+    }
   ]

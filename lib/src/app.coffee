@@ -12,7 +12,5 @@
   Modernizr = require 'browsernizr'
 
   document.title = 'BeKB'
-  site.load location.pathname.slice(1) or 'care'
-  obs.f 'ankh-ready'
-  return
+  site.load location.pathname or '/care/overview'
 )()

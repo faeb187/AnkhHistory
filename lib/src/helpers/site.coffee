@@ -23,9 +23,11 @@ module.exports = (->
 
   #> Site
   Site =
-    care                    : require '../sites/care'
-    partner                 : require '../sites/partner'
-    reports                 : require '../sites/reports'
+    careOverview              : require '../sites/careOverview'
+    partnerOverview           : require '../sites/partnerOverview'
+    partnerProducts           : require '../sites/partnerProducts'
+    partnerProductsAdditional : require '../sites/partnerProductsAdditional'
+    reportsOverview           : require '../sites/reportsOverview'
 
   #> Conf
   Conf  =
@@ -38,16 +40,20 @@ module.exports = (->
     lang                      : require '../conf/lang'
     main                      : require '../conf/main'
     nav                       : require '../conf/nav'
+    navResponsive             : require '../conf/navResponsive'
     slider                    : require '../conf/slider'
-    careTodo: require '../conf/careTodo'
-    partnerTodo: require '../conf/partnerTodo'
-    reportsTodo: require '../conf/reportsTodo'
-    navToggle: require '../conf/navToggle'
+
+    careIframePending         : require '../conf/careIframePending'
+    partnerTodo               : require '../conf/partnerTodo'
+    productsTodo              : require '../conf/productsTodo'
+    reportsTodo               : require '../conf/reportsTodo'
+    navToggle                 : require '../conf/navToggle'
 
   #> Ui
   Ui    =
     html      : require '../uis/html'
     icon      : require '../uis/icon'
+    iframe    : require '../uis/iframe'
     lang      : require '../uis/lang'
     layout    : require '../uis/layout'
     list      : require '../uis/list'
@@ -60,10 +66,9 @@ module.exports = (->
     vp.y = window.innerHeight
     
     for k, v of medias
-      if medias[ k ].min and vp.x < medias[ k ].min or
-        medias[ k ].max and vp.x > medias[ k ].max
-          $$( '#' + k, $b ).setAttribute 'data-fx', 'out'
-      else $$( '#' + k, $b ).setAttribute 'data-fx', 'in'
+      m = medias[ k ]
+      fx = if m.min and vp.x <= m.min or m.max and vp.x > m.max then 'out' else 'in'
+      $$( '#' + k, $b ).setAttribute 'data-fx', fx
 
   #-   append app to browser
   #<!  $app {node}
@@ -83,11 +88,59 @@ module.exports = (->
     #! to fix! no direct UI access allowed
     Ui[ 'lang' ].update id: $$( '.ui-lang' ).id, lang: state.get( id: $$('.ui-lang').id) or 'de'
 
+  getCurrentSite = (itm) ->
+    site =
+      id: itm.id
+      path: itm.path
+
+    getFirstSubId = (subItms) ->
+      subItm = subItms[0]
+      if subItm.items then getFirstSubId subItm.items
+      else
+        site.id = subItm.id
+        site.path = subItm.path
+
+    if itm.items then getFirstSubId itm.items
+    site.name = site.id.split("site-")[1]
+    site
+
+  #- site name by path
+  #<! itms {json[]} items
+  #<! path {string} site path
+  getSiteName = (itms, path) ->
+    site = {}
+    handleSubs = (subItms) ->
+      subItms.some (subItm) ->
+        if subItm.path is path
+          site = getCurrentSite subItm
+        else if subItm.items then handleSubs subItm.items
+    handleSubs itms
+    site
+
+  #-  returns default site on 404
+  #<! itms  {json[]} nav items
+  getDefaultSite = (itms) ->
+    getSiteName itms, itms[0].path
+
   #- loads site
-  #<! name  {string} name of the site
-  load = ( name ) ->
+  #<! path {string} path of site
+  load = ( path ) ->
+    navItms = Conf.nav.items
+    
+    # EVALUATE site (deepest level of clicked nav item)
+    site = getSiteName navItms, path
+
+    # REWRITE to default site on 404
+    if !site.name then site = getDefaultSite navItms
+
+    # LOAD evaluated site (on parent nav item click)
+    if site.path isnt path then return load site.path
+
+    # PUSH new history state
+    $$.history.go site.name, site.path
+    
     #>!?
-    obj  = Site[ name ] or {}
+    obj  = Site[ site.name ] or {}
     ids   = obj.ids
     if !ids then return
 
@@ -102,12 +155,15 @@ module.exports = (->
     loadNext obj, $df for obj in ids
 
     #- set site name in body
-    $b.setAttribute 'data-site', name
+    $b.setAttribute 'data-site', site.name
 
     # listen to viewport resize
     $$.listen window, 'resize', resize
 
     startApp $df
+
+    obs.f "ankh-ready"
+
 
   #-  load UI
   #<! ui  {string}  UI id
@@ -143,9 +199,7 @@ module.exports = (->
 
   # listen to events
   obs.l "helper-site-load", (e) ->
-    path = e.target.getAttribute( "href" ).slice 1
-    load path
-    $$.history.go path
+    load e.target.getAttribute "href"
 
   return
     load: load
