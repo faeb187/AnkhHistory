@@ -1,16 +1,23 @@
 (->
-  # REQUIRE local files
-  $$    = require './helpers/dom'
-  obs   = require './helpers/obs'
-  site  = require './helpers/site'
-  
+  # ANKH config
+  ANKH =
+    title: "BeKB"
+    networkAdapter: "apollo"
+
   # REQUIRE npm modules
-  require   'browsernizr/test/proximity'
-  require   'browsernizr/test/battery'
-  require   'browsernizr/test/ambientlight'
-  require   'browsernizr/test/notification'
+  require 'browsernizr/test/proximity'
+  require 'browsernizr/test/battery'
+  require 'browsernizr/test/ambientlight'
+  require 'browsernizr/test/notification'
   Modernizr = require 'browsernizr'
 
-  document.title = 'BeKB'
-  site.load location.pathname or '/care/overview'
+  # REQUIRE local files
+  site= require './helpers/site'
+  
+  # TMP apollo test
+  require './network/adapters/apollo'
+
+  document.title = ANKH.title
+  
+  site.load location.pathname
 )()

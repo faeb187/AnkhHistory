@@ -15,6 +15,12 @@ rupture   = require 'rupture'
 poststyl  = require 'poststylus'
 rucksack  = require 'rucksack-css'
 
+# network
+gulp.task 'network', ->
+  gulp.src 'src/network/**/*.coffee'
+    .pipe coffee bare: true
+    .pipe gulp.dest 'dst/assets/js/network'
+
 # UIs
 gulp.task 'uis', ->
   gulp.src 'src/uis/*'
@@ -88,15 +94,9 @@ gulp.task 'bundle', ->
   process.chdir 'dst/assets/js'
   gulp.src '*.js', read: false
     .pipe shell [
-      'browserify app.js '                +
-
-      '-r ./helpers/dom '                 +
-      '-r ./helpers/obs '                 +
-      '-r ./helpers/site '                +
-      '-r ./helpers/stalker '             +
-      '-r ./helpers/state '               +
-
+      'browserify app.js ' +
+      '-r ./network/adapters/apollo ' +
       '-o ./app.min.js'
     ]
 
-gulp.task 'default', gulp.series("uis", "helpers", "pug", "styl", "conf", "designs", "sites", "coffee", "bundle"), (done) => done()
+gulp.task 'default', gulp.series("network", "uis", "helpers", "pug", "styl", "conf", "designs", "sites", "coffee", "bundle"), (done) => done()

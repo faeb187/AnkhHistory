@@ -1,6 +1,5 @@
 ###
   DOLLARSIGNS
-  @AUTHOR faeb187
 ###
 module.exports = (->
 

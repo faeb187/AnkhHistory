@@ -1,10 +1,10 @@
 {
-  "name": "ankh-ui",
+  "name": "ankh",
   "version": "0.0.1",
   "description": "modern lightweight and flexible UI/UX framework.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/faeb187/ankh-ui.git"
+    "url": "git+https://github.com/faeb187/ankh.git"
   },
   "keywords": [
     "UI",
@@ -19,9 +19,14 @@
   "author": "faeb187",
   "license": "MIT",
   "dependencies": {
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-http": "^1.5.17",
     "browsernizr": "^2.3.0",
     "currency-formatter": "^1.5.5",
     "flexbox-reset": "^3.0.0",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
     "hammerjs": "^2.0.8",
     "hotkeys": "^1.0.0",
     "material-colors": "^1.2.6",
@@ -29,6 +34,7 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
+    "coffeescript": "^2.5.1",
     "gulp": "^4.0.2",
     "gulp-coffee": "^3.0.3",
     "gulp-concat": "^2.6.1",
