@@ -1,6 +1,5 @@
 ###
-  UI TABLE
-  @AUTHOR faeb187
+  UI table
 ###
 module.exports = (->
 

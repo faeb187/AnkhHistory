@@ -42,15 +42,20 @@ module.exports = (->
     nav                       : require '../conf/nav'
     navResponsive             : require '../conf/navResponsive'
     slider                    : require '../conf/slider'
+    navToggle                 : require '../conf/navToggle'
 
     careIframePending         : require '../conf/careIframePending'
-    partnerTodo               : require '../conf/partnerTodo'
-    productsTodo              : require '../conf/productsTodo'
+
+    partnerProductsAdditionalAccordion: require '../conf/partnerProductsAdditionalAccordion'
+    partnerProductsAdditionalDetailsCards: require '../conf/partnerProductsAdditionalDetailsCards'
+    partnerProductsAdditionalDetailsSafes: require '../conf/partnerProductsAdditionalDetailsSafes'
+
     reportsTodo               : require '../conf/reportsTodo'
-    navToggle                 : require '../conf/navToggle'
 
   #> Ui
   Ui    =
+    accordion : require '../uis/accordion'
+    details   : require '../uis/details'
     html      : require '../uis/html'
     icon      : require '../uis/icon'
     iframe    : require '../uis/iframe'
@@ -197,7 +202,7 @@ module.exports = (->
 
     if obj.ids and $nt then loadNext obj, $nt for obj in obj.ids
 
-  # listen to events
+  # LISTEN to events
   obs.l "helper-site-load", (e) ->
     load e.target.getAttribute "href"
 

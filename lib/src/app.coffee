@@ -14,9 +14,6 @@
   # REQUIRE local files
   site= require './helpers/site'
   
-  # TMP apollo test
-  require './network/adapters/apollo'
-
   document.title = ANKH.title
   
   site.load location.pathname

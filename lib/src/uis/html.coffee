@@ -36,7 +36,7 @@ module.exports = (->
 
       # CHECK support of tagName
       # DEF   div
-      if( supported.indexOf( name ) is -1 ) then name = 'div'
+      if !supported.includes name then name = 'div'
       
       # CREATE node
       $ui = $$ '<' + name + '/>'
@@ -55,8 +55,6 @@ module.exports = (->
 
       # APPEND UI to target
       $t.appendChild $ui
-
-      # RETURN UI
       $ui
   }
 )()

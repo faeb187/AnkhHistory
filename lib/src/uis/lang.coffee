@@ -32,6 +32,7 @@ module.exports = (->
 
     # german
     de:
+      cards: "Karten"
       care: "Betreuung"
       careTodo: "Betreuung Todo"
       copyright: "&copy; bekb.ch. Alle Rechte vorbehalten."
@@ -40,10 +41,11 @@ module.exports = (->
       products: "Produkte"
       productsAdditional: "Zusatzprodukte"
       reports: "Berichte"
-      todo: "todo"
+      safes: "Tresorfächer"
 
     # english
     en:
+      cards: "Cards"
       care: "Care",
       careTodo: "Care Todo"
       copyright: "&copy; bekb.ch. All rights reserved."
@@ -52,7 +54,7 @@ module.exports = (->
       products: "Products"
       productsAdditional: "Additional Products"
       reports: "Reports"
-      todo: "todo"
+      safes: "Safes"
 
   #
   # PUBLIC

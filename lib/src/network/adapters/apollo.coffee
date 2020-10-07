@@ -12,4 +12,6 @@ module.exports = (->
   client = new ApolloClient
     link: new HttpLink uri: 'todo:3000'
     cache: new InMemoryCache()
+
+  console.log client
 )()

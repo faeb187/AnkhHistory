@@ -94,9 +94,7 @@ gulp.task 'bundle', ->
   process.chdir 'dst/assets/js'
   gulp.src '*.js', read: false
     .pipe shell [
-      'browserify app.js ' +
-      '-r ./network/adapters/apollo ' +
-      '-o ./app.min.js'
+      'browserify app.js -o ./app.min.js'
     ]
 
 gulp.task 'default', gulp.series("network", "uis", "helpers", "pug", "styl", "conf", "designs", "sites", "coffee", "bundle"), (done) => done()
