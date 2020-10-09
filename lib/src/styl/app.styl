@@ -1,7 +1,6 @@
 // GENERAL
 html
-  fs    responsive 10px 21px
-  fr    420px 1280px
+  fs    $fs
   ff    Brawler
 
 body
@@ -31,11 +30,15 @@ small
     fs  .9rem
 
 // FX
-*[ data-fx = 'in' ]
-  dsp   flex
+*
+  & [data-fx= 'in']
+    dsp flex
 
-*[data-fx= 'out' ]
-  dsp   none
+  & table[data-fx= 'in']
+    dsp table
+
+  & [data-fx= 'out' ]
+    dsp none
 
 // ANKH CONTAINER
 #ankh
@@ -57,7 +60,6 @@ small
   fxai  center
   pdg   1em 0
   w     100%
-  maxw  $max-w
 
 // MAIN
 #m

@@ -1,54 +1,38 @@
 ###
-  UI NAV
+  UI nav
   @desc   list wrapped in <nav> element
-  @author faeb187
 ###
 module.exports = (->
+  $$ = require '../helpers/dom'
+  obs = require '../helpers/obs'
+  uiList = require './list'
 
-  #
-  # PRIVATE
-  #
-  $$      = require '../helpers/dom'
-  uiList  = require './list'
+  # @DESC   init nav
+  # @PARAM  opt.id      MAN {string}  UI id
+  # @PARAM  opt.type    OPT {string}  only 'sitemap' atm
+  # @PARAM  opt.items   OPT {array}   menu items
+  # @PARAM  opt.events  OPT {json}    events fallback from item events
+  # @PARAM  opt.target  MAN {node}    target node
+  init = ( opt ) ->
+    {id, events, items = [], target: $t, type} = opt
+    
+    if !id or !$t then return
 
-  #
-  # PUBLIC
-  #
-  return {
+    # PREVENT popstate behaviour
+    window.addEventListener 'popstate', (e) -> e.preventDefault()
+    
+    $ui = $$ '<nav/>', id: id, class: 'ui-nav', role: "navigation"
 
-    # @DESC   init slider
-    # @PARAM  opt.id      MAN {string}  UI id
-    # @PARAM  opt.type    OPT {string}  only 'sitemap' atm
-    # @PARAM  opt.items   MAN {array}   menu items
-    # @PARAM  opt.events  OPT {json}    events fallback from item events
-    # @PARAM  opt.target  MAN {node}    target node
-    init: ( opt ) ->
-      opt   = opt or {}
-      id    = opt.id
-      evs   = opt.events
-      itms  = opt.items
-      $t    = opt.target
-      type  = opt.type
+    # APPEND nav items
+    obs.f 'ui-list-init',
+      events: events
+      id: id
+      items: items
+      target: $ui
 
-      # MANDATORY id, target & items
-      if !id or !$t or !itms or !itms.length then return
+    $t.appendChild $ui
+    # obs.f 'ankh-ui-ready' is fired in the list
+    return
 
-      # PREVENT popstate behaviour
-      window.addEventListener 'popstate', (e) -> e.preventDefault()
-      
-      # UI markup
-      $ui     = $$ '<nav/>', id: id, class: 'ui-nav', role: "navigation"
-
-      # APPEND nav items
-      uiList.init
-        events: evs
-        id: id
-        items: itms
-        target: $ui
-
-      # append UI to target
-      $t.appendChild $ui
-      
-      return
-  }
+  obs.l 'ui-nav-init', init
 )()

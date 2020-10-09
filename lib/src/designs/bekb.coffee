@@ -1,40 +1,55 @@
+nav = require '../conf/nav'
+navMobile = require '../conf/navResponsive'
+
 module.exports =
   ids: [
     {
       id  : 'back'
+      name: 'html'
       ids : [
-        { id: 'slider', ids: [{id: 'navResponsive' }]}
+        {
+          id: 'slider-lft'
+          name: 'slider'
+          ids: [{...navMobile}]
+        }
       ]
     }
     {
       id  : 'front'
+      name: 'html'
       ids : [
         {
           id  : 'cnt'
+          name: 'html'
           ids : [
             {
-              id  : 'header'
-              ids : [{ id: 'nav', media: min: 'xs' }]
+              id  : 'h'
+              name: 'html'
+              tag: 'header'
+              ids : [
+                {...nav, media: min: 'xs'}
+                {id: 'search', name: 'search', placeholder: 'search'}
+              ]
             }
-            {
-              id  : 'main'
-              ids : []
-            }
+            {id: 'm', name: 'html', tag: 'main'}
           ]
         }
         {
-          id  : 'footer'
+          id  : 'f'
+          name: 'html'
+          tag: 'footer'
           ids : [
-            { id: 'copyright' }
-            { id: 'lang'      }
+            {id: 'copyright', name: 'html', tag: 'small', text: 'copyright' }
+            {id: 'lang', name: 'lang'}
           ]
         }
       ]
     }
     {
       id: 'navToggle'
-      media: {
-        max: 'xs'
-      }
+      name: 'icon'
+      icon: 'menu-outline'
+      events: click: [ev: 'ui-slider-toggle', arg: {id: 'slider-lft'}]
+      media: max: 'xs'
     }
   ]

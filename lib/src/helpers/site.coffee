@@ -3,25 +3,16 @@
   @-  AUTHOR faeb187
 ###
 module.exports = (->
-
-  #^  local modules
-  $$  = require './dom'
+  $$ = require './dom'
   obs = require './obs'
-  state=require './state'
+  state =require './state'
+  media =require './media'
+  routes = require '../conf/routes'
 
-  #>  d,$b
-  d         = document
-  $b        = $$ 'body'
-  medias    = {}
-  vp        = {}
-  bps       =
-    xs: 400
-    s : 600
-    m : 800
-    l : 1050
-    xl: 1800
+  d = document
+  $b = $$ 'body'
+  vp = {}
 
-  #> Site
   Site =
     careOverview              : require '../sites/careOverview'
     partnerOverview           : require '../sites/partnerOverview'
@@ -29,70 +20,41 @@ module.exports = (->
     partnerProductsAdditional : require '../sites/partnerProductsAdditional'
     reportsOverview           : require '../sites/reportsOverview'
 
-  #> Conf
-  Conf  =
-    back                      : require '../conf/back'
-    cnt                       : require '../conf/cnt'
-    copyright                 : require '../conf/copyright'
-    footer                    : require '../conf/footer'
-    front                     : require '../conf/front'
-    header                    : require '../conf/header'
-    lang                      : require '../conf/lang'
-    main                      : require '../conf/main'
-    nav                       : require '../conf/nav'
-    navResponsive             : require '../conf/navResponsive'
-    slider                    : require '../conf/slider'
-    navToggle                 : require '../conf/navToggle'
+  getUisFlattened = (uis) ->
+    f = []
+    r = (u) -> u.map (ui) -> (f.push ui) && ui.ids && r ui.ids
+    r uis
+    f
 
-    careIframePending         : require '../conf/careIframePending'
+  getUiCount = (uis) ->
+    c = 0
+    r = (subUis) ->
+      subUis.map (subUi, idx) ->
+        ++c
+        if subUi.ids && subUi.ids.length then r subUi.ids
+    r uis
+    c
 
-    partnerProductsAdditionalAccordion: require '../conf/partnerProductsAdditionalAccordion'
-    partnerProductsAdditionalDetailsCards: require '../conf/partnerProductsAdditionalDetailsCards'
-    partnerProductsAdditionalDetailsSafes: require '../conf/partnerProductsAdditionalDetailsSafes'
+  handleReady = (uis, $df) ->
+    r = 0
+    c = getUiCount uis
+    obs.r 'ankh-ui-ready'
+    obs.l 'ankh-ui-ready', (ui) ->
+      ++r
+      if r is c then obs.f 'ankh-ready', $df
 
-    reportsTodo               : require '../conf/reportsTodo'
-
-  #> Ui
-  Ui    =
-    accordion : require '../uis/accordion'
-    details   : require '../uis/details'
-    html      : require '../uis/html'
-    icon      : require '../uis/icon'
-    iframe    : require '../uis/iframe'
-    lang      : require '../uis/lang'
-    layout    : require '../uis/layout'
-    list      : require '../uis/list'
-    nav       : require '../uis/nav'
-    slider    : require '../uis/slider'
-
-  # resize
-  resize = ->
+  handleMedias = ($w) ->
+    medias = media.get()
     vp.x = window.innerWidth
     vp.y = window.innerHeight
-    
-    for k, v of medias
-      m = medias[ k ]
+
+    Object.keys(medias).map (id) ->
+      m = medias[id]
       fx = if m.min and vp.x <= m.min or m.max and vp.x > m.max then 'out' else 'in'
-      $$( '#' + k, $b ).setAttribute 'data-fx', fx
+      $$("##{id}", $w).setAttribute 'data-fx', fx
 
-  #-   append app to browser
-  #<!  $app {node}
-  startApp = ( $site ) ->
-    
-    #<!? site
-    if !$site then return
-
-    #- show site in browser
-    $$( '.ui-progress' ).setAttribute 'data-fx', 'out'
-    $ankh = $$ '#ankh', $b
-    $ankh.innerHTML = ''
-    $ankh.appendChild $site
-    resize()
-    
-    #- load lang 'de'
-    #! to fix! no direct UI access allowed
-    Ui[ 'lang' ].update id: $$( '.ui-lang' ).id, lang: state.get( id: $$('.ui-lang').id) or 'de'
-
+  resize = () => handleMedias $b
+  
   getCurrentSite = (itm) ->
     site =
       id: itm.id
@@ -127,85 +89,49 @@ module.exports = (->
   getDefaultSite = (itms) ->
     getSiteName itms, itms[0].path
 
+
   #- loads site
   #<! path {string} path of site
   load = ( path ) ->
-    navItms = Conf.nav.items
-    
-    # EVALUATE site (deepest level of clicked nav item)
-    site = getSiteName navItms, path
+    obs.r 'ankh-ready'
 
-    # REWRITE to default site on 404
-    if !site.name then site = getDefaultSite navItms
-
-    # LOAD evaluated site (on parent nav item click)
+    # load deepest level of clicked nav item
+    site = getSiteName routes, path
+    if !site.name then site = getDefaultSite routes
     if site.path isnt path then return load site.path
 
-    # PUSH new history state
     $$.history.go site.name, site.path
+    $b.setAttribute 'data-site', site.name
     
-    #>!?
-    obj  = Site[ site.name ] or {}
-    ids   = obj.ids
-    if !ids then return
-
-    # get viewport measures
+    uis = (Site[ site.name ] or {}).ids
+    if !uis then return
+    media.set getUisFlattened uis
     vp.x = window.innerWidth
     vp.y = window.innerHeight
-    
-    #>
+
+    obs.l 'ankh-ready', ($df) ->
+      handleMedias $df
+
+      $$( '.ui-progress', $b ).setAttribute 'data-fx', 'out'
+
+      $ankh = $$ '#ankh', $b
+      $ankh.innerHTML = ''
+      $ankh.appendChild $df
+
+      obs.f 'ui-lang-update'
+      return
+
     $df = d.createDocumentFragment()
-    
-    #..
-    loadNext obj, $df for obj in ids
+    handleReady uis, $df
 
-    #- set site name in body
-    $b.setAttribute 'data-site', site.name
+    for ui in uis
+      ui.target = $df
+      obs.f "ui-#{ui.name}-init", ui
+    return
 
-    # listen to viewport resize
-    $$.listen window, 'resize', resize
+  obs.l "helper-site-load", (event) -> load event.target.getAttribute "href"
 
-    startApp $df
+  $$.listen window, 'resize', resize
 
-    obs.f "ankh-ready"
-
-
-  #-  load UI
-  #<! ui  {string}  UI id
-  #<! $t  {node}    UI target node
-  loadNext = ( obj, $t ) ->
-    
-    #<!?
-    if !obj or !$t then return
-
-    #>
-    conf = JSON.parse JSON.stringify Conf[ obj.id ]
-    if !conf then return
-
-    ui  = Ui[ conf.name ] or Ui[ 'html' ]
-    
-    #..
-    conf.target = $t
-
-    # check for matchin viewport min|max
-    media = obj.media
-    if media
-      min = bps[ media.min ]
-      max = bps[ media.max ]
-
-      if min isnt undefined or max isnt undefined
-        medias[ conf.id ] = {}
-        if min isnt undefined then medias[ conf.id ].min = min
-        if max isnt undefined then medias[ conf.id ].max = max
-    
-    $nt = ui.init conf
-
-    if obj.ids and $nt then loadNext obj, $nt for obj in obj.ids
-
-  # LISTEN to events
-  obs.l "helper-site-load", (e) ->
-    load e.target.getAttribute "href"
-
-  return
-    load: load
+  load: load
 )()

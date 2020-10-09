@@ -1,64 +1,41 @@
 ###
   UI icon (ion-icon)
-  @AUTHOR faeb187
 ###
 module.exports = (->
-
-  # @REQUIRE local modules
-  # @PRIVATE
   $$ = require '../helpers/dom'
   obs = require '../helpers/obs'
 
-  # DEFINE ui
   ui =
-    evs:
-      click: ( e ) ->
-        e.preventDefault()
-
-        $elm = e.target
-
-        # FIND custom click event
-        evs = $elm.events or {}
-        evs = evs.click
-
-        if !evs or !evs.length then return
-
-        # FIRE custom events
-        obs.f ev.ev, ev.arg or e for ev in evs
+    events:
+      click: ( event ) ->
+        event.preventDefault()
+        $elm = event.target
+        events = $elm.events or {}
+        clickEvents = events.click or []
+        
+        if !clickEvents.length then return
+        obs.f clickEvent.ev, clickEvent.arg or event for clickEvent in clickEvents
   
-  # @PUBLIC
-  return {
-    
-    # @DESC   displays icon
-    # @PARAM  opt.id      MAN {string}  ui id
-    # @PARAM  opt.icon    MAN {string}  ion icon name
-    # @PARAM  opt.events  OPT {json}    custom events
-    # @PARAM  opt.target  MAN {node}    target node
-    # @RETURN {node}  ui
-    init: ( opt ) ->
+  # @DESC   displays icon
+  # @PARAM  opt.id      MAN {string}  ui id
+  # @PARAM  opt.icon    MAN {string}  ion icon name
+  # @PARAM  opt.events  OPT {json}    custom events
+  # @PARAM  opt.target  MAN {node}    target node
+  # @RETURN {node}  ui
+  init = (opt) ->
+    {id, icon, events, target: $t} = opt
 
-      # DEFINE variables
-      opt   = opt or {}
-      id    = opt.id
-      name  = opt.name
-      icon  = opt.icon
-      evs   = opt.events or {}
-      $t    = opt.target
+    if !id or !$t then return
 
-      # MAN id, name & target
-      if !id or !name or !$t then return
+    $ui = $$ '<ion-icon/>', id: id, name: icon, class: 'ui-icon'
 
-      # CREATE node
-      $ui = $$ '<ion-icon/>', id: id, name: icon, class: 'ui-icon'
+    if events then $ui.events = events
+    if events.click then $ui.onclick = ui.events.click
 
-      # BIND custom events
-      if evs then $ui.events = evs
-      if evs.click then $ui.onclick = ui.evs.click
+    $t.appendChild $ui
+    obs.f 'ankh-ui-ready', 'ui-icon'
+    return
 
-      # APPEND UI to target
-      $t.appendChild $ui
-
-      # RETURN UI
-      $ui
-  }
+  obs.l 'ui-icon-init', init
+  return
 )()

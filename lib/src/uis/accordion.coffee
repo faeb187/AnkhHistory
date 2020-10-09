@@ -2,28 +2,31 @@
   UI accordion
 ###
 module.exports = (->
-  
-  # @REQUIRE local modules
   $$ = require '../helpers/dom'
-  uiHtml = require './html'
+  obs= require '../helpers/obs'
 
-  return {
-    # @DESC   build new accordion (section: ui-details wrapper)
-    # @PARAM  opt.target  MAN {HTMLElement} ui target
-    init: ( opt ) ->
-      $t = opt.target
-      if !$t then return
+  # @DESC   build new accordion
+  # @PARAM  opt.id      MAN {string}      ui id
+  # @PARAM  opt.ids     OPT {json}        ui-details configs
+  # @PARAM  opt.target  MAN {HTMLElement} ui target
+  init = ( opt ) ->
+    {
+      id
+      ids = []
+      target: $t
+    } = opt
 
-      htmlOpt = {
-        ...opt
-        name  : 'section'
-        ui    : 'accordion'
-        target: $t
-      }
+    if !id or !$t then return
 
-      $ui = uiHtml.init htmlOpt
+    $ui = $$ '<section/>', class: 'ui-accordion'
 
-      $t.appendChild $ui
-      $ui
-  }
+    for child in ids
+      child.target = $ui
+      obs.f 'ui-details-init', child
+
+    $t.appendChild $ui
+    obs.f 'ankh-ui-ready', 'ui-accordion'
+    return
+
+  obs.l 'ui-accordion-init', init
 )()

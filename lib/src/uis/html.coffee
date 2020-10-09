@@ -1,60 +1,48 @@
 ###
-  UI HTML
-  @AUTHOR faeb187
+  UI html
 ###
 module.exports = (->
 
   # @REQUIRE local modules
   # @PRIVATE
   $$ = require '../helpers/dom'
+  obs= require '../helpers/obs'
   
-  # @DEFINE supported {[string]} list of supported tagNames
-  # @PRIVATE
-  supported = [ 'header', 'main', 'footer', 'section', 'img', 'small', 'h1', 'h2', 'h3' ]
+  # @DESC   builds new html node
+  # @PARAM  opt.id      MAN {string}  ui id
+  # @PARAM  opt.target  MAN {node}    target node
+  # @RETURN {node}  ui
+  init = (opt) ->
+    {
+      id
+      ids = []
+      src
+      tag = 'div'
+      alt
+      text
+      target: $t
+    } = opt
 
-  # @PUBLIC
-  return {
+    if !id or !$t then return
     
-    # @DESC   builds new html node
-    # @PARAM  opt.id      MAN {string}  ui id
-    # @PARAM  opt.target  MAN {node}    target node
-    # @RETURN {node}  ui
-    init: ( opt ) ->
+    $ui = $$ "<#{tag}/>", id: id, 'class': 'ui-html'
 
-      # DEFINE variables
-      opt   = opt or {}
-      id    = opt.id
-      cn    = opt.className
-      name  = opt.name
-      src   = opt.src
-      alt   = opt.alt
-      txt   = opt.text
-      $t    = opt.target
+    # IMAGE
+    if src and alt
+      $ui.setAttribute 'src', src
+      $ui.setAttribute 'data-lang', alt
 
-      # MAN id, name & target
-      if !id or !name or !$t then return
+    # TEXT
+    else if text then $ui.setAttribute 'data-lang', text
 
-      # CHECK support of tagName
-      # DEF   div
-      if !supported.includes name then name = 'div'
-      
-      # CREATE node
-      $ui = $$ '<' + name + '/>'
-      $ui.id = id
+    # LOAD children
+    for child in ids
+      child.target = $ui
+      obs.f "ui-#{child.name}-init", child
 
-      # IMAGE
-      if src and alt
-        $ui.setAttribute 'src'      , src
-        $ui.setAttribute 'data-lang', alt
+    $t.appendChild $ui
+    obs.f 'ankh-ui-ready', 'ui-html'
+    return
 
-      # TEXT
-      else if txt then $ui.setAttribute 'data-lang', txt
-
-      # CLASSES
-      if cn then $ui.className = cn
-
-      # APPEND UI to target
-      $t.appendChild $ui
-      $ui
-  }
+  obs.l "ui-html-init", init
 )()

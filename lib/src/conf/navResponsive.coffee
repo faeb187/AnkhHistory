@@ -1,6 +1,5 @@
 ###
-  @CONF   navResponsive
-  @AUTHOR faeb187
+  @CONF mobile nav
 ###
 nav = require './nav'
 navResponsive = JSON.parse JSON.stringify nav

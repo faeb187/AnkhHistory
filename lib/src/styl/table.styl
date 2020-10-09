@@ -1,0 +1,23 @@
+.ui-table
+  w 100%
+
+  th
+    fw $fw-bold
+    ta left
+
+  th
+  td
+    pdg $pdg 0
+    pdgr $pdg
+    ws nowrap
+
+    &.currency
+      ta right
+
+  tbody
+    tr
+      brdt 1px $grey-03 solid
+
+      td
+        &.currency-chf:before
+          content: 'CHF '

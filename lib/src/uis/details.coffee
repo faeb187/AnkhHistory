@@ -2,37 +2,40 @@
   UI details
 ###
 module.exports = (->
-  
-  # @REQUIRE local modules
   $$ = require '../helpers/dom'
+  obs = require '../helpers/obs'
 
-  ui =
-    data:
-      summary:
-        lang: 'summary'
-        open: true
-      content: []
+  # @DESC   build new details view
+  # @PARAM  opt.id            MAN {string}      ui id
+  # @PARAM  opt.ids           OPT {json[]}      children ui configs
+  # @PARAM  opt.open          OPT {boolean}     details expanded
+  # @PARAM  opt.summary       OPT {json}        summary data
+  # @PARAM  opt.summary.lang  MAN {string}      summary lang id
+  # @PARAM  opt.target        MAN {HTMLElement} ui target
+  init = ( opt ) ->
+    {
+      id
+      ids = []
+      summary = {}
+      target: $t
+    } = opt
+    
+    lang = summary.lang
 
-  return {
-    # @DESC   build new details view
-    # @PARAM  opt.open          OPT {boolean}     details expanded
-    # @PARAM  opt.summary       MAN {json}        summary data
-    # @PARAM  opt.summary.lang  MAN {string}      summary lang id
-    # @PARAM  opt.target        MAN {HTMLElement} ui target
-    init: ( opt ) ->
-      opt   = opt or {}
-      $t    = opt.target
-      smy   = opt.summary or {}
-      lang  = smy.lang
+    # MANDATORY target, summary lang id
+    if !id or !$t or !lang then return
+    
+    $ui = $$ '<details/>', 'class': 'ui-details'
+    $summary = $$ '<summary/>', 'data-lang': lang
+    $ui.appendChild $summary
 
-      # MANDATORY target, summary lang id
-      if !$t or !lang then return
-      
-      $ui  = $$ '<details/>', 'class': 'ui-details'
-      $smy = $$ '<summary/>', 'data-lang': lang
+    for child in ids
+      child.target = $ui
+      obs.f "ui-#{child.name}-init", child
 
-      $ui.appendChild $smy
-      $t.appendChild $ui
-      $ui
-  }
+    $t.appendChild $ui
+    obs.f 'ankh-ui-ready', 'ui-details'
+    return
+
+  obs.l 'ui-details-init', init
 )()

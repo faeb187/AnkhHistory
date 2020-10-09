@@ -16,8 +16,6 @@ module.exports = (->
   # @PARAM  p2  OPT {object}  attributes of new element
   # @RETURN {Node}
   $$ = ( p1, p2 ) ->
-
-    # MANDATORY p1
     if !p1 or typeof p1 isnt 'string' then return @
 
     # CREATE element
@@ -26,17 +24,9 @@ module.exports = (->
       $elm.setAttribute k, v for k, v of ( p2 or {})
       return $elm
 
-    # FIND element by id
-    if p1.slice( 0, 1 ) is '#' then return d.getElementById p1.slice 1
-
     # CHECK for parentNode
     if p2 and typeof p2 is 'string'
-      
-      # GET parent node by id
-      if p2.slice( 0, 1 ) is '#' then p2 = d.getElementById p2.slice 1
-      
-      # GET parent node by selector
-      else p2 = d.querySelector p2
+      p2 = d.querySelector p2
 
     # DEFAULT parent: document
     if !p2 then p2 = d

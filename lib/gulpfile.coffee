@@ -15,6 +15,18 @@ rupture   = require 'rupture'
 poststyl  = require 'poststylus'
 rucksack  = require 'rucksack-css'
 
+# ANKH config
+gulp.task 'ankh', ->
+  gulp.src 'src/ankh.coffee'
+    .pipe coffee bare: true
+    .pipe gulp.dest 'dst/assets/js'
+
+# lang libraries
+gulp.task 'i18n', ->
+  gulp.src 'src/i18n/*.coffee'
+    .pipe coffee bare: true
+    .pipe gulp.dest 'dst/assets/js/i18n'
+
 # network
 gulp.task 'network', ->
   gulp.src 'src/network/**/*.coffee'
@@ -97,4 +109,17 @@ gulp.task 'bundle', ->
       'browserify app.js -o ./app.min.js'
     ]
 
-gulp.task 'default', gulp.series("network", "uis", "helpers", "pug", "styl", "conf", "designs", "sites", "coffee", "bundle"), (done) => done()
+gulp.task 'default', gulp.series(
+  "ankh"
+  "i18n"
+  "network"
+  "uis"
+  "helpers"
+  "pug"
+  "styl"
+  "conf"
+  "designs"
+  "sites"
+  "coffee"
+  "bundle"
+), (done) => done()

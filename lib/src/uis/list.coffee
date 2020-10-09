@@ -1,18 +1,12 @@
 ###
   UI list
-  @AUTHOR faeb187
 ###
 module.exports = (->
-
-  # @REQUIRE local modules
-  # @PRIVATE
   $$      = require '../helpers/dom'
   obs     = require '../helpers/obs'
   state   = require '../helpers/state'
   hammer  = require 'hammerjs'
 
-  # @DEFINE ui  {json}  UI variables/methods
-  # @PRIVATE
   ui  =
     # @DESC   returns nesting level count of the list
     # @PARAM  MAN rootItms {json[]} root list items
@@ -36,17 +30,14 @@ module.exports = (->
       $$.addClass $parentAct, 'active'
 
     # @DESC   updates active list items
-    # @PARAM  $ui {HTMLElement} root list
-    updateActive: ( rootId, routingMap ) ->
+    # @PARAM  routingMap  {Map}         map (path > id)
+    # @PARAM  $ui         {HTMLElement} root list
+    updateActive: (routingMap, $ui) ->
       pth = location.pathname
-      rootSel = '#' + rootId
-      actSel = rootSel + "_" + routingMap.get pth
-      $act = $$ actSel, $$ rootSel
-
-      # UPDATE active item and its active parents 
+      actSel = "##{$ui.id}_#{routingMap.get pth}"
+      $act = $$ actSel, $ui
       $$.addClass $act, 'active'
       if pth.split("/").length > 1 then ui.updateParentActive $act
-
 
     # @DESC   creates routing/id map
     # @PARAM  MAN {itms} list items
@@ -75,7 +66,7 @@ module.exports = (->
     # @PARAM  itm.events.click      OPT {[json]}  list of 'click' events
     # @PARAM  itm.events.click.ev   OPT {string}  custom event name
     # @PARAM  itm.events.click.arg  OPT {*}       event handler param
-    # @PARAM  itms                  OPT {todo}    sub items
+    # @PARAM  itm.itms              OPT {todo}    sub items
     # @PARAM  $ul                   MAN {node}    list parent ul (li target)
     # @TODO   only <a> when click event
     addListItem: ( itm, $ul) ->
@@ -89,14 +80,13 @@ module.exports = (->
       type= itm.type
       subItms= itm.items
 
-      # MANDATORY lang
       if !lang then return
 
       # MARKUP list item
       $li = $$ '<li/>'
 
       if src then $itm = $$ '<img/>', src: src
-      else        $itm = $$ '<a/>', id: $ul.rootId + '_' + id
+      else        $itm = $$ '<a/>', id: "#{$ul.rootId}_#{id}"
       
       if href then $itm.setAttribute "href", href
 
@@ -131,9 +121,7 @@ module.exports = (->
 
       return
 
-    # @DEFINE evs {json}  UI events
     evs   :
-
       # @DESC   fire custom 'click' events
       # @PARAM  e   MAN {event} 'click' event
       # @RETURN {void}
@@ -153,50 +141,41 @@ module.exports = (->
         # FIRE custom 'click' events
         obs.f ev.ev, ev.arg or e for ev in evs
 
-  return {
+  # @DESC   inits a new list
+  # @PARAM  opt.events        OPT {json}      events
+  # @PARAM  opt.id            MAN {string}    UI id
+  # @PARAM  opt.items         MAN {[json]}    array containing list items
+  # @PARAM  opt.target        MAN {node}      target node
+  # @RETURN {void}
+  # @PUBLIC
+  init = ( opt ) ->
+    {
+      events
+      id
+      items
+      fx
+      target: $t
+    } = opt
+    
+    if !id or !items.length or !$t then return
 
-    # @DESC   inits a new list
-    # @PARAM  opt.events        OPT {json}      events
-    # @PARAM  opt.id            MAN {string}    UI id
-    # @PARAM  opt.items         MAN {[json]}    array containing list items
-    # @PARAM  opt.target        MAN {node}      target node
-    # @RETURN {void}
-    # @PUBLIC
-    init: ( opt ) ->
-      opt     = opt         or {}
-      evs     = opt.events  or {}
-      id      = opt.id
-      itms    = opt.items   or []
-      fx      = opt.fx      or {}
-      $t      = opt.target
+    id = "ui-list-" + id
 
+    # CREATE node
+    $ui = $$ '<ul/>', id: id, class: 'ui-list'
+    $ui.rootId = id
+    levelCount = ui.getLevelCount items
+    routingMap = ui.createRoutingMap items
+    
+    # APPEND list items
+    items.map ( item ) ->
+      item.events = item.events or events
+      ui.addListItem item, $ui
 
-      # MANDATORY (lang ref or icon), id, list items & target
-      if !id or !itms.length or !$t then return
+    ui.updateActive routingMap, $ui
+    $t.appendChild $ui
+    obs.f 'ankh-ui-ready', 'ui-list'
+    return
 
-      id = "ui-list-" + id
-
-      # CREATE node
-      $ui = $$ '<ul/>', id: id, class: 'ui-list'
-      $ui.rootId = id
-      levelCount = ui.getLevelCount itms
-      routingMap = ui.createRoutingMap itms
-      
-      # APPEND list items
-      itms.map ( itm ) ->
-        itm.events = itm.events or evs
-        ui.addListItem itm, $ui
-
-      # TMP append UI styles from conf
-      $$.css $ui, opt.styl
-
-      # APPEND UI to target
-      $t.appendChild $ui
-      
-      obs.l 'ankh-ready', ->
-        $$.addClass $ui, 'ui-fx-show'
-        ui.updateActive id, routingMap
-
-      return
-  }
+  obs.l 'ui-list-init', init
 )()
