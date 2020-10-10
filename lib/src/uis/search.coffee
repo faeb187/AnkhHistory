@@ -9,10 +9,10 @@ module.exports = (->
   # @param  opt.placeholder   {string}      lang reference
   # @param  opt.target        {HTMLElement} ui target
   init = (opt) ->
-    {placeholder, target: $t} = opt
-    if !$t then return
+    {id, placeholder, target: $t} = opt
+    if !id or !$t then return
 
-    $ui = $$ '<input/>', type: 'search'
+    $ui = $$ '<input/>', id: id, class: 'ui-search', type: 'search'
     if placeholder then $ui.setAttribute 'data-lang', placeholder
 
     $t.appendChild $ui

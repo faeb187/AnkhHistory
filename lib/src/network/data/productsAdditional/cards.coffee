@@ -1,7 +1,4 @@
 ###
-  @CONF   table
-  @DESC   some table tests
-###
 currency = 'chf'
 cols = [
   { lang: 'cardNumber' }
@@ -14,8 +11,9 @@ cols = [
   { lang: 'state' }
   { lang: 'actions' }
 ]
+###
 
-rows = [
+module.exports = [
   {
     cardNumber: '10003354'
     cardProduct: 'Maestro-Karte'
@@ -50,11 +48,3 @@ rows = [
     actions: '[todo]'
   } 
 ]
-
-module.exports =
-  id  : 'additionalTableCards'
-  name: 'table'
-  cols: cols
-  data: rows: rows
-  sortBy: 0
-  resizable: true

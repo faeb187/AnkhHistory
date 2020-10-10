@@ -7,7 +7,7 @@
 
     a
       fx    1
-      pdg   .6rem .3rem
+      pdg   $pdg 'calc(%s / 2)' % $pdg
 
       &.active
         & ~ ul
@@ -21,19 +21,21 @@
 
 // BeKB
 #nav
+  fs $fs-big
   mrgb 4rem
+  w 100%
 
   li
     a
-      pdg .8rem .8rem .5rem
+      pdg $pdg $pdg 'calc(%s / 2)' % $pdg
 
       &.active
         bc $grey-03
 
     ul
       bc   $grey-03
-      pdgt .8rem
-      w    100vw
+      pdgt $pdg
+      w    100%
 
       a
         &.active
@@ -62,5 +64,5 @@
             brdb 0
 
           a
-            mrgl 2rem
+            mrgl 'calc(2 * %s)' % $mrg
             brdr 1px $grey-03 solid

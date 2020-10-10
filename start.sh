@@ -5,13 +5,12 @@ rm gulpfile.js
 coffee -c -b ./lib/gulpfile.coffee
 
 # deployment
-cd ./lib
-rm -r dst
-gulp
+cd ./lib && gulp
 
 # vendor files
 cp ./src/vendor/flexbox-reset.css dst/assets/css
 
+rm -r dst/assets/js/i18n
 rm -r dst/assets/js/network
 rm -r dst/assets/js/conf
 rm -r dst/assets/js/designs

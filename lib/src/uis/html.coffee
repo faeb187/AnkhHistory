@@ -1,48 +1,42 @@
 ###
   UI html
 ###
-module.exports = (->
+module.exports =
+  (->
+    # @REQUIRE local modules
+    # @PRIVATE
+    $$ = require "../helpers/dom"
+    obs = require "../helpers/obs"
 
-  # @REQUIRE local modules
-  # @PRIVATE
-  $$ = require '../helpers/dom'
-  obs= require '../helpers/obs'
-  
-  # @DESC   builds new html node
-  # @PARAM  opt.id      MAN {string}  ui id
-  # @PARAM  opt.target  MAN {node}    target node
-  # @RETURN {node}  ui
-  init = (opt) ->
-    {
-      id
-      ids = []
-      src
-      tag = 'div'
-      alt
-      text
-      target: $t
-    } = opt
+    # @DESC   builds new html node
+    # @PARAM  id        MAN {string}  ui id
+    # @PARAM  lang      OPT {string}  lang id (i18n)
+    # @PARAM  text      OPT {string}  innerText (bypass i18n)
+    # @PARAM  src       OPT {string}  path to image
+    # @PARAM  target    MAN {node}    target node
+    init = (opt) ->
+      { id, ids = [], lang, src, tag = "div", text, target: $t } = opt
+      if !id or !$t then return
 
-    if !id or !$t then return
-    
-    $ui = $$ "<#{tag}/>", id: id, 'class': 'ui-html'
+      $ui = $$ "<#{tag}/>", id: id, class: "ui-html"
 
-    # IMAGE
-    if src and alt
-      $ui.setAttribute 'src', src
-      $ui.setAttribute 'data-lang', alt
+      if src
+        $ui.setAttribute "src", src
+        $ui.setAttribute "data-lang", lang
+      else if lang
+        $ui.setAttribute "data-lang", lang
+      else if text
+        $ui.innerText = text
 
-    # TEXT
-    else if text then $ui.setAttribute 'data-lang', text
+      ids.forEach (ui) ->
+        ui.target = $ui
+        obs.f "ui-#{ui.name}-init", ui
 
-    # LOAD children
-    for child in ids
-      child.target = $ui
-      obs.f "ui-#{child.name}-init", child
+      $t.appendChild $ui
 
-    $t.appendChild $ui
-    obs.f 'ankh-ui-ready', 'ui-html'
+      obs.f "ankh-ui-ready", "ui-html##{id}"
+      return
+
+    obs.l "ui-html-init", init
     return
-
-  obs.l "ui-html-init", init
-)()
+  )()

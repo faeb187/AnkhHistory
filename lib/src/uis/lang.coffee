@@ -1,89 +1,99 @@
-module.exports = (->
-  de = require '../i18n/de'
-  en = require '../i18n/en'
-  
-  obs   = require '../helpers/obs'
-  state = require '../helpers/state'
-  $$    = require '../helpers/dom'
+#
+# UI lang
+#
 
-  # @DESC   click event to switch lang # @PARAM  event {Event} click on anchor
-  changeLang = ( event ) ->
-    event.preventDefault()
-    $a = event.target
+module.exports =
+  (->
+    de = require "../i18n/de"
+    en = require "../i18n/en"
 
-    # update lang
-    obs.f 'ui-lang-update', lang: $a.getAttribute 'lang'
+    obs = require "../helpers/obs"
+    state = require "../helpers/state"
+    $$ = require "../helpers/dom"
 
-    # update 'active' class
-    $$( '.active', $a.parentNode ).className = ''
-    $a.className = 'active'
+    # @DESC   click event to switch lang # @PARAM  event {Event} click on anchor
+    changeLang = (event) ->
+      event.preventDefault()
+      $a = event.target
 
-  def = 'de'
-  lib = de: de, en: en
+      # update lang
+      obs.f "ui-lang-update", lang: $a.getAttribute "lang"
 
-  # @DESC   build new language switcher
-  # @PARAM  opt.id      MAN {string}  UI id
-  # @PARAM  opt.target  MAN {string}  DOM target id
-  # @RETURN {void}
-  init = ( opt ) ->
-    {id, target: $t} = opt
-    self  = @
-    if !id or !$t then return
+      # update 'active' class
+      $$(".active", $a.parentNode).className = ""
+      $a.className = "active"
 
-    # active lang by priority
-    # ( localStorage > default )
-    lang = state.get( id: id ) or def
-    
-    # UI markup
-    $ui = $$ '<nav/>', id: id, 'class': 'ui-lang'
+    def = "de"
+    lib = de: de, en: en
 
-    # iterate through language lib
-    idx = 0
-    for k, v of lib
-      $a = $$ '<a/>',
-        rel     : 'alternate'
-        hreflang: k
-        lang    : k
+    # @DESC   build new language switcher
+    # @PARAM  opt.id      MAN {string}  UI id
+    # @PARAM  opt.target  MAN {string}  DOM target id
+    # @RETURN {void}
+    init = (opt) ->
+      { id, target: $t } = opt
+      self = @
+      if !id or !$t then return
 
-      $a.innerText = k
+      # active lang by priority
+      # ( localStorage > default )
+      lang = state.get(id: id) or def
 
-      # SET active class
-      if k is lang then $a.className = 'active'
+      # UI markup
+      $ui = $$ "<nav/>", id: id, class: "ui-lang"
 
-      # SWITCH lang on click
-      $$.listen $a, 'click', changeLang
-      
-      # append UI to DOM target
-      $ui.appendChild $a
-    $t.appendChild $ui
-    obs.f 'ankh-ui-ready', 'ui-lang'
-    return
+      # iterate through language lib
+      idx = 0
+      for k, v of lib
+        $a = $$ "<a/>",
+          rel: "alternate"
+          hreflang: k
+          lang: k
 
-  # @DESC   update language
-  # @PARAM  opt.lang  OPT {string}  language code
-  # @RETURN {void}
-  update = (opt = {}) ->
-    {lang = ''} = opt
-    
-    # language by priority
-    # ( direct change > localStorage > default )
-    # !TODO language by geolocation
-    lang = lang or state.get(id: 'lang') or def
+        $a.innerText = k
 
-    # update elements
-    for elm in $$ '[data-lang]'
-      v = lib[ lang ][ elm.getAttribute 'data-lang' ]
+        # SET active class
+        if k is lang then $a.className = "active"
 
-      if      elm.tagName is 'IMG'    then elm.setAttribute 'alt'         , v
-      else if elm.tagName is 'INPUT'  then elm.setAttribute 'placeholder' , v
-      else    elm.innerHTML = v
+        # SWITCH lang on click
+        $$.listen $a, "click", changeLang
 
-    $$( 'html' ).setAttribute 'lang', lang
+        # append UI to DOM target
+        $ui.appendChild $a
+      $t.appendChild $ui
+      obs.f "ankh-ui-ready", "ui-lang"
+      return
 
-    state.set id: 'lang', state: lang
+    # @DESC   update language
+    # @PARAM  opt.lang  OPT {string}  language code
+    # @RETURN {void}
+    update = (opt = {}) ->
+      { lang = "" } = opt
 
-    obs.f 'ui-lang-updated'
+      # language by priority
+      # ( direct change > localStorage > default )
+      # !TODO language by geolocation
+      lang = lang or state.get(id: "lang") or def
 
-  obs.l 'ui-lang-init', init
-  obs.l 'ui-lang-update', update
-)()
+      # update elements
+      for elm, index in $$ "[data-lang]"
+        v = lib[lang][elm.getAttribute "data-lang"]
+
+        if elm.getAttribute "data-lang-rendered"
+          elm.setAttribute "data-lang-rendered", v
+        else if elm.tagName is "IMG"
+          elm.setAttribute "alt", v
+        else if elm.tagName is "INPUT"
+          elm.setAttribute "placeholder", v
+        else
+          elm.innerHTML = v
+
+      $$("html").setAttribute "lang", lang
+
+      state.set id: "lang", state: lang
+
+      obs.f "ui-lang-updated"
+
+    obs.l "ui-lang-init", init
+    obs.l "ui-lang-update", update
+  )()

@@ -1,47 +1,46 @@
-###
-  UI carousel
-###
+#
+# UI carousel
+#
+
 module.exports = (->
   $$ = require '../helpers/dom'
   obs = require '../helpers/obs'
 
   # @DESC   build new carousel
   # @PARAM  opt.id        MAN {string}  UI id
-  # @PARAM  opt.items     MAN {[json]}  array of images
+  # @PARAM  opt.data      MAN {json[]}  carousel contents
   # @PARAM  opt.target    MAN {string}  target node
   init = (opt) ->
-    {id, items, target: $t} = opt
+    {id, data, target: $t} = opt
     
-    if !id or !items or !$t then return
+    if !id or !data?.length or !$t then return
     
     $ui = $$ '<section/>', id: id, 'class': 'ui-carousel'
     $carousel = $$ '<div/>'
 
-    # CALC carousel parts
-    itemsLen = items.length
-    deg = 0
-    ratio = 360 / itemsLen
+    len   = data.length
+    deg   = 0
+    ratio = 360 / len
+    z     = Math.round(210 / 2) / Math.tan Math.PI / len
 
-    # CALC z translation
-    z = Math.round(210 / 2) / Math.tan Math.PI / itemsLen
-
-    items.map (item) ->
-      # set the items y rotation and z translation
+    data.forEach (dta) ->
       trf   = 'transform:rotateY(' + deg + 'deg) translateZ(' + z + 'px)'
       deg  += ratio
 
-      # create thumbnail
-      $thumb= $$ '<img/>'   , src   : item.thumb
-      $fig  = $$ '<figure/>', style : trf
+      $cnt = $$ '<div/>', class: 'ui-carousel-item', style: trf
+     
+      Object.keys(dta).forEach (key) ->
+        $p = $$ '<p/>', innerText: dta[key]
+        $cnt.appendChild $$ '<h4/>', 'data-lang': key
+        $cnt.appendChild $p
 
-      # append thumbnail to carousel
-      $fig.appendChild      $thumb
-      $carousel.appendChild $fig
-
+      $carousel.appendChild $cnt
     $ui.appendChild $carousel
     $t.appendChild  $ui
-    obs.f 'ankh-ui-ready', 'ui-carousel'
+
+    obs.f 'ankh-ui-ready', "ui-carousel##{id}"
     return
 
   obs.l 'ui-carousel-init', init
+  return
 )()

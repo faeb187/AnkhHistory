@@ -35,4 +35,5 @@ module.exports = (->
     return
 
   obs.l 'ui-nav-init', init
+  return
 )()

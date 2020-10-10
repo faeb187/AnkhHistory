@@ -14,6 +14,16 @@ html
       content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2'
     )
 
+    // SCRIPTS
+    script(
+      type    = 'module'
+      src     = 'https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js'
+    )
+    script(
+      nomodule= ''
+      src     = 'https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js'
+    )
+
     // CSS
     link(
       rel     = 'stylesheet'
@@ -25,7 +35,7 @@ html
     )
     link(
       rel     = 'stylesheet'
-      href    = 'https://fonts.googleapis.com/css?family=Brawler'
+      href    = 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap'
     )
     link(
       rel     = 'stylesheet'
@@ -46,5 +56,5 @@ html
         span.file
 
     // SCRIPTS
-    script( src= 'https://unpkg.com/ionicons@5.0.0/dist/ionicons.js')
     script( src= '/assets/js/app.min.js')
+    

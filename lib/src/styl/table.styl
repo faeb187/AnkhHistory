@@ -1,23 +1,68 @@
 .ui-table
+  tbll fixed
   w 100%
 
-  th
-    fw $fw-bold
-    ta left
-
-  th
-  td
-    pdg $pdg 0
-    pdgr $pdg
-    ws nowrap
-
-    &.currency
-      ta right
+  thead
+    pos absolute
+    lft -9999px
+    top -9999px
 
   tbody
+    dsp block
     tr
-      brdt 1px $grey-03 solid
+      dsp block
+      pdg $pdg
 
       td
+        dsp block
+        pdg 'calc(%s / 2) %s' % $pdg
+        ta right
+
+        &:nth-child(odd)
+          bc $grey-04
+
+        &:before
+          cnt attr(data-lang-rendered)
+          flt left
+
         &.currency-chf:before
           content: 'CHF '
+
++above('l')
+  .ui-table
+    th
+    td
+      ovr hidden
+      tovr ellipsis
+      ws nowrap
+
+    thead
+      dsp table-header-group
+      pos static
+
+      th
+        fw $fw-bold
+        ta left
+        pdg $pdg 0
+        pdgr $pdg 
+        fs $fs-small
+      
+    tbody
+      dsp table-row-group
+
+      tr
+        brdt 1px $grey-03 solid
+        dsp table-row
+
+        td
+          dsp table-cell
+          pdg $pdg 0
+          pdgr $pdg 
+          ta left
+
+          &:before
+            dsp none
+            flt none
+
+          &:nth-child(odd)
+            bc transparent

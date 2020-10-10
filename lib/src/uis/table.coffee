@@ -1,87 +1,99 @@
-###
-  UI table
-###
-module.exports = (->
-  $$    = require '../helpers/dom'
-  obs   = require '../helpers/obs'
-  state = require '../helpers/state'
-  
-  ui =
-    # @DESC   creates data row
-    # @PARAM  opt.row   MAN {json}      data row
-    # @PARAM  opt.cols  MAN {string[]}  columns
-    getRow: (opt) ->
-      {row, cols} = opt
-      
-      $tr = $$ '<tr/>'
+#
+# UI table
+#
 
-      # ADD all the row columns
-      cols.map ( col ) ->
-        $td = $$ '<td/>', 'data-col': col.lang
-        v = row[ col.lang ]
+module.exports =
+  (->
+    d = document
+    $$ = require "../helpers/dom"
+    obs = require "../helpers/obs"
 
-        if col.date then v = new Date(v).toLocaleDateString "de",
-          day: '2-digit'
-          month: 'short'
-          year: 'numeric'
+    reqW = $ths = null
 
-        else if col.currency
-          $$.addClass $td, 'currency currency-' + col.currency
-          v = v.toLocaleString "de"
+    ui =
+      getPdg: ->
+        $pdgl = $$.css $ths[0], "paddingLeft"
+        $pdgr = $$.css $ths[0], "paddingRight"
+        $ths.length * ($pdgl + $pdgr)
 
-        $td.innerText = v
-        $tr.appendChild $td
-      $tr
+      get$Td: (innerTexts) ->
+        innerTexts.forEach (innerText) ->
+          $tr.appendChild(
+            $$ "<td/>",
+              "data-lang": true
+              "data-lang-rendered": true
+              innerText: innerText
+          )
 
-  # @DESC     build new table
-  # @PARAM    cols          MAN {array}       table columns
-  # @PARAM    data          OPT {json}        data object
-  # @PARAM    opt.data.rows MAN {array}       array of table rows
-  # @PARAM    sortBy        OPT {number}      default index of sorted col
-  # @PARAM    sort.by       OPT {string}      index of sorted column
-  # @PARAM    sort.how      OPT {asc|desc}    sort direction
-  # @PARAM    opt.resizable OPT {boolean}     columns are resizable
-  # @PARAM    opt.target    MAN {HTMLElement} target node
-  init = (opt) ->
-    {
-      id
-      cols
-      data
-      sortBy
-      resizable
-      target: $t
-    } = opt
+      getRequiredWidth: ->
+        reqTdW = ui.getRequiredTdWidths()
+        reqThW = ui.getRequiredThWidths()
+        reqW = reqTdW.map (w, index) -> Math.max w, reqThW[index]
 
-    # MANDATORY id, cols & target
-    if !id or !cols or !$t then return
+        sumW = reqW.reduce (a, b) -> a + b
+        sumW + ui.getPdg()
 
-    # UI markup
-    $ui     = $$ '<table/>', 'class': 'ui-table', id: id
-    $thead  = $$ '<thead/>'
-    $tr = $$ '<tr/>'
+      getRequiredThWidths: ->
+        fs = parseInt $$.css $ths[0], "fontSize"
+        $ths.map ($th, index) -> $$.measure($th.innerText, fs).w
 
-    # BUILD table header
-    cols.map ( col ) ->
-      $th = $$ '<th/>', 'data-lang': col.lang, 'data-col', col.lang
-      if col.currency then $$.addClass $th, 'currency'
+      getRequiredTdWidths: ->
+        $ths.map ($th, index) ->
+          fs = parseInt $$.css $$("td[col-index]")[0], "fontSize"
+          $$.measure($$("td[col-index='#{index}']")[0].innerText, fs).w
 
-      $tr.appendChild $th
-    $thead.appendChild $tr
+      set$TdWidths: ->
+        reqWSum = ui.getRequiredWidth()
+        $uiContainer = $$.parent $$.parent $ths[0], ".ui-table"
+        maxW = $uiContainer.clientWidth
+        delta = Math.floor (maxW - reqWSum) / $ths.length
 
-    $tbody = $$ '<tbody/>'
+        if delta <= 0 then return $$.css "[col-index]", width: "auto"
 
-    if data and data.rows
-      data.rows.map (row) ->
-        rowOpts = row: row, cols: cols
-        if resizable then rowOpts.resizable = true
-        $tbody.appendChild ui.getRow rowOpts
+        $ths.forEach ($th, index) ->
+          $$.css "[col-index='#{index}']", width: "#{reqW[index] + delta}px"
 
-    $ui.appendChild $thead
-    $ui.appendChild $tbody
-    $t.appendChild $ui
+    # @PARAM    id      MAN {string}      ui id
+    # @PARAM    data    MAN {json[]}      array with data objects
+    # @PARAM    target  MAN {HTMLElement} target node
+    init = (opt) ->
+      { id, data, target: $t } = opt
+      if !id or !data?.length or !$t then return
 
-    obs.f 'ankh-ui-ready', 'ui-table'
+      $ui = $$ "<table/>", class: "ui-table", id: id
+      $thead = $$ "<thead/>"
+      $theadTr = $$ "<tr/>"
+      $tbody = $$ "<tbody/>"
+      $_td = $$ "<td/>", "data-lang-rendered": true
+
+      ths = Object.keys data[0]
+      trs = data.map (tr) -> Object.values tr
+
+      $ths = ths.map (th, index) ->
+        $$ "<th/>", "data-lang": th, "col-index": index
+      $trs = trs.map (tr) ->
+        $tr = $$ "<tr/>"
+        tr.map (text, index) ->
+          $td = $_td.cloneNode()
+          $td.setAttribute "data-lang", ths[index]
+          $td.setAttribute "col-index", index
+          $td.innerText = text
+          $tr.appendChild $td
+        $tr
+
+      $$.append $ths, $theadTr
+      $thead.appendChild $theadTr
+      $$.append $trs, $tbody
+      $ui.appendChild $thead
+      $ui.appendChild $tbody
+      $t.appendChild $ui
+
+      $$.listen window, "resize", ui.set$TdWidths
+      obs.l "ui-lang-updated", ui.set$TdWidths
+
+      obs.f "ankh-ui-ready", "ui-table##{id}"
+      return
+
+    obs.l "ui-table-init", init
     return
-
-  obs.l 'ui-table-init', init
-)()
+  )()

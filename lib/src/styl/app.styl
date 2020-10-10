@@ -1,10 +1,10 @@
 // GENERAL
 html
-  fs    $fs
-  ff    Brawler
+  fs $fs
+  fw $fw-normal
+  ff $ff
 
 body
-  ff    $ff
   w     100vw
 
 a
@@ -56,15 +56,11 @@ small
 
 // HEADER
 #h
-  fxd   row
-  fxai  center
-  pdg   1em 0
   w     100%
 
 // MAIN
 #m
   w     100%
-  maxw  $max-w
   mrgb  1rem
   pdgt  13px
 
@@ -78,5 +74,33 @@ small
   w     calc( 100vw - 4rem )
 
 // BeKB
+#cnt
+#f
+  w $w-cnt
+
 #h
   brdt 8px $color-01 solid
+  fxai  center
+  pdg   $pdg 0
+  pos relative
+
+  #hTop
+    fxd row
+    fxjc space-between
+    pdg 'calc(%s * 2)' % $pdg
+    w 100%
+
+    #logo
+      w 20rem
+
+  #profile
+    bc: $color-01;
+    c: md-white;
+    pdg: 'calc(2 * %s)' % $pdg;
+    position: absolute 0 0 auto auto;
+
+#toolbar
+  fxd row
+  fxjc flex-end
+  fxai center
+  mrgb 'calc(2 * %s)' % $mrg
