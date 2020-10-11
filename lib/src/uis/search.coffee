@@ -1,23 +1,24 @@
 ###
   UI search
 ###
-module.exports = (->
-  $$ = require '../helpers/dom'
-  obs= require '../helpers/obs'
+import { $$ } from "../helpers/dom"
+import { obs } from "../helpers/obs"
 
-  # @desc   build new search box
-  # @param  opt.placeholder   {string}      lang reference
-  # @param  opt.target        {HTMLElement} ui target
-  init = (opt) ->
-    {id, placeholder, target: $t} = opt
-    if !id or !$t then return
+module.exports =
+  (->
+    # @desc   build new search box
+    # @param  opt.placeholder   {string}      lang reference
+    # @param  opt.target        {HTMLElement} ui target
+    init = (opt) ->
+      { id, placeholder, target: $t } = opt
+      if !id or !$t then return
 
-    $ui = $$ '<input/>', id: id, class: 'ui-search', type: 'search'
-    if placeholder then $ui.setAttribute 'data-lang', placeholder
+      $ui = $$ "<input/>", id: id, class: "ui-search", type: "search"
+      if placeholder then $ui.setAttribute "data-lang", placeholder
 
-    $t.appendChild $ui
-    obs.f 'ankh-ui-ready', 'ui-search'
-    return
+      $t.appendChild $ui
+      obs.f "ankh-ui-ready", "ui-search"
+      return
 
-  obs.l 'ui-search-init', init
-)()
+    obs.l "_ui-search-init", init
+  )()

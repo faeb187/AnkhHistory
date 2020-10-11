@@ -7,23 +7,33 @@
     lft -9999px
     top -9999px
 
+    th
+      fs $fs-small
+      ta left
+
   tbody
     dsp block
     tr
-      dsp block
+      brdb 1px $grey-03 solid
+      dsp flex
+      fxd row
+      fxw wrap
       pdg $pdg
 
       td
         dsp block
+        pos relative
         pdg 'calc(%s / 2) %s' % $pdg
-        ta right
-
-        &:nth-child(odd)
-          bc $grey-04
+        pdgt 'calc(%s * 2)' % $pdg
+        w 40%
 
         &:before
           cnt attr(data-lang-rendered)
-          flt left
+          pos absolute
+          lft 0
+          fs $fs-small
+          fw $fw-bold
+          btm 25px // todo
 
         &.currency-chf:before
           content: 'CHF '
@@ -41,16 +51,14 @@
       pos static
 
       th
-        fw $fw-bold
-        ta left
         pdg $pdg 0
         pdgr $pdg 
-        fs $fs-small
       
     tbody
       dsp table-row-group
 
       tr
+        brdb none
         brdt 1px $grey-03 solid
         dsp table-row
 

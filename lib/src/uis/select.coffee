@@ -1,11 +1,11 @@
 #
 # UI select
 #
+import { $$ } from "../helpers/dom"
+import { obs } from "../helpers/obs"
 
 module.exports =
   (->
-    $$ = require "../helpers/dom"
-    obs = require "../helpers/obs"
     state = require "../helpers/state"
     ui =
       get$Option: (option) ->
@@ -35,6 +35,6 @@ module.exports =
       obs.f "ankh-ui-ready", "ui-select##{id}"
       return
 
-    obs.l "ui-select-init", init
+    obs.l "_ui-select-init", init
     return
   )()

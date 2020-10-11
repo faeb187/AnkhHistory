@@ -1,12 +1,13 @@
-###
-  UI html
-###
+#
+# UI html
+#
+import { $$ } from "../helpers/dom"
+import { obs } from "../helpers/obs"
+
 module.exports =
   (->
     # @REQUIRE local modules
     # @PRIVATE
-    $$ = require "../helpers/dom"
-    obs = require "../helpers/obs"
 
     # @DESC   builds new html node
     # @PARAM  id        MAN {string}  ui id
@@ -30,13 +31,13 @@ module.exports =
 
       ids.forEach (ui) ->
         ui.target = $ui
-        obs.f "ui-#{ui.name}-init", ui
+        obs.f "_ui-#{ui.name}-init", ui
 
       $t.appendChild $ui
 
       obs.f "ankh-ui-ready", "ui-html##{id}"
       return
 
-    obs.l "ui-html-init", init
+    obs.l "_ui-html-init", init
     return
   )()

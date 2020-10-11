@@ -1,15 +1,14 @@
 #
 # UI lang
 #
+import { obs } from "../helpers/obs"
+import { $$ } from "../helpers/dom"
 
 module.exports =
   (->
     de = require "../i18n/de"
     en = require "../i18n/en"
-
-    obs = require "../helpers/obs"
     state = require "../helpers/state"
-    $$ = require "../helpers/dom"
 
     # @DESC   click event to switch lang # @PARAM  event {Event} click on anchor
     changeLang = (event) ->
@@ -61,6 +60,8 @@ module.exports =
         # append UI to DOM target
         $ui.appendChild $a
       $t.appendChild $ui
+
+      obs.l "ui-lang-update", update
       obs.f "ankh-ui-ready", "ui-lang"
       return
 
@@ -93,7 +94,8 @@ module.exports =
       state.set id: "lang", state: lang
 
       obs.f "ui-lang-updated"
+      return
 
-    obs.l "ui-lang-init", init
-    obs.l "ui-lang-update", update
+    obs.l "_ui-lang-init", init
+    return
   )()

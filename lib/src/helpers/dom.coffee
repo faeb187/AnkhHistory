@@ -1,7 +1,7 @@
-###
-  DOLLARSIGNS
-###
-module.exports =
+#
+# $$
+#
+export $$ =
   (->
     d = document
     dp = new DOMParser()

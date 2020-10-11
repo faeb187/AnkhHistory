@@ -1,137 +1,118 @@
-###
-  @-  HELPER site
-  @-  AUTHOR faeb187
-###
-module.exports = (->
-  $$ = require './dom'
-  obs = require './obs'
-  state =require './state'
-  media =require './media'
-  routes = require '../conf/routes'
+#
+# HELPER site
+#
+import { $$ } from "./dom"
+import { obs } from "./obs"
+import { fn } from "./fn"
+import state from "./state"
+import routes from "../conf/routes"
 
-  d = document
-  $b = $$ 'body'
-  vp = {}
+export site =
+  (->
+    d = document
+    $b = $$ "body"
 
-  Site =
-    careOverview              : require '../sites/careOverview'
-    partnerOverview           : require '../sites/partnerOverview'
-    partnerProducts           : require '../sites/partnerProducts'
-    partnerProductsAdditional : require '../sites/partnerProductsAdditional'
-    reportsOverview           : require '../sites/reportsOverview'
+    Site =
+      careOverview: require "../sites/careOverview"
+      partnerOverview: require "../sites/partnerOverview"
+      partnerProducts: require "../sites/partnerProducts"
+      partnerProductsAdditional: require "../sites/partnerProductsAdditional"
+      reportsOverview: require "../sites/reportsOverview"
 
-  getUisFlattened = (uis) ->
-    f = []
-    r = (u) -> u.map (ui) -> (f.push ui) && ui.ids && r ui.ids
-    r uis
-    f
+    getUisFlattened = (uis) ->
+      f = []
+      r = (u) -> u.map (ui) -> f.push(ui) && ui.ids && r ui.ids
+      r uis
+      f
 
-  getUiCount = (uis) ->
-    c = 0
-    r = (subUis) ->
-      subUis.map (subUi, idx) ->
-        ++c
-        if subUi.ids && subUi.ids.length then r subUi.ids
-    r uis
-    c
+    getUiCount = (uis) ->
+      c = 0
+      r = (subUis) ->
+        subUis.map (subUi, idx) ->
+          if !subUi.media or fn.isInViewport subUi.media then ++c
+          if subUi.ids && subUi.ids.length then r subUi.ids
+      r uis
+      c
 
-  handleReady = (uis, $df) ->
-    r = 0
-    c = getUiCount uis
-    obs.r 'ankh-ui-ready'
-    obs.l 'ankh-ui-ready', (ui) ->
-      ++r
-      if r is c then obs.f 'ankh-ready', $df
+    handleReady = (uis, $df) ->
+      r = 0
+      c = getUiCount uis
+      obs.r "ankh-ui-ready"
+      obs.l "ankh-ui-ready", (ui) ->
+        ++r
+        if r is c then obs.f "ankh-ready", $df
 
-  handleMedias = ($w) ->
-    medias = media.get()
-    vp.x = window.innerWidth
-    vp.y = window.innerHeight
+    getCurrentSite = (itm) ->
+      site =
+        id: itm.id
+        path: itm.path
 
-    Object.keys(medias).map (id) ->
-      m = medias[id]
-      fx = if m.min and vp.x <= m.min or m.max and vp.x > m.max then 'out' else 'in'
-      $$("##{id}", $w).setAttribute 'data-fx', fx
+      getFirstSubId = (subItms) ->
+        subItm = subItms[0]
+        if subItm.items
+          getFirstSubId subItm.items
+        else
+          site.id = subItm.id
+          site.path = subItm.path
 
-  resize = () => handleMedias $b
-  
-  getCurrentSite = (itm) ->
-    site =
-      id: itm.id
-      path: itm.path
+      if itm.items then getFirstSubId itm.items
+      site.name = site.id.split("site-")[1]
+      site
 
-    getFirstSubId = (subItms) ->
-      subItm = subItms[0]
-      if subItm.items then getFirstSubId subItm.items
-      else
-        site.id = subItm.id
-        site.path = subItm.path
+    #- site name by path
+    #<! itms {json[]} items
+    #<! path {string} site path
+    getSiteName = (itms, path) ->
+      site = {}
+      handleSubs = (subItms) ->
+        subItms.some (subItm) ->
+          if subItm.path is path
+            site = getCurrentSite subItm
+          else if subItm.items
+            handleSubs subItm.items
+      handleSubs itms
+      site
 
-    if itm.items then getFirstSubId itm.items
-    site.name = site.id.split("site-")[1]
-    site
+    #-  returns default site on 404
+    #<! itms  {json[]} nav items
+    getDefaultSite = (itms) ->
+      getSiteName itms, itms[0].path
 
-  #- site name by path
-  #<! itms {json[]} items
-  #<! path {string} site path
-  getSiteName = (itms, path) ->
-    site = {}
-    handleSubs = (subItms) ->
-      subItms.some (subItm) ->
-        if subItm.path is path
-          site = getCurrentSite subItm
-        else if subItm.items then handleSubs subItm.items
-    handleSubs itms
-    site
+    #- loads site
+    #<! path {string} path of site
+    load = (path) ->
+      # load deepest level of clicked nav item
+      site = getSiteName routes, path
+      if !site.name then site = getDefaultSite routes
+      if site.path isnt path then return load site.path
 
-  #-  returns default site on 404
-  #<! itms  {json[]} nav items
-  getDefaultSite = (itms) ->
-    getSiteName itms, itms[0].path
+      $$.history.go site.name, site.path
+      $b.setAttribute "data-site", site.name
 
+      uis = (Site[site.name] or {}).ids
+      if !uis then return
 
-  #- loads site
-  #<! path {string} path of site
-  load = ( path ) ->
-    obs.r 'ankh-ready'
+      obs.l "ankh-ready", ($df) ->
+        $$(".ui-progress", $b).setAttribute "data-fx", "out"
 
-    # load deepest level of clicked nav item
-    site = getSiteName routes, path
-    if !site.name then site = getDefaultSite routes
-    if site.path isnt path then return load site.path
+        $ankh = $$ "#ankh", $b
+        $ankh.innerHTML = ""
+        $ankh.appendChild $df
 
-    $$.history.go site.name, site.path
-    $b.setAttribute 'data-site', site.name
-    
-    uis = (Site[ site.name ] or {}).ids
-    if !uis then return
-    media.set getUisFlattened uis
-    vp.x = window.innerWidth
-    vp.y = window.innerHeight
+        obs.f "ui-lang-update"
+        return
 
-    obs.l 'ankh-ready', ($df) ->
-      handleMedias $df
+      $df = d.createDocumentFragment()
+      handleReady uis, $df
 
-      $$( '.ui-progress', $b ).setAttribute 'data-fx', 'out'
-
-      $ankh = $$ '#ankh', $b
-      $ankh.innerHTML = ''
-      $ankh.appendChild $df
-
-      obs.f 'ui-lang-update'
+      for ui in uis
+        ui.target = $df
+        obs.f "_ui-#{ui.name}-init", ui
       return
 
-    $df = d.createDocumentFragment()
-    handleReady uis, $df
+    obs.l "_helper-site-load", (event) ->
+      obs.r()
+      load event.target.getAttribute "href"
 
-    for ui in uis
-      ui.target = $df
-      obs.f "ui-#{ui.name}-init", ui
-    return
-
-  obs.l "helper-site-load", (event) -> load event.target.getAttribute "href"
-
-  $$.listen window, 'resize', resize
-
-  load: load
-)()
+    load: load
+  )()

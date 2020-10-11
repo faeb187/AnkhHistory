@@ -1,13 +1,11 @@
 ###
   @CONF   nav
 ###
-routes = require './routes'
+routes = require "./routes"
 
 module.exports =
-  id    : 'nav'
-  name  : 'nav'
+  id: "nav"
+  name: "nav"
   events:
-    click: [
-      ev  : 'helper-site-load'
-    ]
-  items : routes
+    click: [ev: "_helper-site-load"]
+  items: routes

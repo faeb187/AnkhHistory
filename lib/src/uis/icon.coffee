@@ -1,11 +1,12 @@
-###
-  UI icon (ion-icon)
-###
+#
+# UI icon (ion-icon)
+#
+import { $$ } from "../helpers/dom"
+import { obs } from "../helpers/obs"
+import { fn } from "../helpers/fn"
+
 module.exports =
   (->
-    $$ = require "../helpers/dom"
-    obs = require "../helpers/obs"
-
     ui =
       events:
         click: (event) ->
@@ -19,16 +20,17 @@ module.exports =
             clickEvents
           )
 
-      # @DESC   displays icon
+    # @DESC   displays icon
     # @PARAM  opt.id      MAN {string}  ui id
     # @PARAM  opt.icon    MAN {string}  ion icon name
     # @PARAM  opt.events  OPT {json}    custom events
+    # @PARAM  media       OPT {json}    viewport config
     # @PARAM  opt.target  MAN {node}    target node
     # @RETURN {node}  ui
     init = (opt) ->
-      { id, icon, events, target: $t } = opt
-
+      { id, icon, events, media, target: $t } = opt
       if !id or !$t then return
+      if media and !fn.isInViewport media then return
 
       $ui = $$ "<ion-icon/>", id: id, name: icon, class: "ui-icon"
 
@@ -40,6 +42,6 @@ module.exports =
       obs.f "ankh-ui-ready", "ui-icon"
       return
 
-    obs.l "ui-icon-init", init
+    obs.l "_ui-icon-init", init
     return
   )()
