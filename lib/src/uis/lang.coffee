@@ -92,6 +92,7 @@ export lang =
       obs.f "ui-lang-updated"
       return
 
+    obs.l "_ankh-ready", update
     obs.l "_ui-lang-init", init
     obs.l "_ankh-viewport-changed", update
     return

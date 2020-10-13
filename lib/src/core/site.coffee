@@ -16,6 +16,7 @@ export site =
   (->
     d = document
     $b = $$ "body"
+    $ankh = $$ "#ankh", $b
 
     Site =
       careOverview: careOverview
@@ -40,13 +41,19 @@ export site =
       r uis
       c
 
+    render = ($root) ->
+      $$(".ui-progress", $b).setAttribute "data-fx", "out"
+      $ankh.replaceWith $root
+      setTimeout -> obs.f "_ankh-ready"
+      return
+
     handleReady = (uis, $root) ->
       r = 0
       c = getUiCount uis
       obs.r "ankh-ui-ready"
       obs.l "ankh-ui-ready", (ui) ->
         ++r
-        if r is c then obs.f "ankh-ready", $root
+        if r is c then render $root
 
     getCurrentSite = (itm) ->
       site =
@@ -100,15 +107,6 @@ export site =
 
       uis = (Site[site.name] or {}).ids
       if !uis then return
-
-      obs.l "ankh-ready", ($root) ->
-        $$(".ui-progress", $b).setAttribute "data-fx", "out"
-
-        $ankh = $$ "#ankh", $b
-        $ankh.replaceWith $root
-
-        obs.f "ui-lang-update"
-        return
 
       handleReady uis, $root
 

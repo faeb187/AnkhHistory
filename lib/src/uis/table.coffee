@@ -2,16 +2,13 @@
 # UI table
 #
 import moment from "moment"
-import { $$, media, obs } from "../core"
+import { $$, media, obs, state } from "../core"
 
 export table =
   (->
     d = document
-    $ths = $adjustable = null
-    adjReqW = []
-    threshold = 70
 
-    getPdg = ->
+    getPdg = ($ths) ->
       $ths
         .map ($th) ->
           parseInt($$.css $th, "paddingLeft") +
@@ -27,21 +24,30 @@ export table =
             innerText: innerText
         )
 
-    getRequiredWidths = ->
-      reqTdW = getRequiredTdWidths()
-      reqThW = getRequiredThWidths()
+    getDynamicThs = ($ths) ->
+      $ths.filter ($th) -> !!!$th.getAttribute "data-width"
+
+    getFixedThs = ($ths) -> $ths.filter ($th) -> !!$th.getAttribute "data-width"
+
+    getRequiredWidths = ($ths, $ui) ->
+      reqTdW = getRequiredTdWidths $ths, $ui
+      console.log "////reqTdW", reqTdW
+      reqThW = getRequiredThWidths $ths
+      console.log "////reqThW", reqThW
       reqTdW.map (w, index) -> Math.max w, reqThW[index]
 
-    getRequiredThWidths = ->
-      fs = parseInt $$.css $adjustable[0], "fontSize"
-      $adjustable.map ($th) ->
-        $$.measure($th.innerText, fs).w
+    getRequiredThWidths = ($ths) ->
+      $dynamicThs = getDynamicThs $ths
+      fs = parseInt $$.css $dynamicThs[0], "fontSize"
+      $dynamicThs.map ($th) -> $$.measure($th.innerText, fs).w
 
-    getRequiredTdWidths = ->
-      $adjustable.map ($th) ->
+    getRequiredTdWidths = ($ths, $ui) ->
+      $firstTd = $$("td[data-col-index]", $ui)[0]
+      fs = parseInt $$.css $firstTd, "fontSize"
+
+      getDynamicThs($ths).map ($th) ->
         index = parseInt $th.getAttribute "data-col-index"
-        fs = parseInt $$.css $$("td[data-col-index]")[0], "fontSize"
-        $td = $$("td[data-col-index='#{index}']")[0]
+        $td = $$("td[data-col-index='#{index}']", $ui)[0]
         currency = $td.getAttribute "data-currency"
         toMeasure = if currency
           "#{currency.toUpperCase()} #{$td.innerText}"
@@ -49,62 +55,73 @@ export table =
           $td.innerText
         $$.measure(toMeasure, fs).w
 
-    compensateWidths = (delta) ->
-      minReqW = Math.min ...adjReqW
-      maxReqW = Math.max ...adjReqW
-      newMin = threshold - delta
-      minComp = newMin - minReqW
-      maxIndex = adjReqW.indexOf Math.max ...adjReqW
-      minIndex = adjReqW.indexOf Math.min ...adjReqW
-      adjReqW[maxIndex] = maxReqW - minComp
-      adjReqW[minIndex] = newMin
-      return
-
-    isTooSmallTd = (delta) ->
-      tooSmall = Math.min(...adjReqW) + delta < threshold
-      # max = Math.max(...adjReqW) + delta # avoid endless loop
-      tooSmall > threshold
-
-    set$TdWidths = (resizeDelta = 0) ->
-      $uiContainer = $$.parent $$.parent $ths[0], ".ui-table"
-
-      # mobile view doesn't require adjustments of td widths
-      if $$.css($$.parent($ths[0], "thead"), "position") is "absolute"
+    adjustWidths = (adjustedWidths, delta, threshold) ->
+      adjW = [...adjustedWidths]
+      _adjust = (delta) ->
+        minReqW = Math.min ...adjW
+        maxReqW = Math.max ...adjW
+        newMin = threshold - delta
+        minComp = newMin - minReqW
+        maxIndex = adjW.indexOf Math.max ...adjW
+        minIndex = adjW.indexOf Math.min ...adjW
+        adjW[maxIndex] = maxReqW - minComp
+        adjW[minIndex] = newMin
         return
 
-      # exclude td's with fixed width
-      $adjustable = $ths.filter ($th) -> !!!$th.getAttribute "data-width"
-      $fixed = $ths.filter ($th) -> !!$th.getAttribute "data-width"
-      fixedWSum = $fixed
-        .map ($th) -> parseInt $th.getAttribute "data-width"
-        .reduce (a, b) -> a + b
+      _adjust delta while isTooSmall adjustedWidths, delta, threshold
+      adjW
 
-      $fixed.forEach ($th) ->
+    isTooSmall = (adjustedWidths, delta, threshold) ->
+      tooSmall = Math.min(...adjustedWidths) + delta < threshold
+      tooSmall > threshold
+
+    adjust = (opt) ->
+      { threshold = 80, $target } = opt
+
+      $parent = $$.parent $target
+      $thead = $$ "thead", $target
+      $ths = Array.from $$ "th", $target
+      $dynamicThs = getDynamicThs $ths
+      $fixedThs = getFixedThs $ths
+
+      adjustedWidths =
+        state.get(id: $target.id)?.adjustedWidths or getRequiredWidths $ths
+
+      # mobile viewport
+      if $$.css($thead, "position") is "absolute" then return
+
+      $fixedThs.forEach ($th) ->
         index = parseInt $th.getAttribute "data-col-index"
         $$.css "[data-col-index='#{index}']",
           width: "#{$th.getAttribute "data-width"}px"
 
-      reqW = getRequiredWidths()
-      reqWSum = getPdg() + reqW.reduce (a, b) -> a + b
+      # exclude td's with fixed width
+      fixedWSum = $fixedThs
+        .map ($th) -> parseInt $th.getAttribute "data-width"
+        .reduce (a, b) -> a + b
+      maxW = $parent.clientWidth - fixedWSum
+      totalAdj = adjustedWidths.reduce (a, b) -> a + b
+      reqWSum = totalAdj + getPdg $ths
 
-      maxW = $uiContainer.clientWidth - fixedWSum
-      delta = (maxW - reqWSum) / $adjustable.length
+      console.log "--------------", maxW
+      console.log "fixed", $fixedThs, fixedWSum
+      console.log "dyn", $dynamicThs, $dynamicThs.length
+      console.log "pdg", getPdg $ths
+      console.log "req total", reqWSum
+      console.log "----"
+      delta = (maxW - reqWSum) / $dynamicThs.length
+
+      console.log "delta", delta
 
       if delta < 0
-        adjReqW = if adjReqW.length then adjReqW else [...reqW]
-        compensateWidths delta while isTooSmallTd delta
+        adjustedWidths = adjustWidths adjustedWidths, delta, threshold
+        state.set id: $target.id, state: adjustedWidths: adjustedWidths
+        console.log state.get id: $target.id
 
-        $adjustable.forEach ($th, index) ->
-          colIndex = parseInt $th.getAttribute "data-col-index"
-          $$.css "[data-col-index='#{colIndex}']",
-            width: "#{adjReqW[index] + delta}px"
-        return
-
-      adjReqW = []
-      $adjustable.forEach ($th, index) ->
+      $dynamicThs.forEach ($th, index) ->
         colIndex = parseInt $th.getAttribute "data-col-index"
         $$.css "[data-col-index='#{colIndex}']",
-          width: "#{reqW[index] + delta}px"
+          width: "#{adjustedWidths[index] + delta}px"
 
     # @PARAM    id      MAN {string}      ui id
     # @PARAM    cols    MAN {json}        column config
@@ -171,8 +188,19 @@ export table =
       $ui.appendChild $tbody
       $t.appendChild $ui
 
-      obs.l "ui-lang-updated", set$TdWidths
-      obs.l "ankh-resize", set$TdWidths
+      if !opt.events then opt.events = {}
+      adjustEvent =
+        name: "ui-table-adjust"
+        target: id
+      opt.events.resize = [adjustEvent]
+      fireAdjustEvent = -> obs.f "_ankh-ui-fire", adjustEvent
+
+      obs.l "ui-table-adjust", (options) ->
+        options.events.resize.forEach (resizeEvent) -> adjust resizeEvent
+
+      obs.l "_ankh-resize", fireAdjustEvent
+      obs.l "ui-lang-updated", fireAdjustEvent
+
       obs.f "_ankh-ui-loaded", opt
       obs.f "ankh-ui-ready", "ui-table##{id}"
       return

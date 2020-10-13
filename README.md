@@ -15,3 +15,5 @@ npm i
 ## ToDo
 
 - separate ANKH from its apps
+- change 'target' param to '$target' in all UIs
+- further throttling of resize events

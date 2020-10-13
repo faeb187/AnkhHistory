@@ -13,7 +13,7 @@ module.exports =
         id: "navMobile"
         name: "nav"
         items: routes
-        events: [ev: "_helper-site-load", target: "navMobile"]
+        events: click: [name: "_helper-site-load": target: "navMobile"]
         media: max: "l"
       ]
     ]
@@ -75,7 +75,7 @@ module.exports =
           id: "nav"
           name: "nav"
           items: routes
-          events: [{ ev: "_helper-site-load" }, { target: "nav" }]
+          events: click: [name: "_helper-site-load": target: "nav"]
           media: min: "l"
         ]
       ,
@@ -97,11 +97,13 @@ module.exports =
     icon: "menu"
     events:
       click: [
-        ev: "_ui-slider-toggle"
-        arg: id: "slider-lft", target: "navToggle", side: "bottom"
+        name: "_ui-slider-toggle"
+        target: "slider-lft"
+        side: "bottom"
       ,
-        ev: "_ui-icon-toggle"
-        arg: target: "navToggle", icons: ["close", "menu"]
+        name: "_ui-icon-toggle"
+        target: "navToggle"
+        icons: ["close", "menu"]
       ]
     media: max: "l"
   ]

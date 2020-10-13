@@ -4,6 +4,7 @@ import { obs } from "./obs"
 export media =
   (->
     # breakpoints
+    # (!) in sync with rupture
     bps =
       xs: 0
       s: 400
@@ -24,12 +25,17 @@ export media =
       loaded: []
       notLoaded: []
 
-    fireEvent = (options) ->
-      { fn, opt, opt: { target, $target } } = options
-      if !target or !fn or typeof fn isnt "function" then return
+    # fires custom and UI events
+    fireEvent = (event) ->
+      { name: eventName, target: eventTarget } = event
+      uis.loaded.forEach (uiLoaded) ->
+        { events = {} } = uiLoaded
 
-      if uis.loaded.some((loadedUi) -> loadedUi.id is target)
-        (opt.$target = $target or $$ "##{target}") && fn opt
+        Object.keys(events).forEach (eventType) ->
+          events[eventType].forEach (ev) ->
+            if ev.name isnt eventName then return
+            if !ev.$target then ev.$target = $$ "##{ev.target}"
+            obs.f eventName, uiLoaded
 
     handleResize = ->
       oldVpW = vpW
@@ -37,7 +43,8 @@ export media =
 
       vpW = window.innerWidth
       newVp = getVpName vpW
-      obs.f "ankh-resize", vpW - oldVpW
+
+      obs.f "_ankh-resize", vpW - oldVpW
 
       # viewport has changed
       if oldVp isnt newVp
@@ -78,6 +85,8 @@ export media =
     obs.l "_ankh-ui-not-loaded", (opt) -> uis.notLoaded.push opt
 
     $$.listen window, "resize", (e) ->
+      e.preventDefault()
+
       if isResizing then return (resizeBuffer = true)
       isResizing = true
       handleResize()

@@ -62,9 +62,10 @@ export $$ =
 
       document.body.appendChild $hlp
       measures =
-        h: $hlp.clientHeight + 1
-        w: $hlp.clientWidth + 1
+        h: $hlp.clientHeight
+        w: $hlp.clientWidth
       document.body.removeChild $hlp
+      console.log str, measures.w
       measures
 
     # @DESC   parse HTML string to node tree

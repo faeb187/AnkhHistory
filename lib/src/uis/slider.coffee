@@ -30,11 +30,15 @@ export slider =
 
       $t.appendChild $ui
 
+      obs.f "_ankh-ui-loaded", opt
       obs.f "ankh-ui-ready", "ui-slider"
       return
 
-    obs.l "_ui-slider-toggle", (opt) ->
-      obs.f "_ankh-ui-fire", fn: ui.events.toggle, opt: opt
+    obs.l "_ui-slider-toggle", (options) ->
+      options.events.click.forEach (clickEvent) ->
+        if clickEvent.name is "_ui-slider-toggle"
+          ui.events.toggle clickEvent
+
     obs.l "_ui-slider-init", init
     return
   )()

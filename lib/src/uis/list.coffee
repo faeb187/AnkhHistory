@@ -72,12 +72,10 @@ export list =
       # @PARAM  itm.icon              OPT {string}  icon class name
       # @PARAM  itm.events            OPT {json}    custom events
       # @PARAM  itm.events.click      OPT {[json]}  list of 'click' events
-      # @PARAM  itm.events.click.ev   OPT {string}  custom event name
-      # @PARAM  itm.events.click.arg  OPT {*}       event handler param
       # @PARAM  itm.itms              OPT {todo}    sub items
       # @PARAM  $ul                   MAN {node}    list parent ul (li target)
       # @TODO   only <a> when click event
-      addListItem: (itm, $ul) ->
+      addListItem: (itm, $ul, uiId) ->
         id = itm.id
         itm = itm or {}
         evs = itm.events
@@ -110,7 +108,9 @@ export list =
           $itm.events = evs
 
           if evs.click
-            $itm.onclick = ui.evs.click
+            $itm.onclick = ->
+              evs.click.forEach (eventName) ->
+                obs.f "_ankh-ui-fire", name: eventName, target: uiId
 
             # hand      = hammer $itm
             # hand.add  new hammer.Tap
@@ -122,7 +122,7 @@ export list =
           $subUl.rootId = $ul.rootId
           for subItm in subItms
             if evs then subItm.events = evs
-            ui.addListItem subItm, $subUl
+            ui.addListItem subItm, $subUl, uiId
           $li.appendChild $subUl
 
         # APPEND list item to list
@@ -157,14 +157,12 @@ export list =
     # @PARAM  opt.id            MAN {string}    UI id
     # @PARAM  opt.items         MAN {[json]}    array containing list items
     # @PARAM  opt.target        MAN {node}      target node
-    # @RETURN {void}
-    # @PUBLIC
     init = (opt) ->
       { events, media: m, id, items, fx, target: $t } = opt
       if !id or !$t then return
-
       if m and !media.isInViewport m
-        return obs.f "_ankh-ui-not-loaded", opt
+        obs.f "_ankh-ui-not-loaded", opt
+        return
 
       id = "ui-list-" + id
 
@@ -177,13 +175,16 @@ export list =
       # APPEND list items
       items.map (item) ->
         item.events = item.events or events
-        ui.addListItem item, $ui
+        ui.addListItem item, $ui, id
 
       ui.updateActive routingMap, $ui
       $t.appendChild $ui
+
+      obs.f "_ankh-ui-loaded", opt
       obs.f "ankh-ui-ready", "ui-list"
       return
 
+    obs.l "_helper-site-load", ui.evs.click
     obs.l "_ui-list-init", init
     return
   )()

@@ -16,17 +16,6 @@ export icon =
           $icon.setAttribute "name", icon
           return
 
-        click: (event) ->
-          event.preventDefault()
-          $elm = event.target
-          events = $elm.events or {}
-          clickEvents = events.click or []
-
-          if !clickEvents.length then return
-          obs.f clickEvent.ev, clickEvent.arg or event for clickEvent in (
-            clickEvents
-          )
-
     # @DESC   displays icon
     # @PARAM  opt.id      MAN {string}  ui id
     # @PARAM  opt.icon    MAN {string}  ion icon name
@@ -47,7 +36,9 @@ export icon =
         if events.click
           $ui = $$ "<a/>"
           $ui.append $icon
-          $ui.onclick = ui.events.click
+          $ui.onclick = ->
+            events.click.forEach (clickEvent) ->
+              obs.f "_ankh-ui-fire", clickEvent
 
       if !$ui then $ui = $icon
 
@@ -61,8 +52,11 @@ export icon =
       obs.f "ankh-ui-ready", "ui-icon"
       return
 
-    obs.l "_ui-icon-toggle", (opt) ->
-      obs.f "_ankh-ui-fire", fn: ui.events.toggleIcon, opt: opt
+    obs.l "_ui-icon-toggle", (options) ->
+      options.events.click.forEach (clickEvent) ->
+        if clickEvent.name is "_ui-icon-toggle"
+          ui.events.toggleIcon clickEvent
+
     obs.l "_ui-icon-init", init
     return
   )()
