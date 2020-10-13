@@ -2,10 +2,7 @@
 # UI table
 #
 import moment from "moment"
-
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
-import { media } from "../helpers/media"
+import { $$, media, obs } from "../core"
 
 export table =
   (->
@@ -174,12 +171,12 @@ export table =
       $ui.appendChild $tbody
       $t.appendChild $ui
 
+      obs.l "ui-lang-updated", set$TdWidths
+      obs.l "ankh-resize", set$TdWidths
       obs.f "_ankh-ui-loaded", opt
       obs.f "ankh-ui-ready", "ui-table##{id}"
       return
 
-    obs.l "ui-lang-updated", set$TdWidths
-    obs.l "ankh-resize", set$TdWidths
     obs.l "_ui-table-init", init
     return
   )()

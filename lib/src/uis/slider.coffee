@@ -1,11 +1,9 @@
 #
 # UI slider
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
-import { media } from "../helpers/media"
+import { $$, obs, media } from "../core"
 
-module.exports =
+export slider =
   (->
     ui =
       events:

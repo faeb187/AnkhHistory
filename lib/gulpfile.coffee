@@ -64,12 +64,12 @@ gulp.task "conf", ->
     .pipe coffee bare: true, transpile: presets: ["@babel/env"]
     .pipe gulp.dest "dst/assets/js/conf"
 
-# helpers
-gulp.task "helpers", ->
+# core files
+gulp.task "core", ->
   gulp
-    .src "src/helpers/*.coffee"
+    .src "src/core/*.coffee"
     .pipe coffee bare: true, transpile: presets: ["@babel/env"]
-    .pipe gulp.dest "dst/assets/js/helpers"
+    .pipe gulp.dest "dst/assets/js/core"
 
 # app
 gulp.task "coffee", ->
@@ -127,7 +127,7 @@ gulp.task(
     "i18n"
     "network"
     "uis"
-    "helpers"
+    "core"
     "pug"
     "styl"
     "conf"

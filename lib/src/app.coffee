@@ -4,22 +4,23 @@
 # require "browsernizr/test/notification"
 import { Modernizr } from "browsernizr"
 
-import { site } from "./helpers/site"
+import { site } from "./core"
 import { ankh } from "./ankh"
-import { table } from "./uis/table"
-
-require "./uis/accordion"
-require "./uis/carousel"
-require "./uis/details"
-require "./uis/html"
-require "./uis/iframe"
-require "./uis/icon"
-require "./uis/lang"
-require "./uis/list"
-require "./uis/nav"
-require "./uis/search"
-require "./uis/select"
-require "./uis/slider"
+import {
+  accordion
+  carousel
+  details
+  html
+  iframe
+  icon
+  lang
+  list
+  nav
+  search
+  select
+  slider
+  table
+} from "./uis"
 
 document.title = ankh.title
 

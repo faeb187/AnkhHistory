@@ -1,10 +1,9 @@
 #
 # UI html
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs, media } from "../core"
 
-module.exports =
+export html =
   (->
     # @REQUIRE local modules
     # @PRIVATE
@@ -16,8 +15,10 @@ module.exports =
     # @PARAM  src       OPT {string}  path to image
     # @PARAM  target    MAN {node}    target node
     init = (opt) ->
-      { id, ids = [], lang, src, tag = "div", text, target: $t } = opt
+      { id, ids = [], lang, media: m, src, tag = "div", text, target: $t } = opt
       if !id or !$t then return
+      if m and !media.isInViewport m
+        return obs.f "_ankh-ui-not-loaded", opt
 
       $ui = $$ "<#{tag}/>", id: id, class: "ui-html"
 
@@ -35,6 +36,7 @@ module.exports =
 
       $t.appendChild $ui
 
+      obs.f "_ankh-ui-loaded", opt
       obs.f "ankh-ui-ready", "ui-html##{id}"
       return
 

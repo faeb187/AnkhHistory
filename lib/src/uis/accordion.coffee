@@ -1,10 +1,9 @@
 #
 # UI accordion
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs } from "../core"
 
-module.exports =
+export accordion =
   (->
     # @DESC   build new accordion
     # @PARAM  opt.id      MAN {string}      ui id

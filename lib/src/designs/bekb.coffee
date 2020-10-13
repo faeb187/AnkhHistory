@@ -43,6 +43,7 @@ module.exports =
               id: "profile"
               name: "html"
               tag: "section"
+              media: min: "l"
               ids: [
                 id: "profileInner"
                 name: "html"

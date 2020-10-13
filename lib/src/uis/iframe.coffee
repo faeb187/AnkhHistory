@@ -1,10 +1,9 @@
 #
 # UI iframe
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs } from "../core"
 
-module.exports =
+export iframe =
   (->
     # @DESC   init iframe
     # @PARAM  opt.id      MAN {string}  ui id

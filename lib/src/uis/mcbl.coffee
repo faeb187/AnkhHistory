@@ -1,84 +1,80 @@
-###
-  UI MCBL
-  @AUTHOR faeb187
-  @DESC   modular content block layout
-###
-module.exports = (->
+#
+# UI mcbl
+# @DESC modular content block layout
+#
+import { $$ } from "../core"
 
-  # @REQUIRE local modules
-  $$    = require '../helpers/dom'
+export mcbl =
+  (->
+    return (
+      # @DESC   build new article
+      # @PARAM  opt.title           {string}  title
+      # @PARAM  opt.items           {[json]}  paragraph or code block
+      # @PARAM  opt.items.$.lang    {json}    id to paragraph text or programming lang
+      # @PARAM  opt.items.$.code    {json}    code block with syntax highlighting
+      # @PARAM  opt.author          {json}    author object
+      # @PARAM  opt.author.username {string}  author username
+      # @PARAM  opt.author.email    {string}  author email
+      # @PARAM  opt.author.website  {string}  author website
+      # @PARAM  opt.createdAt       {date}    date of article creation
 
-  return {
 
-    # @DESC   build new article
-    # @PARAM  opt.title           {string}  title
-    # @PARAM  opt.items           {[json]}  paragraph or code block
-    # @PARAM  opt.items.$.lang    {json}    id to paragraph text or programming lang
-    # @PARAM  opt.items.$.code    {json}    code block with syntax highlighting
-    # @PARAM  opt.author          {json}    author object
-    # @PARAM  opt.author.username {string}  author username
-    # @PARAM  opt.author.email    {string}  author email
-    # @PARAM  opt.author.website  {string}  author website
-    # @PARAM  opt.createdAt       {date}    date of article creation
-    # @RETURN {void}
-    # @PUBLIC
-    init: ( opt ) ->
-      
-      # DEFINE variables
-      opt   = opt or {}
-      $t    = opt.target
-      title = opt.title
-      itms  = opt.items
+        init: (opt) ->
+          # DEFINE variables
+          opt = opt or {}
+          $t = opt.target
+          title = opt.title
+          itms = opt.items
 
-      # MANDATORY target, title & items
-      if !$t or !title or !itms then return
-      
-      # MARKUP UI
-      $ui = $$ '<article/>', 'class': 'ui-article'
+          # MANDATORY target, title & items
+          if !$t or !title or !itms
+            return
 
-      # ADD article title
-      $title = $$ '<h2/>', 'data-lang': title
-      $ui.appendChild $title
+            # MARKUP UI
+          $ui = $$ "<article/>", class: "ui-article"
 
-      # ADD article items
-      for itm in itms
-        
-        # code block
-        if itm.code
-          $pre            = $$ '<pre/>'
-          $code           = $$ '<code/>', 'class': itm.lang
-          $code.innerHTML = itm.code
-          $pre.appendChild  $code
-          $elm            = $$( '<p/>' ).appendChild $pre
-        
-        # normal paragraph
-        else $elm = $$ '<p/>', 'data-lang': itm.lang
-        
-        $ui.appendChild $elm
+          # ADD article title
+          $title = $$ "<h2/>", "data-lang": title
+          $ui.appendChild $title
 
-      # article footer required?
-      if opt.author or opt.createdAt
-        $footer = $$ '<footer/>'
+          # ADD article items
+          for itm in itms
+            # code block
+            if itm.code
+              $pre = $$ "<pre/>"
+              $code = $$ "<code/>", class: itm.lang
+              $code.innerHTML = itm.code
+              $pre.appendChild $code
+              $elm = $$("<p/>").appendChild $pre
 
-        # add article author
-        if opt.author
-          $address = $$ '<address/>'
-          $address.innerText = 'by ' + opt.author.username
-          $footer.appendChild $address
+              # normal paragraph
+            else
+              $elm = $$ "<p/>", "data-lang": itm.lang
 
-        # add article creation date
-        if opt.createdAt
-          $time = $$ '<time/>',
-            datetime: opt.createdAt
-            pubdate : 'pubdate'
+            $ui.appendChild $elm
 
-          $time.innerHTML = moment( opt.createdAt ).fromNow()
-          $footer.appendChild $time
-          
-        # APPEND UI to DOM target
-        $ui.appendChild $footer
-      $t.appendChild $ui
+          # article footer required?
+          if opt.author or opt.createdAt
+            $footer = $$ "<footer/>"
 
-      return
-  }
-)()
+            # add article author
+            if opt.author
+              $address = $$ "<address/>"
+              $address.innerText = "by " + opt.author.username
+              $footer.appendChild $address
+
+            # add article creation date
+            if opt.createdAt
+              $time = $$ "<time/>",
+                datetime: opt.createdAt
+                pubdate: "pubdate"
+
+              $time.innerHTML = moment(opt.createdAt).fromNow()
+              $footer.appendChild $time
+
+              # APPEND UI to DOM target
+            $ui.appendChild $footer
+          $t.appendChild $ui
+          return
+    )
+  )()

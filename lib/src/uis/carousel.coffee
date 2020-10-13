@@ -1,10 +1,9 @@
 #
 # UI carousel
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs } from "../core"
 
-module.exports =
+export carousel =
   (->
     # @DESC   build new carousel
     # @PARAM  opt.id        MAN {string}  UI id

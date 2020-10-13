@@ -1,13 +1,10 @@
 #
 # UI list
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
-import { media } from "../helpers/media"
+import { $$, obs, media, state } from "../core"
 
-module.exports =
+export list =
   (->
-    state = require "../helpers/state"
     hammer = require "hammerjs"
 
     ui =

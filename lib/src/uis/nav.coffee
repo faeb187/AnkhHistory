@@ -1,12 +1,9 @@
 #
 # UI nav
 #
-import { $$ } from "../helpers/dom"
-import { media } from "../helpers/media"
-import { obs } from "../helpers/obs"
-uiList = require "./list"
+import { $$, media, obs } from "../core"
 
-module.exports =
+export nav =
   (->
     # @DESC   init nav
     # @PARAM  opt.events  OPT {json}    events fallback from item events

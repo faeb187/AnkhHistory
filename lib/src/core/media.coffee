@@ -77,7 +77,7 @@ export media =
     obs.l "_ankh-ui-loaded", (opt) -> uis.loaded.push opt
     obs.l "_ankh-ui-not-loaded", (opt) -> uis.notLoaded.push opt
 
-    $$.listen window, "resize", ->
+    $$.listen window, "resize", (e) ->
       if isResizing then return (resizeBuffer = true)
       isResizing = true
       handleResize()

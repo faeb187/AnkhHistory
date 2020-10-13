@@ -6,9 +6,9 @@ module.exports = (->
 
   # @REQUIRE local modules
   # @PRIVATE
-  $$        = require '../helpers/dom'
-  obs       = require '../helpers/obs'
-  state     = require '../helpers/state'
+  $$        = require '../core/dom'
+  obs       = require '../core/obs'
+  state     = require '../core/state'
 
   # @REQUIRE events
   # @PRIVATE
@@ -80,7 +80,7 @@ module.exports = (->
 
       # XHR service requets
       if e is 'services'
-        $$ = require '../helpers/dom'
+        $$ = require '../core/dom'
         
         # zip fills city
         $zip  = $$ '#zip'

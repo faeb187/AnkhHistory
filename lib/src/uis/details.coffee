@@ -1,10 +1,9 @@
 #
 # UI details
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs } from "../core"
 
-module.exports =
+export details =
   (->
     # @DESC   build new details view
     # @PARAM  opt.id            MAN {string}      ui id

@@ -1,8 +1,6 @@
-###
-  OBSERVER
-  @DESC   observer pattern
-  @AUTHOR faeb187
-###
+#
+# CORE observer
+#
 export obs =
   (->
     # @DEFINE   evs {json}  event registrations

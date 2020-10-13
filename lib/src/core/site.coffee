@@ -34,9 +34,8 @@ export site =
       c = 0
       r = (subUis) ->
         subUis.map (subUi, idx) ->
-          # only count ui's in current viewport
-          if !subUi.media or media.isInViewport subUi.media
-            ++c
+          if subUi.media and !media.isInViewport subUi.media then return
+          ++c
           if subUi.ids && subUi.ids.length then r subUi.ids
       r uis
       c

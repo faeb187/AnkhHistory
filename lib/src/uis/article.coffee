@@ -2,7 +2,7 @@
 # UI article
 #
 import moment from "moment"
-import { $$ } from "../helpers/dom"
+import { $$ } from "../core"
 
 export article =
   (->
@@ -19,6 +19,7 @@ export article =
       # @PARAM  opt.createdAt       {date}    date of article creation
       # @RETURN {void}
       # @PUBLIC
+
 
         init: (opt) ->
           # DEFINE variables

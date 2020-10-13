@@ -1,10 +1,9 @@
-###
-  UI search
-###
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+#
+# UI search
+#
+import { $$, obs } from "../core"
 
-module.exports =
+export search =
   (->
     # @desc   build new search box
     # @param  opt.placeholder   {string}      lang reference

@@ -1,11 +1,9 @@
 #
 # UI icon (ion-icon)
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
-import { media } from "../helpers/media"
+import { $$, obs, media } from "../core"
 
-module.exports =
+export icon =
   (->
     ui =
       events:
@@ -56,8 +54,6 @@ module.exports =
       $ui.id = id
       $ui.className = "ui-icon"
       $ui.events = events
-
-      console.log $ui, $ui.events
 
       $t.appendChild $ui
 

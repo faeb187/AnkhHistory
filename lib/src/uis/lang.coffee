@@ -1,15 +1,11 @@
 #
 # UI lang
 #
-import { obs } from "../helpers/obs"
-import { $$ } from "../helpers/dom"
-import { de } from "../i18n/de"
-import { en } from "../i18n/en"
+import { $$, obs, state } from "../core"
+import { de, en } from "../i18n"
 
-module.exports =
+export lang =
   (->
-    state = require "../helpers/state"
-
     # @DESC   click event to switch lang # @PARAM  event {Event} click on anchor
     changeLang = (event) ->
       event.preventDefault()

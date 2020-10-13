@@ -1,96 +1,88 @@
-###
-  UI CONTEXT
-  @AUTHOR faeb187
-###
-module.exports = (->
-  
-  # @REQUIRE local modules
-  $$    = require '../helpers/dom'
+#
+# UI context
+#
+import { dom } from "../core"
 
-  # @DEFINE variables
-  d     = document
-  $ui   = null
-  elms  = []
+export context =
+  (->
+    d = document
+    $ui = null
+    elms = []
 
-  ui    =
+    ui =
+      evs:
+        # @DESC   contextmenu was triggered
+        # @PARAM  e   MAN {event} context event
+        # @RETURN {void}
+        contextMenu: (e) ->
+          e.preventDefault()
+          $$.css $ui,
+            left: e.clientX
+            top: e.clientY
 
-    evs:
+          $$.addClass $ui, "active"
 
-      # @DESC   contextmenu was triggered
-      # @PARAM  e   MAN {event} context event
-      # @RETURN {void}
-      contextMenu: ( e ) ->
-        e.preventDefault()
-        $$.css $ui,
-          left: e.clientX
-          top : e.clientY
+          return
 
-        $$.addClass $ui, 'active'
-        
-        return
-
-  # @DESC     context menu listener
-  # @PARAM    opt.id      MAN {string}
-  # @PARAM    opt.$elm    MAN {node}
-  # @RETURN   {void}
-  # @PRIVATE
-  addContext = ( opt ) ->
-    
-    # DEFINE variables
-    opt = opt or {}
-    id  = opt.id
-    $elm= $$ '#' + id
-
-    # LISTEN for right click
-    if $elm then $$.listen $elm, 'contextmenu', ui.evs.contextMenu
-
-    return
-
-  return {
-
-    # @desc     build new context menu
-    # @param    opt.id                MAN {string}  UI id
-    # @param    opt.elms              MAN {array}   elements with context
-    # @param    opt.elements.$.id     MAN {string}  element id
-    # @param    opt.elements.$.items  MAN {array}   menu for element
-    # @param    opt.elements.$.lang   MAN {string}  lang reference
-    # @returns  {void}
-    init: ( opt ) ->
-      
+    # @DESC     context menu listener
+    # @PARAM    opt.id      MAN {string}
+    # @PARAM    opt.$elm    MAN {node}
+    # @RETURN   {void}
+    # @PRIVATE
+    addContext = (opt) ->
       # DEFINE variables
-      opt   = opt or {}
-      id    = opt.id
-      elms  = opt.elements
-      $b    = $$ 'body'
+      opt = opt or {}
+      id = opt.id
+      $elm = $$ "#" + id
 
-      # MANDATORY id, items & target
-      if !id or !elms then return
-      
-      $ui   = $$ '<div/>', 'class': 'ui-context'
-      $nav  = $$ '<nav/>'
+      # LISTEN for right click
+      if $elm then $$.listen $elm, "contextmenu", ui.evs.contextMenu
 
-      for elm in elms
-        
-        elmId = elm.id
-        itms  = elm.items
+      return
 
-        # MANDATORY id & itms
-        if !elmId or !itms then continue
+    return (
+      # @desc     build new context menu
+      # @param    opt.id                MAN {string}  UI id
+      # @param    opt.elms              MAN {array}   elements with context
+      # @param    opt.elements.$.id     MAN {string}  element id
+      # @param    opt.elements.$.items  MAN {array}   menu for element
+      # @param    opt.elements.$.lang   MAN {string}  lang reference
+      # @returns  {void}
 
-        for itm in itms
 
-          # create context menu entry
-          $a = $$ '<a/>', 'data-lang', itm.lang
-          $nav.appendChild $a
+        init: (opt) ->
+          # DEFINE variables
+          opt = opt or {}
+          id = opt.id
+          elms = opt.elements
+          $b = $$ "body"
 
-        # collect elms
-        elms.push elmId
+          # MANDATORY id, items & target
+          if !id or !elms then return
 
-        # add right click
-        addContext id: elmId
+          $ui = $$ "<div/>", class: "ui-context"
+          $nav = $$ "<nav/>"
 
-      # APPEND UI to DOM target
-      $ui.appendChild $nav
-      $b.appendChild $ui
-  }
-)()
+          for elm in elms
+            elmId = elm.id
+            itms = elm.items
+
+            # MANDATORY id & itms
+            if !elmId or !itms then continue
+
+            for itm in itms
+              # create context menu entry
+              $a = $$ "<a/>", "data-lang", itm.lang
+              $nav.appendChild $a
+
+            # collect elms
+            elms.push elmId
+
+            # add right click
+            addContext id: elmId
+
+          # APPEND UI to DOM target
+          $ui.appendChild $nav
+          $b.appendChild $ui
+    )
+  )()

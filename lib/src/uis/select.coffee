@@ -1,12 +1,10 @@
 #
 # UI select
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs, state3 } from "../core"
 
-module.exports =
+export select =
   (->
-    state = require "../helpers/state"
     ui =
       get$Option: (option) ->
         { attrs = {}, lang } = option

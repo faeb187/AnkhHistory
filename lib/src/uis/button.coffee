@@ -1,8 +1,7 @@
 #
 # UI button
 #
-import { $$ } from "../helpers/dom"
-import { obs } from "../helpers/obs"
+import { $$, obs } from "../core"
 
 export button =
   (->

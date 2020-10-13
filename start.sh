@@ -15,7 +15,7 @@ rm -r dst/assets/js/i18n
 rm -r dst/assets/js/network
 rm -r dst/assets/js/conf
 rm -r dst/assets/js/designs
-rm -r dst/assets/js/helpers
+rm -r dst/assets/js/core
 rm -r dst/assets/js/sites
 rm -r dst/assets/js/uis
 rm dst/assets/js/app.js
