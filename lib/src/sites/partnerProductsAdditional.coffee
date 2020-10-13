@@ -1,11 +1,12 @@
+import {
+  cols as cardsCols
+  data as cardsData
+} from "../network/data/productsAdditional/cards"
+
 design = require "../designs/bekb"
 
-data =
-  productsAdditional:
-    cards: require "../network/data/productsAdditional/cards"
-
-partnerProductsAdditional = JSON.parse JSON.stringify design
-partnerProductsAdditional.ids[1].ids[0].ids[1].ids = [
+partnerPA = JSON.parse JSON.stringify design
+partnerPA.ids[1].ids[0].ids[1].ids = [
   id: "toolbar"
   name: "html"
   tag: "menu"
@@ -31,7 +32,8 @@ partnerProductsAdditional.ids[1].ids[0].ids[1].ids = [
     ids: [
       id: "additionalTableCards"
       name: "table"
-      data: data.productsAdditional.cards
+      cols: cardsCols
+      data: cardsData
     ]
   ,
     id: "additionalDetailsEbanking"
@@ -52,4 +54,4 @@ partnerProductsAdditional.ids[1].ids[0].ids[1].ids = [
   ]
 ]
 
-module.exports = partnerProductsAdditional
+export partnerProductsAdditional = partnerPA

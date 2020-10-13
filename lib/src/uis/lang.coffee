@@ -3,11 +3,11 @@
 #
 import { obs } from "../helpers/obs"
 import { $$ } from "../helpers/dom"
+import { de } from "../i18n/de"
+import { en } from "../i18n/en"
 
 module.exports =
   (->
-    de = require "../i18n/de"
-    en = require "../i18n/en"
     state = require "../helpers/state"
 
     # @DESC   click event to switch lang # @PARAM  event {Event} click on anchor
@@ -97,5 +97,6 @@ module.exports =
       return
 
     obs.l "_ui-lang-init", init
+    obs.l "_ankh-viewport-changed", update
     return
   )()

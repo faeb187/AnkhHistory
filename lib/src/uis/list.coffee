@@ -3,6 +3,7 @@
 #
 import { $$ } from "../helpers/dom"
 import { obs } from "../helpers/obs"
+import { media } from "../helpers/media"
 
 module.exports =
   (->
@@ -22,6 +23,13 @@ module.exports =
         countLevel rootItms
         levelCount
 
+      updateRootUlActive: ($act) ->
+        climbUp = ($elm) ->
+          if $elm.tagName is "UL" then $$.addClass $elm, "active"
+          if $$.hasClass $$.parent($elm), ".ui-list" then return
+          climbUp $$.parent $elm
+        climbUp $$.parent $act
+
       # @DESC   updates parent active a elements
       # @PARAM  $act  MAN {HTMLElement} most nested active a
       updateParentActive: ($act) ->
@@ -40,6 +48,7 @@ module.exports =
         $act = $$ actSel, $ui
         $$.addClass $act, "active"
         if pth.split("/").length > 1 then ui.updateParentActive $act
+        ui.updateRootUlActive $act
 
       # @DESC   creates routing/id map
       # @PARAM  MAN {itms} list items
@@ -154,9 +163,11 @@ module.exports =
     # @RETURN {void}
     # @PUBLIC
     init = (opt) ->
-      { events, id, items, fx, target: $t } = opt
+      { events, media: m, id, items, fx, target: $t } = opt
+      if !id or !$t then return
 
-      if !id or !items.length or !$t then return
+      if m and !media.isInViewport m
+        return obs.f "_ankh-ui-not-loaded", opt
 
       id = "ui-list-" + id
 
@@ -177,4 +188,5 @@ module.exports =
       return
 
     obs.l "_ui-list-init", init
+    return
   )()

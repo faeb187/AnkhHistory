@@ -1,50 +1,42 @@
-###
-  UI slider
-###
+#
+# UI slider
+#
 import { $$ } from "../helpers/dom"
 import { obs } from "../helpers/obs"
+import { media } from "../helpers/media"
 
 module.exports =
   (->
     ui =
-      evs:
-        # @DESC   toggle slider state
-        # @PARAM  opt.id  MAN {string}  slider id
-        # @RETURN {void}
+      events:
         toggle: (opt) ->
-          { id } = opt
-
-          $ui = $$ "#" + id
-          if !$ui then return
-
-          $$.toggleClass $$("#front"), "from-" + $ui.side
+          { side = "left", $target } = opt
+          $$.toggleClass $$("#front"), "from-#{side}"
 
     # @DESC   create a new slider
     # @PARAM  opt.id      MAN {string}  UI id
     # @PARAM  opt.ids     OPT {any[]}   children ui configs
-    # @PARAM  opt.side    OPT {string}  top|right|bottom|left
+    # @PARAM  media       OPT {json}    viewport config
     # @PARAM  opt.target  MAN {node}    target node
-    # @RETURN {node}  target for sub UI's
-    # @PUBLIC
     init = (opt) ->
-      { id, side = "left", target: $t, ids = [] } = opt
-      if !id or !side or !$t then return
+      { id, media: m, target: $t, ids = [] } = opt
+      if !id or !$t then return
+      if m and !media.isInViewport m
+        return obs.f "_ankh-ui-not-loaded", opt
 
-      $ui = $$ "<div/>", class: "ui-slider"
-      $ui.id = id
-      $ui.side = side
+      $ui = $$ "<div/>", id: id, class: "ui-slider"
 
-      for child in ids
-        child.target = $ui
-        obs.f "_ui-#{child.name}-init", child
+      ids.forEach (ui) ->
+        ui.target = $ui
+        obs.f "_ui-#{ui.name}-init", ui
 
       $t.appendChild $ui
 
-      obs.l "ui-slider-toggle", ui.evs.toggle
-      obs.l "ui-slider-out", ui.evs.out
       obs.f "ankh-ui-ready", "ui-slider"
       return
 
+    obs.l "_ui-slider-toggle", (opt) ->
+      obs.f "_ankh-ui-fire", fn: ui.events.toggle, opt: opt
     obs.l "_ui-slider-init", init
     return
   )()

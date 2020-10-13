@@ -1,4 +1,4 @@
-module.exports =
+export de =
   actions: "Aktionen"
   active: "Aktiv"
   cardNumber: "Karten Nr"
@@ -18,10 +18,10 @@ module.exports =
   monthlyLimit: "Monatslimite"
   overview: "Übersicht"
   partner: "Partner"
+  partnerSearch: "Partnersuche"
   paymentTransactions: "Zahlungsverkehr"
   products: "Produkte"
   productsAdditional: "Zusatzprodukte"
   reports: "Berichte"
   safes: "Tresorfächer"
-  search: "Suche"
   state: "Status"

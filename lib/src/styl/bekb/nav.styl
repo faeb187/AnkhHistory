@@ -1,0 +1,69 @@
+#nav
+  fs $fs-big
+  mrgb 4rem
+  mrgt 'calc(2 * %s)' % $mrg
+  w 100%
+  pdgl 10vw
+  
+  a
+    pdg $pdg
+
+  > ul
+    > li
+      > a
+        &.active
+          bc $grey-03
+
+      ul
+        bc    $grey-03
+        h     50px
+        pdgt  $pdg
+        pdgl  10vw
+        w     100vw
+
+        a
+          mrgt .4rem
+
+          &.active
+            bc $white
+            mrgt .5rem
+
+
+#navMobile
+  mrgt 10rem
+  mrgl -5vw
+  w 100vw
+
+  ul
+    fxd column
+
+    li
+      brdb 1px $grey-02 solid
+      
+      a
+        pdg 1rem
+
+      ul
+        bc $grey-04
+        dsp flex
+        pos static
+
+        li
+          &:last-child
+            brdb 0
+
+          a
+            pdgl 'calc(3 * %s)' % $pdg
+            brdr 1px $grey-03 solid
+
+            &.active
+              bc grey-01
+              c $white
+
+        &:not(.active)
+          dsp none
+
+    &.active > li
+      & ul a.active
+        bc $grey-01
+        c $white

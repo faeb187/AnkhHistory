@@ -1,5 +1,4 @@
-nav = require "../conf/nav"
-navMobile = require "../conf/navResponsive"
+import { routes } from "../conf/routes"
 
 data = user: require "../network/data/user"
 
@@ -10,7 +9,13 @@ module.exports =
     ids: [
       id: "slider-lft"
       name: "slider"
-      ids: [{ ...navMobile }]
+      ids: [
+        id: "navMobile"
+        name: "nav"
+        items: routes
+        events: [ev: "_helper-site-load", target: "navMobile"]
+        media: max: "l"
+      ]
     ]
   ,
     id: "front"
@@ -32,22 +37,45 @@ module.exports =
             src: "/assets/img/logo.svg"
             alt: "logo"
           ,
-            id: "search", name: "search", placeholder: "search"
-          ]
-        ,
-          { ...nav, media: min: "xs" }
-        ,
-          id: "profile"
-          name: "html"
-          tag: "section"
-          ids: [
-            id: "profileName", name: "html", tag: "span", text: data.user.name
-          ,
-            id: "profileUsername"
+            id: "hTopRight"
             name: "html"
-            tag: "span"
-            text: data.user.username
+            ids: [
+              id: "profile"
+              name: "html"
+              tag: "section"
+              ids: [
+                id: "profileInner"
+                name: "html"
+                ids: [
+                  id: "iconProfile"
+                  name: "icon"
+                  icon: "person"
+                ,
+                  id: "profileUserInfo"
+                  name: "html"
+                  ids: [
+                    id: "profileName"
+                    name: "html"
+                    tag: "span"
+                    text: data.user.name
+                  ,
+                    id: "profileUsername"
+                    name: "html"
+                    tag: "span"
+                    text: data.user.username
+                  ]
+                ]
+              ]
+            ,
+              id: "search", name: "search", placeholder: "partnerSearch"
+            ]
           ]
+        ,
+          id: "nav"
+          name: "nav"
+          items: routes
+          events: [{ ev: "_helper-site-load" }, { target: "nav" }]
+          media: min: "l"
         ]
       ,
         id: "m", name: "html", tag: "main"
@@ -65,7 +93,14 @@ module.exports =
   ,
     id: "navToggle"
     name: "icon"
-    icon: "menu-outline"
-    events: click: [ev: "ui-slider-toggle", arg: id: "slider-lft"]
-    media: max: "xs"
+    icon: "menu"
+    events:
+      click: [
+        ev: "_ui-slider-toggle"
+        arg: id: "slider-lft", target: "navToggle", side: "bottom"
+      ,
+        ev: "_ui-icon-toggle"
+        arg: target: "navToggle", icons: ["close", "menu"]
+      ]
+    media: max: "l"
   ]

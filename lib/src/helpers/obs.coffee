@@ -60,7 +60,6 @@ export obs =
             delete evs[ev]
           else
             Object.keys(evs).forEach (name) ->
-              console.log "obs", name
               if name[0] isnt "_" then delete evs[name]
           @
     )

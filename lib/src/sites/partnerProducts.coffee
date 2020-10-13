@@ -1,6 +1,6 @@
-design = require '../designs/bekb'
+design = require "../designs/bekb"
 
-partnerProducts = JSON.parse JSON.stringify design
-partnerProducts.ids[1].ids[0].ids[1].ids = []
+partnerP = JSON.parse JSON.stringify design
+partnerP.ids[1].ids[0].ids[1].ids = []
 
-module.exports = partnerProducts
+export partnerProducts = partnerP

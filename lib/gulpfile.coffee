@@ -108,7 +108,10 @@ gulp.task "styl", ->
     .pipe(
       stylus
         compress: true
-        use: [rupture(), poststyl [rucksack autoprefixer: true]]
+        use: [
+          rupture scale: "0 400px 600px 800px 1050px 1800px"
+          poststyl [rucksack autoprefixer: true]
+        ]
     )
     .pipe rename "main.min.css"
     .pipe gulp.dest "dst/assets/css"

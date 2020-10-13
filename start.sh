@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # compile gulpfile
-rm gulpfile.js
 coffee -c -b ./lib/gulpfile.coffee
 
 # deployment
@@ -10,6 +9,8 @@ cd ./lib && gulp
 # vendor files
 cp ./src/vendor/flexbox-reset.css dst/assets/css
 
+# cleanup
+rm ./lib/gulpfile.js
 rm -r dst/assets/js/i18n
 rm -r dst/assets/js/network
 rm -r dst/assets/js/conf

@@ -1,6 +1,6 @@
-###
-  UI accordion
-###
+#
+# UI accordion
+#
 import { $$ } from "../helpers/dom"
 import { obs } from "../helpers/obs"
 

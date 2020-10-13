@@ -13,30 +13,72 @@
 
   tbody
     dsp block
+
     tr
-      brdb 1px $grey-03 solid
+      brd 1px $grey-03 solid
+      brad 5px
       dsp flex
       fxd row
       fxw wrap
+      mrg $mrg auto
+      pos relative
       pdg $pdg
+      w 350px
 
       td
         dsp block
         pos relative
         pdg 'calc(%s / 2) %s' % $pdg
-        pdgt 'calc(%s * 2)' % $pdg
-        w 40%
+        fx 1 0 100%
+        ta right
 
-        &:before
-          cnt attr(data-lang-rendered)
-          pos absolute
+        &.right
+          ta right
+
+        &:after
           lft 0
+          pos absolute
+          cnt attr(data-lang-rendered)
           fs $fs-small
           fw $fw-bold
-          btm 25px // todo
 
-        &.currency-chf:before
-          content: 'CHF '
+        &[data-currency]:before
+          cnt attr(data-currency)
+          txtt uppercase
+          mrgr 3px
+
+        &:last-child
+          pos absolute
+          top $mrg
+          rgt $mrg
+          pdg 0
+
+        img
+          w $svg-w
+          h $svg-h
+
++above('m')
+  .ui-table
+    tbody
+      tr
+        mrg auto
+        mrgt $mrg
+        w 550px
+
+        td
+          fx 0 1 'calc(50% - %s)' % $pdg
+          pdgt 'calc(%s * 2)' % $pdg
+          ta left
+
+          &:not(:first-child)
+            brdb 1px $grey-03 solid
+
+          &:after
+            btm 25px // todo
+
+          &:first-child
+            pos absolute auto 0 0 auto
+
 
 +above('l')
   .ui-table
@@ -45,20 +87,29 @@
       ovr hidden
       tovr ellipsis
       ws nowrap
+    
+      &[data-date]
+      &[data-currency]
+      &.right
+        ta right
+
+      &:last-child
+        pdgr 0
 
     thead
       dsp table-header-group
       pos static
 
       th
-        pdg $pdg 0
+        pdg $pdg 0 'calc(%s / 2)' % $pdg
         pdgr $pdg 
       
     tbody
       dsp table-row-group
 
       tr
-        brdb none
+        brd none
+        brad none
         brdt 1px $grey-03 solid
         dsp table-row
 
@@ -68,9 +119,24 @@
           pdgr $pdg 
           ta left
 
-          &:before
+          &:after
             dsp none
             flt none
 
-          &:nth-child(odd)
-            bc transparent
+          &:first-child
+            pos relative
+            brd none
+
+          img
+            pos absolute 0
+            mrg auto
+            w $svg-w
+            h $svg-h
+
+          &:last-child
+            pos relative 0
+
+            img
+              lft auto
+              w $svg-w-small
+              h $svg-h-small

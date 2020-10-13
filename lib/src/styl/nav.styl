@@ -4,12 +4,14 @@
 
   ul
     fxd row
-
+    
     a
-      fx    1
-      pdg   $pdg 'calc(%s / 2)' % $pdg
-
+      fx 1
+      pdg $pdg 'calc(%s / 2)' % $pdg
+      
       &.active
+        fw $fw-bold
+
         & ~ ul
           dsp flex
 
@@ -18,51 +20,3 @@
       pos absolute 
       lft 0
       top 100%
-
-// BeKB
-#nav
-  fs $fs-big
-  mrgb 4rem
-  w 100%
-
-  li
-    a
-      pdg $pdg $pdg 'calc(%s / 2)' % $pdg
-
-      &.active
-        bc $grey-03
-
-    ul
-      bc   $grey-03
-      pdgt $pdg
-      w    100%
-
-      a
-        &.active
-          bc md-white
-
-#navResponsive
-  ul
-    fxd column
-
-    li
-      bdrb 1px $grey-02 solid
-      
-      a
-        pdg 1rem
-
-        &.active
-          bc $grey-01
-          c  md-white
-
-      ul
-        dsp flex
-        pos static
-
-        li
-          &:last-child
-            brdb 0
-
-          a
-            mrgl 'calc(2 * %s)' % $mrg
-            brdr 1px $grey-03 solid

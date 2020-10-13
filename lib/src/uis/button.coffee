@@ -1,92 +1,79 @@
-###
-  UI BUTTON
-  @AUTHOR faeb187
-###
-module.exports = (->
+#
+# UI button
+#
+import { $$ } from "../helpers/dom"
+import { obs } from "../helpers/obs"
 
-  # @REQUIRE local modules
-  # @PRIVATE
-  $$      = require '../helpers/dom'
-  obs     = require '../helpers/obs'
+export button =
+  (->
+    ui =
+      $tpl: $$ "<a/>", class: "ui-button"
 
-  # @DEFINE ui  {json}  UI variables/methods
-  # @PRIVATE
-  ui  =
+      evs:
+        click: (e) ->
+          $elm = e.target
+          if $elm.tagName is "I" then $elm = $elm.parentNode
 
-    # @DEFINE ui.$tpl   {node}  UI template
-    $tpl  : $$ '<a/>', 'class': 'ui-button'
+          # FIND custom 'click' events
+          evs = $elm.events or {}
+          evs = evs.click
 
-    # @DEFINE evs {json}  UI events
-    evs   :
+          # NO custom 'click' events
+          if !evs or !evs.length
+            return
 
-      # @DESC   fire custom 'click' events
-      # @PARAM  e   MAN {event} 'click' event
+            # FIRE custom 'click' events
+          obs.f ev.ev, ev.arg for ev in evs when ev
+
+          return
+
+    return (
+      # @DESC   inits a new button
+      # @PARAM  opt.id            MAN {string}    UI id
+      # @PARAM  opt.lang          OPT {string}    lang ref
+      # @PARAM  opt.icon          OPT {string}    ion name
+      # @PARAM  opt.events        OPT {json}      custom events to bind
+      # @PARAM  opt.events.click  OPT {[string]}  list of custom 'click' events
+      # @PARAM  opt.target        MAN {node}      target node
       # @RETURN {void}
-      click : ( e ) ->
-          
-        # GET current target
-        $elm = e.target
-        if $elm.tagName is 'I' then $elm = $elm.parentNode
+      # @PUBLIC
 
-        # FIND custom 'click' events
-        evs = $elm.events  or {}
-        evs = evs.click
 
-        # NO custom 'click' events
-        if !evs or !evs.length then return
-    
-        # FIRE custom 'click' events
-        obs.f ev.ev, ev.arg for ev in evs when ev
-        
-        return
+        init: (opt) ->
+          opt = opt or {}
+          evs = opt.events
+          id = opt.id
+          lang = opt.lang
+          icon = opt.icon
+          $t = opt.target
 
-  #
-  # PUBLIC
-  #
-  return {
+          # MANDATORY (lang ref or icon), id, target
+          if (!icon and !lang) or !id or !$t then return
 
-    # @DESC   inits a new button
-    # @PARAM  opt.id            MAN {string}    UI id
-    # @PARAM  opt.lang          OPT {string}    lang ref
-    # @PARAM  opt.icon          OPT {string}    ion name
-    # @PARAM  opt.events        OPT {json}      custom events to bind
-    # @PARAM  opt.events.click  OPT {[string]}  list of custom 'click' events
-    # @PARAM  opt.target        MAN {node}      target node
-    # @RETURN {void}
-    # @PUBLIC
-    init: ( opt ) ->
-      opt     = opt         or {}
-      evs     = opt.events
-      id      = opt.id
-      lang    = opt.lang
-      icon    = opt.icon
-      $t      = opt.target
+          # CREATE node
+          $ui = ui.$tpl.cloneNode()
+          $ui.id = id
 
-      # MANDATORY (lang ref or icon), id, target
-      if ( !icon and !lang ) or !id or !$t then return
+          # BIND custom events
+          if evs then $ui.events = evs
+          #if evs.click  then $$.listen $ui, 'click', ui.evs.click
+          if evs.click
+            hand = new Hammer.Manager $ui
+            hand.add new Hammer.Tap()
+            hand.on "tap", ui.evs.click
 
-      # CREATE node
-      $ui     = ui.$tpl.cloneNode()
-      $ui.id  = id
+          # SET caption/icon
+          if lang
+            $ui.setAttribute "data-lang", lang
+          else
+            $ui.appendChild $$ "<i/>", class: icon
 
-      # BIND custom events
-      if evs        then $ui.events = evs
-      #if evs.click  then $$.listen $ui, 'click', ui.evs.click
-      if evs.click
-        hand      = new Hammer.Manager $ui
-        hand.add  new Hammer.Tap
-        hand.on   'tap', ui.evs.click
+          # TMP append UI styles from conf
+          $$.css $ui, opt.styl
 
-      # SET caption/icon
-      if lang then $ui.setAttribute 'data-lang', lang
-      else $ui.appendChild $$ '<i/>', 'class': icon 
+          # APPEND UI to target
+          $t.appendChild $ui
 
-      # TMP append UI styles from conf
-      $$.css $ui, opt.styl
-
-      # APPEND UI to target
-      $t.appendChild $ui
-
-      return
-  }
-)()
+          return
+    )
+  )()

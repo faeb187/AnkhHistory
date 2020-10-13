@@ -3,9 +3,14 @@
 #
 import { $$ } from "./dom"
 import { obs } from "./obs"
-import { fn } from "./fn"
-import state from "./state"
-import routes from "../conf/routes"
+import { media } from "./media"
+import { routes } from "../conf/routes"
+
+import { careOverview } from "../sites/careOverview"
+import { partnerOverview } from "../sites/partnerOverview"
+import { partnerProducts } from "../sites/partnerProducts"
+import { partnerProductsAdditional } from "../sites/partnerProductsAdditional"
+import { reportsOverview } from "../sites/reportsOverview"
 
 export site =
   (->
@@ -13,11 +18,11 @@ export site =
     $b = $$ "body"
 
     Site =
-      careOverview: require "../sites/careOverview"
-      partnerOverview: require "../sites/partnerOverview"
-      partnerProducts: require "../sites/partnerProducts"
-      partnerProductsAdditional: require "../sites/partnerProductsAdditional"
-      reportsOverview: require "../sites/reportsOverview"
+      careOverview: careOverview
+      partnerOverview: partnerOverview
+      partnerProducts: partnerProducts
+      partnerProductsAdditional: partnerProductsAdditional
+      reportsOverview: reportsOverview
 
     getUisFlattened = (uis) ->
       f = []
@@ -29,18 +34,20 @@ export site =
       c = 0
       r = (subUis) ->
         subUis.map (subUi, idx) ->
-          if !subUi.media or fn.isInViewport subUi.media then ++c
+          # only count ui's in current viewport
+          if !subUi.media or media.isInViewport subUi.media
+            ++c
           if subUi.ids && subUi.ids.length then r subUi.ids
       r uis
       c
 
-    handleReady = (uis, $df) ->
+    handleReady = (uis, $root) ->
       r = 0
       c = getUiCount uis
       obs.r "ankh-ui-ready"
       obs.l "ankh-ui-ready", (ui) ->
         ++r
-        if r is c then obs.f "ankh-ready", $df
+        if r is c then obs.f "ankh-ready", $root
 
     getCurrentSite = (itm) ->
       site =
@@ -81,7 +88,10 @@ export site =
     #- loads site
     #<! path {string} path of site
     load = (path) ->
-      # load deepest level of clicked nav item
+      $root = $$ "<div/>",
+        id: "ankh"
+
+        # load deepest level of clicked nav item
       site = getSiteName routes, path
       if !site.name then site = getDefaultSite routes
       if site.path isnt path then return load site.path
@@ -92,27 +102,26 @@ export site =
       uis = (Site[site.name] or {}).ids
       if !uis then return
 
-      obs.l "ankh-ready", ($df) ->
+      obs.l "ankh-ready", ($root) ->
         $$(".ui-progress", $b).setAttribute "data-fx", "out"
 
         $ankh = $$ "#ankh", $b
-        $ankh.innerHTML = ""
-        $ankh.appendChild $df
+        $ankh.replaceWith $root
 
         obs.f "ui-lang-update"
         return
 
-      $df = d.createDocumentFragment()
-      handleReady uis, $df
+      handleReady uis, $root
 
       for ui in uis
-        ui.target = $df
+        ui.target = $root
         obs.f "_ui-#{ui.name}-init", ui
       return
 
     obs.l "_helper-site-load", (event) ->
       obs.r()
       load event.target.getAttribute "href"
+      return
 
     load: load
   )()
