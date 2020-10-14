@@ -12,7 +12,6 @@ $breadcrumbH = 36px
   z 1
 
 .ui-breadcrumb
-  fxd row
   ovr hidden
   pos relative
   mrgt 'calc(%s * 2)' % $mrg
@@ -21,6 +20,7 @@ $breadcrumbH = 36px
 
   &:before
     @extend .corner
+    bc transparent
     lft 0
 
   a
@@ -66,3 +66,9 @@ $breadcrumbH = 36px
     a
       curs default
 
++above('l')
+  .ui-breadcrumb
+    fxd row
+
+    &:before
+      bc $white
