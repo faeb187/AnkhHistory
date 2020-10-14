@@ -21,9 +21,9 @@ export details =
       $summary = $$ "<summary/>", "data-lang": lang
       $ui.appendChild $summary
 
-      for child in ids
-        child.target = $ui
-        obs.f "_ui-#{child.name}-init", child
+      ids.map (ui) ->
+        ui.target = $ui
+        obs.f "_ui-#{ui.ui}-init", ui
 
       $t.appendChild $ui
       obs.f "ankh-ui-ready", "ui-details"

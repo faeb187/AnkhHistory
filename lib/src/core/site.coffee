@@ -6,11 +6,14 @@ import { obs } from "./obs"
 import { media } from "./media"
 import { routes } from "../conf/routes"
 
+import { processOpenProduct } from "../sites/processOpenProduct"
 import { careOverview } from "../sites/careOverview"
 import { partnerOverview } from "../sites/partnerOverview"
 import { partnerProducts } from "../sites/partnerProducts"
 import { partnerProductsAdditional } from "../sites/partnerProductsAdditional"
 import { reportsOverview } from "../sites/reportsOverview"
+
+$$.listen window, "popstate", (e) -> e.preventDefault()
 
 export site =
   (->
@@ -23,6 +26,7 @@ export site =
       partnerOverview: partnerOverview
       partnerProducts: partnerProducts
       partnerProductsAdditional: partnerProductsAdditional
+      processOpenProduct: processOpenProduct
       reportsOverview: reportsOverview
 
     getUisFlattened = (uis) ->
@@ -112,7 +116,7 @@ export site =
 
       for ui in uis
         ui.target = $root
-        obs.f "_ui-#{ui.name}-init", ui
+        obs.f "_ui-#{ui.ui}-init", ui
       return
 
     obs.l "_helper-site-load", (event) ->

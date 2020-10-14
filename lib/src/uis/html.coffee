@@ -32,7 +32,7 @@ export html =
 
       ids.forEach (ui) ->
         ui.target = $ui
-        obs.f "_ui-#{ui.name}-init", ui
+        obs.f "_ui-#{ui.ui}-init", ui
 
       $t.appendChild $ui
 

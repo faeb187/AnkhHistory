@@ -31,9 +31,7 @@ export table =
 
     getRequiredWidths = ($ths, $ui) ->
       reqTdW = getRequiredTdWidths $ths, $ui
-      console.log "////reqTdW", reqTdW
       reqThW = getRequiredThWidths $ths
-      console.log "////reqThW", reqThW
       reqTdW.map (w, index) -> Math.max w, reqThW[index]
 
     getRequiredThWidths = ($ths) ->
@@ -103,20 +101,11 @@ export table =
       totalAdj = adjustedWidths.reduce (a, b) -> a + b
       reqWSum = totalAdj + getPdg $ths
 
-      console.log "--------------", maxW
-      console.log "fixed", $fixedThs, fixedWSum
-      console.log "dyn", $dynamicThs, $dynamicThs.length
-      console.log "pdg", getPdg $ths
-      console.log "req total", reqWSum
-      console.log "----"
       delta = (maxW - reqWSum) / $dynamicThs.length
-
-      console.log "delta", delta
 
       if delta < 0
         adjustedWidths = adjustWidths adjustedWidths, delta, threshold
         state.set id: $target.id, state: adjustedWidths: adjustedWidths
-        console.log state.get id: $target.id
 
       $dynamicThs.forEach ($th, index) ->
         colIndex = parseInt $th.getAttribute "data-col-index"

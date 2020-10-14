@@ -16,9 +16,9 @@ export accordion =
 
       $ui = $$ "<section/>", class: "ui-accordion"
 
-      for child in ids
-        child.target = $ui
-        obs.f "_ui-details-init", child
+      ids.map (ui) ->
+        ui.target = $ui
+        obs.f "_ui-details-init", ui
 
       $t.appendChild $ui
       obs.f "ankh-ui-ready", "ui-accordion"

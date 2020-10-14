@@ -1,99 +1,101 @@
 import { routes } from "../conf/routes"
+import { user } from "../network/data/user"
 
-data = user: require "../network/data/user"
-
-module.exports =
+export dbp =
   ids: [
     id: "back"
-    name: "html"
+    ui: "html"
     ids: [
       id: "slider-lft"
-      name: "slider"
+      ui: "slider"
       ids: [
         id: "navMobile"
-        name: "nav"
+        ui: "list"
         items: routes
-        events: click: [name: "_helper-site-load": target: "navMobile"]
+        role: "navigation"
+        events: click: [name: "_helper-site-load", target: "navMobile"]
         media: max: "l"
       ]
     ]
   ,
     id: "front"
-    name: "html"
+    ui: "html"
     ids: [
       id: "cnt"
-      name: "html"
+      ui: "html"
       ids: [
         id: "h"
-        name: "html"
+        ui: "html"
         tag: "header"
         ids: [
           id: "hTop"
-          name: "html"
+          ui: "html"
           ids: [
             id: "logo"
-            name: "html"
+            lang: "bekb"
+            ui: "html"
             tag: "img"
             src: "/assets/img/logo.svg"
             alt: "logo"
           ,
             id: "hTopRight"
-            name: "html"
+            ui: "html"
             ids: [
               id: "profile"
-              name: "html"
+              ui: "html"
               tag: "section"
               media: min: "l"
               ids: [
                 id: "profileInner"
-                name: "html"
+                ui: "html"
                 ids: [
                   id: "iconProfile"
-                  name: "icon"
+                  ui: "icon"
                   icon: "person"
                 ,
                   id: "profileUserInfo"
-                  name: "html"
+                  ui: "html"
                   ids: [
                     id: "profileName"
-                    name: "html"
+                    ui: "html"
                     tag: "span"
-                    text: data.user.name
+                    text: user.name
                   ,
                     id: "profileUsername"
-                    name: "html"
+                    ui: "html"
                     tag: "span"
-                    text: data.user.username
+                    text: user.username
                   ]
                 ]
               ]
             ,
-              id: "search", name: "search", placeholder: "partnerSearch"
+              id: "search", ui: "input", placeholder: "partnerSearch"
             ]
           ]
         ,
           id: "nav"
-          name: "nav"
+          ui: "list"
           items: routes
-          events: click: [name: "_helper-site-load": target: "nav"]
+          role: "navigation"
+          events: click: [name: "_helper-site-load", target: "nav"]
           media: min: "l"
         ]
       ,
-        id: "m", name: "html", tag: "main"
+        id: "m", ui: "html", tag: "main"
       ]
     ,
       id: "f"
-      name: "html"
+      ui: "html"
       tag: "footer"
       ids: [
-        id: "copyright", name: "html", tag: "small", lang: "copyright"
+        id: "copyright", ui: "html", tag: "small", lang: "copyright"
       ,
-        id: "lang", name: "lang"
+        id: "lang", ui: "lang"
       ]
     ]
   ,
     id: "navToggle"
-    name: "icon"
+    ui: "icon"
     icon: "menu"
     events:
       click: [

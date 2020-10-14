@@ -16,4 +16,4 @@ npm i
 
 - separate ANKH from its apps
 - change 'target' param to '$target' in all UIs
-- further throttling of resize events
+- ui-update-lang per UI

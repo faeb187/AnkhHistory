@@ -1,0 +1,67 @@
+$breadcrumbH = 36px
+
+.corner
+  bc $white
+  cnt ''
+  pos absolute
+  top 0
+  btm 0
+  w $breadcrumbH
+  h $breadcrumbH
+  trf scale(.7) rotate(45deg)
+  z 1
+
+.ui-breadcrumb
+  fxd row
+  ovr hidden
+  pos relative
+  mrgt 'calc(%s * 2)' % $mrg
+  pdgl 'calc(%s / 2)' % $breadcrumbH
+  mrgl 'calc(%s / -2)' % $breadcrumbH
+
+  &:before
+    @extend .corner
+    lft 0
+
+  a
+    bc $white
+    c $grey-01
+    dsp block
+    fs 'calc(%s / 3)' % $breadcrumbH
+    fw $fw-thin
+    lh $breadcrumbH
+    pos relative
+    pdg 0 10px 0 60px
+
+    &.active
+      bc $grey-04
+      c $black
+      fw $fw-bold
+
+      &:after
+        bc $grey-04
+
+    &:after
+      @extend .corner
+      rgt 'calc(%s / -2)' % $breadcrumbH
+      bs 2px -2px 0 2px $grey-04, 3px -3px 0 2px rgba($white, .1)
+      brad 0 5px 0 50px
+
+  &.numbered
+    cr nums
+    
+    a
+      pdgl 45px
+
+      &:before
+        pos absolute
+        top 0
+        btm 0
+        lft 30px
+        cnt counter(nums)
+        ci nums
+
+  &.readonly
+    a
+      curs default
+

@@ -5,8 +5,7 @@ import { $$, obs, media, state } from "../core"
 
 export list =
   (->
-    hammer = require "hammerjs"
-
+    # hammer = require "hammerjs"
     ui =
       # @DESC   returns nesting level count of the list
       # @PARAM  MAN rootItms {json[]} root list items
@@ -76,19 +75,19 @@ export list =
       # @PARAM  $ul                   MAN {node}    list parent ul (li target)
       # @TODO   only <a> when click event
       addListItem: (itm, $ul, uiId) ->
-        id = itm.id
-        itm = itm or {}
-        evs = itm.events
-        lang = itm.lang
-        src = itm.src
-        icon = itm.icon
-        href = itm.path
-        type = itm.type
-        subItms = itm.items
+        {
+          id
+          events: evs
+          lang
+          src
+          icon
+          path: href
+          type
+          items: subItms
+        } = itm
 
-        if !lang then return
+        if !id or !lang then return
 
-        # MARKUP list item
         $li = $$ "<li/>"
 
         if src
@@ -97,13 +96,10 @@ export list =
           $itm = $$ "<a/>", id: "#{$ul.rootId}_#{id}"
 
         if href then $itm.setAttribute "href", href
-
-        $itm.setAttribute "data-lang", lang
-
         if type then $itm.setAttribute "data-" + type, true
         if icon then $itm.appendChild $$ "<i/>", class: icon
+        $itm.setAttribute "data-lang", lang
 
-        # BIND custom events
         if evs
           $itm.events = evs
 
@@ -116,41 +112,35 @@ export list =
             # hand.add  new hammer.Tap
             # hand.on   'tap', ui.evs.click
 
-        # HANDLE sub items
         if subItms
           $subUl = $$ "<ul/>"
           $subUl.rootId = $ul.rootId
-          for subItm in subItms
+
+          subItms.forEach (subItm) ->
             if evs then subItm.events = evs
             ui.addListItem subItm, $subUl, uiId
+
           $li.appendChild $subUl
 
-        # APPEND list item to list
         $li.prepend $itm
         $ul.appendChild $li
 
-        return
-
       evs:
         # @DESC   fire custom 'click' events
-        # @PARAM  e   MAN {event} 'click' event
+        # @PARAM  e   MAN {Event} 'click' event
         # @RETURN {void}
         click: (e) ->
           e.preventDefault()
-
           $elm = e.target
+
           if $elm.tagName is "I"
             $elm = $$.parent $elm
 
-            # FIND custom 'click' events
-          evs = $elm.events or {}
-          evs = evs.click
-
-          # NO custom 'click' events
+          evs = $elm.events?.click
           if !evs or !evs.length then return
 
-          # FIRE custom 'click' events
           obs.f ev.ev, ev.arg or e for ev in evs
+          return
 
     # @DESC   inits a new list
     # @PARAM  opt.events        OPT {json}      events
@@ -158,30 +148,37 @@ export list =
     # @PARAM  opt.items         MAN {[json]}    array containing list items
     # @PARAM  opt.target        MAN {node}      target node
     init = (opt) ->
-      { events, media: m, id, items, fx, target: $t } = opt
-      if !id or !$t then return
+      { events, media: m, id, items, fx, role, target: $t } = opt
+
+      if !id or !items?.length or !$t then return
+
       if m and !media.isInViewport m
         obs.f "_ankh-ui-not-loaded", opt
         return
 
-      id = "ui-list-" + id
+      $ul = $$ "<ul/>"
+      if role is "navigation"
+        $ui = $$ "<nav/>", role: "navigation"
+        $ui.appendChild $ul
+      else
+        $ui = $ul
 
-      # CREATE node
-      $ui = $$ "<ul/>", id: id, class: "ui-list"
-      $ui.rootId = id
+      $ui.id = id
+      $ui.className = "ui-list"
+      $ul.rootId = id
+
       levelCount = ui.getLevelCount items
       routingMap = ui.createRoutingMap items
 
-      # APPEND list items
       items.map (item) ->
         item.events = item.events or events
-        ui.addListItem item, $ui, id
+        ui.addListItem item, $ul, id
 
       ui.updateActive routingMap, $ui
       $t.appendChild $ui
 
       obs.f "_ankh-ui-loaded", opt
-      obs.f "ankh-ui-ready", "ui-list"
+      obs.f "ankh-ui-ready", "ui-list##{id}"
       return
 
     obs.l "_helper-site-load", ui.evs.click

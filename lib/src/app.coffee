@@ -8,15 +8,16 @@ import { site } from "./core"
 import { ankh } from "./ankh"
 import {
   accordion
+  breadcrumb
+  button
   carousel
   details
   html
   iframe
   icon
+  input
   lang
   list
-  nav
-  search
   select
   slider
   table

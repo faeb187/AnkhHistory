@@ -15,8 +15,7 @@ export nav =
       { id, events = {}, media: m, items = [], target: $t, type } = opt
       if !id or !$t then return
 
-      $ui = $$ "<nav/>",
-        id: id, class: "ui-nav", role: "navigation", "data-fx": "in"
+      $ui = $$ "<nav/>", id: id, class: "ui-nav", role: "navigation"
 
       obs.f "_ui-list-init",
         events: events

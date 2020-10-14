@@ -29,4 +29,14 @@ export routes = [
     lang: "overview"
     path: "/reports/overview"
   ]
+,
+  id: "site-process"
+  lang: "process"
+  path: "/process"
+  items: [
+    id: "site-processOpenProduct"
+    lang: "openProduct"
+    path: "/process/openProduct"
+    hidden: true
+  ]
 ]

@@ -1,0 +1,22 @@
+fieldset
+  mrg 'calc(2 * %s)' % $mrg 0
+
+  legend
+    fs $fs-big
+    fw $fw-bold
+    mrgb $mrg
+
+.ui-input
+  fxd row
+  fxai center
+  mrgb 'calc(%s / 2)' % $mrg
+
+  label
+    w 8rem
+
+  input
+    brd 1px $grey-03 solid
+    pdg $pdg
+  
+    &[type='checkbox']
+      mrgl $mrg
