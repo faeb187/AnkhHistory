@@ -1,4 +1,5 @@
 export de =
+  abort: "Abbrechen"
   accountData: "Kontodaten"
   actions: "Aktionen"
   active: "Aktiv"
@@ -9,6 +10,7 @@ export de =
   care: "Betreuung"
   careTodo: "Betreuung Todo"
   confirmationOfCompletion: "Abschlussbestätigung"
+  continue: "Weiter"
   contractsAndDocuments: "Verträge und Dokumente"
   copyright: "&copy; bekb.ch. Alle Rechte vorbehalten."
   createAdditionalProduct: "Zusatzprodukt eröffnen"

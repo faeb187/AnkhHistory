@@ -28,7 +28,7 @@
       td
         dsp block
         pos relative
-        pdg 'calc(%s / 2) %s' % $pdg
+        pdg ($pdg / 2)
         fx 1 0 100%
         ta right
 
@@ -66,8 +66,8 @@
         w 550px
 
         td
-          fx 0 1 'calc(50% - %s)' % $pdg
-          pdgt 'calc(%s * 2)' % $pdg
+          fx 0 1 50% - $pdg
+          pdgt $pdg * 2
           ta left
 
           &:not(:first-child)
@@ -99,7 +99,7 @@
       pos static
 
       th
-        pdg $pdg 0 'calc(%s / 2)' % $pdg
+        pdg $pdg 0 ($pdg / 2)
         pdgr $pdg 
       
     tbody

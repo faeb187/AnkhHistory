@@ -1,4 +1,5 @@
 export en =
+  abort: "Abort"
   accountData: "Account data"
   actions: "Actions"
   active: "Active"
@@ -9,6 +10,7 @@ export en =
   care: "Care"
   careTodo: "Care Todo"
   confirmationOfCompletion: "Confirmation of completion"
+  continue: "Continue"
   contractsAndDocuments: "Contracts and documents"
   copyright: "&copy; bekb.ch. All rights reserved."
   createAdditionalProduct: "Create additional product"

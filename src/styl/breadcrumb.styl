@@ -14,9 +14,9 @@ $breadcrumbH = 36px
 .ui-breadcrumb
   ovr hidden
   pos relative
-  mrgt 'calc(%s * 2)' % $mrg
-  pdgl 'calc(%s / 2)' % $breadcrumbH
-  mrgl 'calc(%s / -2)' % $breadcrumbH
+  mrgt $mrg * 2
+  pdgl ($breadcrumbH / 2)
+  mrgl ($breadcrumbH / -2)
 
   &:before
     @extend .corner
@@ -27,7 +27,7 @@ $breadcrumbH = 36px
     bc $white
     c $grey-01
     dsp block
-    fs 'calc(%s / 3)' % $breadcrumbH
+    fs ($breadcrumbH / 3)
     fw $fw-thin
     lh $breadcrumbH
     pos relative
@@ -44,7 +44,7 @@ $breadcrumbH = 36px
 
     &:after
       @extend .corner
-      rgt 'calc(%s / -2)' % $breadcrumbH
+      rgt ($breadcrumbH / -2)
       bs 2px -2px 0 2px $grey-04, 3px -3px 0 2px rgba($white, .1)
       brad 0 5px 0 50px
 

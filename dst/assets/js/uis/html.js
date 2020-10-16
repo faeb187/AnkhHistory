@@ -12,14 +12,17 @@ var html = function () {
   var init; // @REQUIRE local modules
   // @PRIVATE
   // @DESC   builds new html node
-  // @PARAM  id        MAN {string}  ui id
-  // @PARAM  lang      OPT {string}  lang id (i18n)
-  // @PARAM  text      OPT {string}  innerText (bypass i18n)
-  // @PARAM  src       OPT {string}  path to image
-  // @PARAM  target    MAN {node}    target node
+  // @PARAM  classNames  OPT {string}  css class names
+  // @PARAM  id          MAN {string}  ui id
+  // @PARAM  lang        OPT {string}  lang id (i18n)
+  // @PARAM  src         OPT {string}  path to image
+  // @PARAM  target      MAN {node}    target node
+  // @PARAM  text        OPT {string}  innerText (bypass i18n)
 
   init = function init(opt) {
-    var $t, $ui, id, ids, lang, m, src, tag, text;
+    var $t, $ui, className, classNames, id, ids, lang, m, src, tag, text;
+    var _opt$classNames = opt.classNames;
+    classNames = _opt$classNames === void 0 ? "" : _opt$classNames;
     id = opt.id;
     var _opt$ids = opt.ids;
     ids = _opt$ids === void 0 ? [] : _opt$ids;
@@ -39,9 +42,10 @@ var html = function () {
       return _core.obs.f("_ankh-ui-not-loaded", opt);
     }
 
+    className = "ui-html ".concat(classNames);
     $ui = (0, _core.$$)("<".concat(tag, "/>"), {
       id: id,
-      "class": "ui-html"
+      "class": classNames
     });
 
     if (src) {

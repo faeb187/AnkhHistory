@@ -9,18 +9,30 @@ export html =
     # @PRIVATE
 
     # @DESC   builds new html node
-    # @PARAM  id        MAN {string}  ui id
-    # @PARAM  lang      OPT {string}  lang id (i18n)
-    # @PARAM  text      OPT {string}  innerText (bypass i18n)
-    # @PARAM  src       OPT {string}  path to image
-    # @PARAM  target    MAN {node}    target node
+    # @PARAM  classNames  OPT {string}  css class names
+    # @PARAM  id          MAN {string}  ui id
+    # @PARAM  lang        OPT {string}  lang id (i18n)
+    # @PARAM  src         OPT {string}  path to image
+    # @PARAM  target      MAN {node}    target node
+    # @PARAM  text        OPT {string}  innerText (bypass i18n)
     init = (opt) ->
-      { id, ids = [], lang, media: m, src, tag = "div", text, target: $t } = opt
+      {
+        classNames = ""
+        id
+        ids = []
+        lang
+        media: m
+        src
+        tag = "div"
+        text
+        target: $t
+      } = opt
       if !id or !$t then return
       if m and !media.isInViewport m
         return obs.f "_ankh-ui-not-loaded", opt
 
-      $ui = $$ "<#{tag}/>", id: id, class: "ui-html"
+      className = "ui-html #{classNames}"
+      $ui = $$ "<#{tag}/>", id: id, class: classNames
 
       if src
         $ui.setAttribute "src", src

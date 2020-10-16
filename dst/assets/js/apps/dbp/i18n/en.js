@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.en = void 0;
 var en = {
+  abort: "Abort",
   accountData: "Account data",
   actions: "Actions",
   active: "Active",
@@ -15,6 +16,7 @@ var en = {
   care: "Care",
   careTodo: "Care Todo",
   confirmationOfCompletion: "Confirmation of completion",
+  "continue": "Continue",
   contractsAndDocuments: "Contracts and documents",
   copyright: "&copy; bekb.ch. All rights reserved.",
   createAdditionalProduct: "Create additional product",

@@ -50,6 +50,15 @@ _processOpenProduct.ids[1].ids[0].ids[1].ids = [
     ui: "details"
     summary: lang: "various"
   ]
+,
+  id: "openProductButtons"
+  ui: "html"
+  classNames: "ui-button-group"
+  ids: [
+    id: "btnAbort", ui: "button", lang: "abort"
+  ,
+    id: "btnContinue", ui: "button", lang: "continue"
+  ]
 ]
 
 export processOpenProduct = _processOpenProduct

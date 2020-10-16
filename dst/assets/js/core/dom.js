@@ -105,7 +105,6 @@ var $$ = function () {
       w: $hlp.clientWidth
     };
     document.body.removeChild($hlp);
-    console.log(str, measures.w);
     return measures;
   }; // @DESC   parse HTML string to node tree
   // @PARAM  MAN {str}   HTML string to parse

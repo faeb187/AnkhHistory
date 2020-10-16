@@ -63,7 +63,7 @@ small
   fxjc  space-between
   fxai  center
   pdg   0 2rem
-  w     calc( 100vw - 4rem )
+  w     100vw - 4rem
 
 // BeKB
 #cnt
@@ -93,8 +93,8 @@ small
       #profile
         bc $color-01
         c $white
-        pdg 'calc(2 * %s)' % $pdg 0
-        pdgl 'calc(2 * %s)' % $pdg
+        pdg 2 * $pdg 0
+        pdgl 2 * $pdg
 
         #profileInner
           fxd row
@@ -111,4 +111,4 @@ small
   fxd row
   fxjc flex-end
   fxai center
-  mrg $mrg 'calc(%s / 2)' % $mrg
+  mrg $mrg ($mrg / 2)
