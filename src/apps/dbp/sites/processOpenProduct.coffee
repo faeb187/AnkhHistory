@@ -57,7 +57,7 @@ _processOpenProduct.ids[1].ids[0].ids[1].ids = [
   ids: [
     id: "btnAbort", ui: "button", lang: "abort"
   ,
-    id: "btnContinue", ui: "button", lang: "continue"
+    classNames: "primary", id: "btnContinue", ui: "button", lang: "continue"
   ]
 ]
 

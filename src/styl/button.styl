@@ -1,12 +1,21 @@
 .ui-button
-  bc $color-01
-  c $white
+  bc $grey-04
+  c $black
+  curs pointer
+  fxai center
   pdg $pdg
   fs $fs-big
   w 8rem
-
+  
   &:hover
-    bc $color-01-hover
+    bc darken($grey-04, $hoverDarkenAmount)
+
+  &.primary
+    bc $color-01
+    c $white
+
+    &:hover
+      bc darken($color-01, $hoverDarkenAmount)
 
 .ui-button-group
   fxd row

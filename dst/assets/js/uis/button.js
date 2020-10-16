@@ -39,6 +39,7 @@ var button = function () {
       }
     }
   }; // @DESC   inits a new button
+  // @PARAM  classNames        OPT {string}    class names
   // @PARAM  opt.id            MAN {string}    UI id
   // @PARAM  opt.lang          OPT {string}    lang ref
   // @PARAM  opt.icon          OPT {string}    ion name
@@ -49,7 +50,9 @@ var button = function () {
   // @PUBLIC
 
   init = function init(opt) {
-    var $t, $ui, evs, icon, id, lang, m;
+    var $t, $ui, classNames, evs, icon, id, lang, m;
+    var _opt$classNames = opt.classNames;
+    classNames = _opt$classNames === void 0 ? "" : _opt$classNames;
     evs = opt.events;
     id = opt.id;
     lang = opt.lang;
@@ -67,7 +70,7 @@ var button = function () {
 
     $ui = (0, _core.$$)("<button/>", {
       id: id,
-      "class": "ui-button"
+      "class": "ui-button ".concat(classNames)
     });
 
     if (evs) {

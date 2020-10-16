@@ -1,3 +1,7 @@
+# general
 .DS_Store
 node_modules
-lib/dst
+
+# ankh
+gulpfile.js
+dst

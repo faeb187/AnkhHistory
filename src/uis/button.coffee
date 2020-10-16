@@ -24,6 +24,7 @@ export button =
           return
 
         # @DESC   inits a new button
+        # @PARAM  classNames        OPT {string}    class names
         # @PARAM  opt.id            MAN {string}    UI id
         # @PARAM  opt.lang          OPT {string}    lang ref
         # @PARAM  opt.icon          OPT {string}    ion name
@@ -34,13 +35,21 @@ export button =
         # @PUBLIC
 
     init = (opt) ->
-      { events: evs, id, lang, media: m, icon, target: $t } = opt
+      {
+        classNames = ""
+        events: evs
+        id
+        lang
+        media: m
+        icon
+        target: $t
+      } = opt
 
       if (!icon and !lang) or !id or !$t then return
       if media and !media.isInViewport m
         return obs.f "_ankh-ui-not-loaded", opt
 
-      $ui = $$ "<button/>", id: id, class: "ui-button"
+      $ui = $$ "<button/>", id: id, class: "ui-button #{classNames}"
 
       if evs then $ui.events = evs
       #if evs.click  then $$.listen $ui, 'click', ui.evs.click

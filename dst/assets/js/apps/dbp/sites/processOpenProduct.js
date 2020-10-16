@@ -96,6 +96,7 @@ _processOpenProduct.ids[1].ids[0].ids[1].ids = [{
     ui: "button",
     lang: "abort"
   }, {
+    classNames: "primary",
     id: "btnContinue",
     ui: "button",
     lang: "continue"
