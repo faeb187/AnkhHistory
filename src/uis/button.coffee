@@ -52,7 +52,9 @@ export button =
       $ui = $$ "<button/>", id: id, class: "ui-button #{classNames}"
 
       if evs then $ui.events = evs
-      #if evs.click  then $$.listen $ui, 'click', ui.evs.click
+      if evs?.click
+        evs.click.forEach (clickEvent) ->
+          $ui.onclick = -> obs.f "_ankh-ui-fire", clickEvent
       ###if evs.click
         hand = new Hammer.Manager $ui
         hand.add new Hammer.Tap()

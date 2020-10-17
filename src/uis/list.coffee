@@ -114,7 +114,6 @@ export list =
         # @PARAM  e   MAN {Event} 'click' event
         # @RETURN {void}
         click: (event) ->
-          console.log "[NAV]", "clickedi now"
           $elm = event.target
 
           if $elm.tagName is "I"
@@ -173,7 +172,7 @@ export list =
 
     obs.l "ui-nav-update", (options) ->
       options.events.ui.forEach (uiEvent) -> ui.update uiEvent
-    obs.l "_helper-site-load", ui.evs.click
+    # obs.l "_helper-site-load", ui.evs.click
     obs.l "_ui-list-init", init
     return
   )()

@@ -96,6 +96,7 @@ export site =
       obs.r "ankh-ui-ready"
       obs.l "ankh-ui-ready", (ui) ->
         ++r
+        console.log "[#{r}/#{c}]", ui
         if r is c then render $root
 
     #- loads site
@@ -106,7 +107,6 @@ export site =
       if path.endsWith "/" then path = path.slice 0, -1
 
       currentPath = getAvailablePath path
-      console.log "currentPath: ", currentPath
 
       if currentPath isnt path then return load currentPath
       currentName = currentPath.split("/").pop()
@@ -124,14 +124,9 @@ export site =
         obs.f "_ui-#{ui.ui}-init", ui
       return
 
-    obs.l "_helper-site-load", (toLoad) ->
+    obs.l "_helper-site-load", (event) ->
       obs.r()
-      load(
-        if typeof toLoad is "string"
-          toLoad
-        else
-          toLoad?.target?.getAttribute "href"
-      )
+      load event?.target?.getAttribute "href"
       return
 
     load: load

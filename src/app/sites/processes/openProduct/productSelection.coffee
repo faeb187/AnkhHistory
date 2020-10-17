@@ -1,6 +1,5 @@
 import { dbp } from "../../../designs/dbp"
 import { steps } from "../../../conf/processes/openProduct/steps"
-import { productSelection as productSelectionConf } from "../../../conf/processes/openProduct/productSelection"
 
 _productSelection = JSON.parse JSON.stringify dbp
 _productSelection.ids[1].ids[0].ids[1].ids = [
@@ -11,17 +10,54 @@ _productSelection.ids[1].ids[0].ids[1].ids = [
   readonly: true
   items: [...steps]
 ,
+  id: "prcCtrl"
+  ui: "process"
+  steps: [...steps]
+,
   id: "openProductAccordion"
   ui: "accordion"
-  ids: [...productSelectionConf]
+  ids: [
+    id: "accordionPay"
+    ui: "details"
+    summary: lang: "pay"
+  ,
+    id: "accordionSaveUp"
+    ui: "details"
+    summary: lang: "saveUp"
+  ,
+    id: "accordionPrecaution"
+    ui: "details"
+    summary: lang: "precaution"
+  ,
+    id: "accordionInvest"
+    ui: "details"
+    summary: lang: "invest"
+  ,
+    id: "accordionFinance"
+    ui: "details"
+    summary: lang: "finance"
+  ,
+    id: "accordionVarious"
+    ui: "details"
+    summary: lang: "various"
+  ]
 ,
   id: "openProductButtons"
   ui: "html"
   classNames: "ui-button-group"
   ids: [
-    id: "btnAbort", ui: "button", lang: "abort"
+    events:
+      click: [name: "ui-process-abort", target: "prcCtrl"]
+    id: "btnAbort"
+    ui: "button"
+    lang: "abort"
   ,
-    classNames: "primary", id: "btnContinue", ui: "button", lang: "continue"
+    classNames: "primary"
+    events:
+      click: [name: "ui-process-continue", target: "prcCtrl"]
+    id: "btnContinue"
+    ui: "button"
+    lang: "continue"
   ]
 ]
 

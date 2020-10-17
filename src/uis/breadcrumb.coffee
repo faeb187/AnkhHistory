@@ -73,7 +73,8 @@ export breadcrumb =
       return
 
     obs.l "ui-breadcrumb-update", (options) ->
-      options.events.ui.forEach (uiEvent) -> ui.update uiEvent
+      options.events.ui.forEach (uiEvent) ->
+        ui.update $target: uiEvent.$target, active: options.active
 
     obs.l "_ui-breadcrumb-init", init
     return

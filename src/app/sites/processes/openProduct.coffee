@@ -1,24 +1,12 @@
 import { dbp } from "../../designs/dbp"
-
-pathOpenProduct = "/processes/openProduct/"
+import { steps } from "../../conf/processes/openProduct/steps"
 
 _openProduct = JSON.parse JSON.stringify dbp
 _openProduct.ids[1].ids[0].ids[1].ids = [
-  id: "processOpenProduct"
+  id: "prcCtrl"
   ui: "process"
-  steps: [
-    path: "#{pathOpenProduct}productSelection"
-  ,
-    path: "#{pathOpenProduct}accountData"
-  ,
-    path: "#{pathOpenProduct}deliveryAddress"
-  ,
-    path: "#{pathOpenProduct}portfolio"
-  ,
-    path: "#{pathOpenProduct}summary"
-  ,
-    path: "#{pathOpenProduct}confirmationOfCompletion"
-  ]
+  gateway: true
+  steps: [...steps]
 ]
 
 export openProduct = _openProduct

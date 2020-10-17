@@ -11,6 +11,10 @@ _accountData.ids[1].ids[0].ids[1].ids = [
   active: 1
   items: [...steps]
 ,
+  id: "prcCtrl"
+  ui: "process"
+  steps: [...steps]
+,
   id: "accountDataTodo"
   ui: "html"
   text: "accountData"
@@ -19,11 +23,24 @@ _accountData.ids[1].ids[0].ids[1].ids = [
   ui: "html"
   classNames: "ui-button-group"
   ids: [
-    id: "btnAbort", ui: "button", lang: "abort"
+    events:
+      click: [name: "ui-process-abort", target: "prcCtrl"]
+    id: "btnAbort"
+    ui: "button"
+    lang: "abort"
   ,
-    id: "btnBack", ui: "button", lang: "back"
+    id: "btnBack"
+    events:
+      click: [name: "ui-process-back", target: "prcCtrl"]
+    ui: "button"
+    lang: "back"
   ,
-    classNames: "primary", id: "btnContinue", ui: "button", lang: "continue"
+    classNames: "primary"
+    events:
+      click: [name: "ui-process-continue", target: "prcCtrl"]
+    id: "btnContinue"
+    ui: "button"
+    lang: "continue"
   ]
 ]
 

@@ -37,6 +37,7 @@ export state =
       # @PARAM  opt.state MAN {string}  current state
       # @RETURN {void}
 
+
         set: (opt) ->
           opt = opt or {}
           id = opt.id
