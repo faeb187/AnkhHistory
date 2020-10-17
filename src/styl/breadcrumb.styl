@@ -42,7 +42,7 @@ $breadcrumbH = 36px
       &:after
         bc $grey-04
 
-    &:after
+    &:not(:last-child):after
       @extend .corner
       rgt ($breadcrumbH / -2)
       bs 2px -2px 0 2px $grey-04, 3px -3px 0 2px rgba($white, .1)

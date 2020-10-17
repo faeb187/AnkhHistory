@@ -1,19 +1,20 @@
 #
-# HELPER site
+# CORE site
 #
 import { $$ } from "./dom"
 import { obs } from "./obs"
 import { media } from "./media"
-import { routes } from "../apps/dbp/conf/routes"
 
-import { processOpenProduct } from "../apps/dbp/sites/processOpenProduct"
-import { careOverview } from "../apps/dbp/sites/careOverview"
-import { partnerOverview } from "../apps/dbp/sites/partnerOverview"
-import { partnerProducts } from "../apps/dbp/sites/partnerProducts"
-import { partnerProductsAdditional } from "../apps/dbp/sites/partnerProductsAdditional"
-import { reportsOverview } from "../apps/dbp/sites/reportsOverview"
-
-$$.listen window, "popstate", (e) -> e.preventDefault()
+# todo dynamic
+import { routes } from "../app/conf/routes"
+import {
+  careOverview
+  partnerOverview
+  partnerProducts
+  partnerAdditionalProducts
+  processesOpenProduct
+  reportsOverview
+} from "../app/sites"
 
 export site =
   (->
@@ -22,12 +23,12 @@ export site =
     $ankh = $$ "#ankh", $b
 
     Site =
-      careOverview: careOverview
-      partnerOverview: partnerOverview
-      partnerProducts: partnerProducts
-      partnerProductsAdditional: partnerProductsAdditional
-      processOpenProduct: processOpenProduct
-      reportsOverview: reportsOverview
+      "/care/overview": careOverview
+      "/partner/overview": partnerOverview
+      "/partner/products": partnerProducts
+      "/partner/additionalProducts": partnerAdditionalProducts
+      "/reports/overview": reportsOverview
+      "/processes/openProduct": processesOpenProduct
 
     getUisFlattened = (uis) ->
       f = []
@@ -60,27 +61,22 @@ export site =
         if r is c then render $root
 
     getCurrentSite = (itm) ->
-      site =
-        id: itm.id
-        path: itm.path
-
+      site = itm.path
       getFirstSubId = (subItms) ->
         subItm = subItms[0]
         if subItm.items
           getFirstSubId subItm.items
         else
-          site.id = subItm.id
-          site.path = subItm.path
+          site = subItm.path
 
       if itm.items then getFirstSubId itm.items
-      site.name = site.id.split("site-")[1]
       site
 
     #- site name by path
     #<! itms {json[]} items
     #<! path {string} site path
     getSiteName = (itms, path) ->
-      site = {}
+      site = ""
       handleSubs = (subItms) ->
         subItms.some (subItm) ->
           if subItm.path is path
@@ -90,26 +86,23 @@ export site =
       handleSubs itms
       site
 
-    #-  returns default site on 404
-    #<! itms  {json[]} nav items
-    getDefaultSite = (itms) ->
-      getSiteName itms, itms[0].path
-
     #- loads site
     #<! path {string} path of site
     load = (path) ->
-      $root = $$ "<div/>",
-        id: "ankh"
+      $root = $$ "<div/>", id: "ankh"
 
-        # load deepest level of clicked nav item
+      # load deepest level of clicked nav item
       site = getSiteName routes, path
-      if !site.name then site = getDefaultSite routes
-      if site.path isnt path then return load site.path
+      if !site then site = getSiteName routes, routes[0].path
+      if site isnt path then return load site
+      name = site.split("/").pop()
 
-      $$.history.go site.name, site.path
-      $b.setAttribute "data-site", site.name
+      $$.history.go name, path
+      $b.setAttribute "data-site", site.split("/").pop()
 
-      uis = (Site[site.name] or {}).ids
+      uis = (Site[site] or {}).ids
+
+      console.log "uis", uis
       if !uis then return
 
       handleReady uis, $root

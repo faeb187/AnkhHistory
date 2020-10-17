@@ -1,11 +1,7 @@
 doctype html
 html
-  // HEAD
   head
-    // TITLE
     title
-
-    // META
     meta(
       charset = 'utf-8'
     )
@@ -13,8 +9,6 @@ html
       name    = 'viewport'
       content = 'width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=2'
     )
-
-    // SCRIPTS
     script(
       type    = 'module'
       src     = 'https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js'
@@ -23,8 +17,6 @@ html
       nomodule= ''
       src     = 'https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js'
     )
-
-    // CSS
     link(
       rel     = 'stylesheet'
       href    = '/assets/css/flexbox-reset.css'
@@ -42,11 +34,8 @@ html
       href    = '/assets/css/main.min.css'
     )
       
-  // BODY
   body
-
     #ankh
-
     // LOADER
     // ..until replaced by app
     .ui-progress
@@ -55,6 +44,5 @@ html
         span.type
         span.file
 
-    // SCRIPTS
-    script( src= '/assets/js/app.min.js')
+    script(src= '/main.js')
     

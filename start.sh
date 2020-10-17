@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
 #clean up
+rm dist/*.js
 rm gulpfile.js
-rm dst/index.html
-rm -r dst/assets/css
-rm -r dst/assets/js
+rm dist/index.html
+rm -r dist/assets/css
+rm -r dist/assets/js
 
+# some webpack
+npm run build
 
 # compile gulpfile
 coffee -c -b gulpfile.coffee
@@ -14,9 +17,9 @@ coffee -c -b gulpfile.coffee
 gulp
 
 # vendor files
-cp ./src/vendor/flexbox-reset.css dst/assets/css
+cp ./src/vendor/flexbox-reset.css dist/assets/css
 
 # serve app
-npx http-server ./dst --proxy http://localhost:8080?
+npx http-server ./dist --proxy http://localhost:8080?
 
 exit 0

@@ -2,7 +2,7 @@
 # UI lang
 #
 import { $$, obs, state } from "../core"
-import { de, en } from "../apps/dbp/i18n"
+import { de, en } from "../app/i18n"
 
 export lang =
   (->

@@ -22,7 +22,7 @@ export list =
       updateRootUlActive: ($act) ->
         climbUp = ($elm) ->
           if $elm.tagName is "UL" then $$.addClass $elm, "active"
-          if $$.hasClass $$.parent($elm), ".ui-list" then return
+          if $$.hasClass $$.parent($elm), "ui-list" then return
           climbUp $$.parent $elm
         climbUp $$.parent $act
 
@@ -36,34 +36,18 @@ export list =
         $$.addClass $parentAct, "active"
 
       # @DESC   updates active list items
-      # @PARAM  routingMap  {Map}         map (path > id)
-      # @PARAM  $ui         {HTMLElement} root list
-      updateActive: (routingMap, $ui) ->
+      # @PARAM  $target MAN {HTMLElement} root list
+      update: (options) ->
+        { $target } = options
         pth = location.pathname
-        actSel = "##{$ui.id}_#{routingMap.get pth}"
-        $act = $$ actSel, $ui
+        $act = $$ "[href='#{pth}']", $target
         $$.addClass $act, "active"
         if pth.split("/").length > 1 then ui.updateParentActive $act
         ui.updateRootUlActive $act
 
-      # @DESC   creates routing/id map
-      # @PARAM  MAN {itms} list items
-      createRoutingMap: (itms) ->
-        routingMap = new Map()
-
-        handleSubs = (subItms) ->
-          subItms.map (subItm) ->
-            routingMap.set subItm.path, subItm.id
-            if subItm.items then handleSubs subItm.items
-
-        itms.map (itm) ->
-          routingMap.set itm.path, itm.id
-          if itm.items then handleSubs itm.items
-
-        routingMap
-
       # @DESC   adds list item to list
       # @PARAM  itm                   MAN {json}    list item
+      # @PARAM  itm.id                OPT {string}  list item id
       # @PARAM  itm.lang              MAN {string}  lang ref (text or img alt)
       # @PARAM  itm.path              MAN {string}  href
       # @PARAM  itm.type              OPT {string}  adds data-[ type ] = true
@@ -86,15 +70,16 @@ export list =
           items: subItms
         } = itm
 
-        if !id or !lang then return
+        if !lang then return
 
         $li = $$ "<li/>"
 
         if src
           $itm = $$ "<img/>", src: src
         else
-          $itm = $$ "<a/>", id: "#{$ul.rootId}_#{id}"
+          $itm = $$ "<a/>"
 
+        if id then $itm.id = id
         if href then $itm.setAttribute "href", href
         if type then $itm.setAttribute "data-" + type, true
         if icon then $itm.appendChild $$ "<i/>", class: icon
@@ -114,7 +99,6 @@ export list =
 
         if subItms
           $subUl = $$ "<ul/>"
-          $subUl.rootId = $ul.rootId
 
           subItms.forEach (subItm) ->
             if evs then subItm.events = evs
@@ -129,9 +113,8 @@ export list =
         # @DESC   fire custom 'click' events
         # @PARAM  e   MAN {Event} 'click' event
         # @RETURN {void}
-        click: (e) ->
-          e.preventDefault()
-          $elm = e.target
+        click: (event) ->
+          $elm = event.target
 
           if $elm.tagName is "I"
             $elm = $$.parent $elm
@@ -165,22 +148,30 @@ export list =
 
       $ui.id = id
       $ui.className = "ui-list"
-      $ul.rootId = id
 
       levelCount = ui.getLevelCount items
-      routingMap = ui.createRoutingMap items
 
       items.map (item) ->
         item.events = item.events or events
         ui.addListItem item, $ul, id
 
-      ui.updateActive routingMap, $ui
       $t.appendChild $ui
 
+      updateEvent =
+        name: "ui-nav-update"
+        target: id
+
+      if !events then opt.events = {}
+      opt.events.ui = [updateEvent]
+
+      obs.l "_ankh-ready", ->
+        obs.f "_ankh-ui-fire", name: "ui-nav-update", target: id
       obs.f "_ankh-ui-loaded", opt
       obs.f "ankh-ui-ready", "ui-list##{id}"
       return
 
+    obs.l "ui-nav-update", (options) ->
+      options.events.ui.forEach (uiEvent) -> ui.update uiEvent
     obs.l "_helper-site-load", ui.evs.click
     obs.l "_ui-list-init", init
     return

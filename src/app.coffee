@@ -4,8 +4,8 @@
 # require "browsernizr/test/notification"
 import { Modernizr } from "browsernizr"
 
+import { ankh } from "./app/ankh"
 import { site } from "./core"
-import { ankh } from "./apps/dbp/ankh"
 import {
   accordion
   breadcrumb
@@ -18,6 +18,7 @@ import {
   input
   lang
   list
+  process
   select
   slider
   table

@@ -21,7 +21,7 @@ export uiName =
 
       $t.appendChild $ui
 
-      obs.f "_ankh-ui-loaded", opt
+      obs.f "_ankh-ui-loaded", options
       obs.f "ankh-ui-ready", "ui-[uiName]##{id}"
       return
 

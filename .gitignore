@@ -4,4 +4,4 @@ node_modules
 
 # ankh
 gulpfile.js
-dst
+dist

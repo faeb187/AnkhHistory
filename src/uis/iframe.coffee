@@ -18,7 +18,7 @@ export iframe =
       $ui = $$ "<iframe/>", id: id, class: "ui-iframe", src: src
 
       $t.appendChild $$ "<p/>"
-      obs.f "ankh-ui-ready", "ui-iframe"
+      obs.f "ankh-ui-ready", "ui-iframe#{id}"
       return
 
     obs.l "_ui-iframe-init", init

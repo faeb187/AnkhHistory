@@ -2,29 +2,19 @@
 #  gulpfile
 #
 gulp = require "gulp"
-rename = require "gulp-rename"
-shell = require "gulp-shell"
-seq = require "run-sequence"
-coffee = require "gulp-coffee"
-pug = require "gulp-pug"
-stylus = require "gulp-stylus"
-rupture = require "rupture"
 poststyl = require "poststylus"
+pug = require "gulp-pug"
+rename = require "gulp-rename"
 rucksack = require "rucksack-css"
-
-# app deployment
-gulp.task "ankh", ->
-  gulp
-    .src "src/**/*.coffee"
-    .pipe coffee bare: true, transpile: presets: ["@babel/env"]
-    .pipe gulp.dest "dst/assets/js"
+rupture = require "rupture"
+stylus = require "gulp-stylus"
 
 # ankh pug
 gulp.task "pug", ->
   gulp
     .src "src/pug/index.pug"
     .pipe pug()
-    .pipe gulp.dest "dst"
+    .pipe gulp.dest "dist"
 
 # ankh styl
 gulp.task "styl", ->
@@ -39,12 +29,7 @@ gulp.task "styl", ->
         ]
     )
     .pipe rename "main.min.css"
-    .pipe gulp.dest "dst/assets/css"
+    .pipe gulp.dest "dist/assets/css"
 
-# ankh bundling
-gulp.task "bundle", ->
-  process.chdir "dst/assets/js"
-  gulp.src("*.js", read: false).pipe shell ["browserify app.js -o ./app.min.js"]
-
-gulp.task "default", gulp.series("ankh", "pug", "styl", "bundle"), (done) =>
+gulp.task "default", gulp.series("pug", "styl"), (done) =>
   done()

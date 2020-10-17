@@ -18,6 +18,7 @@ import { list as _list } from "./list"
 import { map as _map } from "./map"
 import { mcbl as _mcbl } from "./mcbl"
 import { nav as _nav } from "./nav"
+import { process as _process } from "./process"
 import { select as _select } from "./select"
 # import { sitemap as _sitemap } from "./sitemap"
 import { slider as _slider } from "./slider"
@@ -44,6 +45,7 @@ export list = _list
 export map = _map
 export mcbl = _mcbl
 export nav = _nav
+export process = _process
 export select = _select
 # export sitemap = _sitemap
 export slider = _slider

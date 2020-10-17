@@ -64,7 +64,7 @@ export breadcrumb =
 
       updateEvent = name: "ui-breadcrumb-update", target: id
       if !events then options.events = {}
-      events.ui = [updateEvent]
+      options.events.ui = [updateEvent]
 
       obs.l "_ankh-ready", ->
         obs.f "_ankh-ui-fire", updateEvent

@@ -458,7 +458,7 @@ export $$ =
       # @PARAM  path  MAN {string}  site path (route)
       # @RETURN {$$}
       go: (name, path) ->
-        history.pushState { site: name }, null, path
+        window.history.pushState { site: name }, "", path
 
     return $$
   )()

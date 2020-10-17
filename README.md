@@ -9,11 +9,11 @@ ankhorage ui framework
 npm i
 
 # deploy app
-./start.sh
+npm start
 ```
 
 ## ToDo
 
 - separate ANKH from its apps
-- change 'target' param to '$target' in all UIs
+- change 'target' param to '\$target' in all UIs
 - ui-update-lang per UI
