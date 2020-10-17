@@ -1,6 +1,6 @@
 import { dbp } from "../../designs/dbp"
 
-pathOpenProduct = "openProduct/"
+pathOpenProduct = "/processes/openProduct/"
 
 _openProduct = JSON.parse JSON.stringify dbp
 _openProduct.ids[1].ids[0].ids[1].ids = [
@@ -20,7 +20,5 @@ _openProduct.ids[1].ids[0].ids[1].ids = [
     path: "#{pathOpenProduct}confirmationOfCompletion"
   ]
 ]
-
-console.log "openProduct:", _openProduct
 
 export openProduct = _openProduct

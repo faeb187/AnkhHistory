@@ -1,11 +1,4 @@
 export productSelection = [
-  id: "breadcrumb"
-  ui: "breadcrumb"
-  events: ui: [name: "ui-breadcrumb-update", target: "breadcrumb"]
-  numbered: true
-  readonly: true
-  items: [...steps]
-,
   id: "openProductAccordion"
   ui: "accordion"
   ids: [

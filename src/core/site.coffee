@@ -12,7 +12,9 @@ import {
   partnerOverview
   partnerProducts
   partnerAdditionalProducts
-  processesOpenProduct
+  prcOpenProduct
+  prcOpenProductProductSelection
+  prcOpenProductAccountData
   reportsOverview
 } from "../app/sites"
 
@@ -22,13 +24,49 @@ export site =
     $b = $$ "body"
     $ankh = $$ "#ankh", $b
 
-    Site =
-      "/care/overview": careOverview
-      "/partner/overview": partnerOverview
-      "/partner/products": partnerProducts
-      "/partner/additionalProducts": partnerAdditionalProducts
-      "/reports/overview": reportsOverview
-      "/processes/openProduct": processesOpenProduct
+    sites = new Map()
+    sites.set "/care/overview", careOverview
+    sites.set "/partner/overview", partnerOverview
+    sites.set "/partner/products", partnerProducts
+    sites.set "/partner/additionalProducts", partnerAdditionalProducts
+    sites.set "/reports/overview", reportsOverview
+    sites.set "/processes/openProduct", prcOpenProduct
+    sites.set(
+      "/processes/openProduct/productSelection"
+      prcOpenProductProductSelection
+    )
+    sites.set "/processes/openProduct/accountData", prcOpenProductAccountData
+
+    getItemsByPath = (path) ->
+      itemsByPath = []
+
+      subSearch = (items) ->
+        items.forEach (item) ->
+          if item.path is path then return (itemsByPath = item.items or [])
+          if item.items then subSearch item.items
+
+      subSearch routes
+      itemsByPath
+
+    getAvailablePath = (path) ->
+      # requested path is available
+      if sites.get path then return path
+
+      foundPath = ""
+
+      # get the sub items of requested path
+      items = getItemsByPath path
+
+      # load default site
+      if !items.length then return getAvailablePath routes[0].path
+
+      # recursive sub search (only the first item)
+      subSearch = (subItem) ->
+        if sites.get subItem.path then return (foundPath = subItem.path)
+        if !foundPath and subItem.items then subSearch subItem.items[0]
+
+      subSearch items[0]
+      foundPath
 
     getUisFlattened = (uis) ->
       f = []
@@ -60,50 +98,24 @@ export site =
         ++r
         if r is c then render $root
 
-    getCurrentSite = (itm) ->
-      site = itm.path
-      getFirstSubId = (subItms) ->
-        subItm = subItms[0]
-        if subItm.items
-          getFirstSubId subItm.items
-        else
-          site = subItm.path
-
-      if itm.items then getFirstSubId itm.items
-      site
-
-    #- site name by path
-    #<! itms {json[]} items
-    #<! path {string} site path
-    getSiteName = (itms, path) ->
-      site = ""
-      handleSubs = (subItms) ->
-        subItms.some (subItm) ->
-          if subItm.path is path
-            site = getCurrentSite subItm
-          else if subItm.items
-            handleSubs subItm.items
-      handleSubs itms
-      site
-
     #- loads site
     #<! path {string} path of site
     load = (path) ->
       $root = $$ "<div/>", id: "ankh"
 
-      # load deepest level of clicked nav item
-      site = getSiteName routes, path
-      if !site then site = getSiteName routes, routes[0].path
-      if site isnt path then return load site
-      name = site.split("/").pop()
+      if path.endsWith "/" then path = path.slice 0, -1
 
-      $$.history.go name, path
-      $b.setAttribute "data-site", site.split("/").pop()
+      currentPath = getAvailablePath path
+      console.log "currentPath: ", currentPath
 
-      uis = (Site[site] or {}).ids
+      if currentPath isnt path then return load currentPath
+      currentName = currentPath.split("/").pop()
 
-      console.log "uis", uis
-      if !uis then return
+      $$.history.go currentName, currentPath
+      $b.setAttribute "data-site", currentName
+
+      uis = (sites.get(currentPath) or {}).ids
+      if !uis then throw new Error "[CORE][site] bad config: no site available"
 
       handleReady uis, $root
 
@@ -112,9 +124,14 @@ export site =
         obs.f "_ui-#{ui.ui}-init", ui
       return
 
-    obs.l "_helper-site-load", (event) ->
+    obs.l "_helper-site-load", (toLoad) ->
       obs.r()
-      load event.target.getAttribute "href"
+      load(
+        if typeof toLoad is "string"
+          toLoad
+        else
+          toLoad?.target?.getAttribute "href"
+      )
       return
 
     load: load

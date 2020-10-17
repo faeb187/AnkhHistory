@@ -1,11 +1,11 @@
 import { dbp } from "../../../designs/dbp"
 import { steps } from "../../../conf/processes/openProduct/steps"
 
-_productSelection = JSON.parse JSON.stringify dbp
-_productSelection.ids[1].ids[0].ids[1].ids = [
+_accountData = JSON.parse JSON.stringify dbp
+_accountData.ids[1].ids[0].ids[1].ids = [
   id: "breadcrumb"
   ui: "breadcrumb"
-  events: ui: [name: "ui-breadcrumb-update", target: "breadcrumb"]
+  # events: ui: [name: "ui-breadcrumb-update", target: "breadcrumb"]
   numbered: true
   readonly: true
   active: 1
@@ -21,8 +21,10 @@ _productSelection.ids[1].ids[0].ids[1].ids = [
   ids: [
     id: "btnAbort", ui: "button", lang: "abort"
   ,
+    id: "btnBack", ui: "button", lang: "back"
+  ,
     classNames: "primary", id: "btnContinue", ui: "button", lang: "continue"
   ]
 ]
 
-export productSelection = _productSelection
+export accountData = _accountData

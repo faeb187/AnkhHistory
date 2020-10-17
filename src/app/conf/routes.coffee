@@ -28,5 +28,12 @@ export routes = [
   items: [
     lang: "openProduct"
     path: "/processes/openProduct"
+    items: [
+      lang: "productSelection"
+      path: "/processes/openProduct/productSelection"
+    ,
+      lang: "accountData"
+      path: "/processes/openProduct/accountData"
+    ]
   ]
 ]

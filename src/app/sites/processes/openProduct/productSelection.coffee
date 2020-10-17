@@ -6,7 +6,7 @@ _productSelection = JSON.parse JSON.stringify dbp
 _productSelection.ids[1].ids[0].ids[1].ids = [
   id: "breadcrumb"
   ui: "breadcrumb"
-  events: ui: [name: "ui-breadcrumb-update", target: "breadcrumb"]
+  # events: ui: [name: "ui-breadcrumb-update", target: "breadcrumb"]
   numbered: true
   readonly: true
   items: [...steps]

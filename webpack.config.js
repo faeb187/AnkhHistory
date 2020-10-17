@@ -11,12 +11,7 @@ module.exports = {
       {
         test: /\.coffee$/,
         loader: 'coffee-loader',
-        options: {
-          transpile: {
-            plugins: ["@babel/plugin-syntax-dynamic-import"]
-          }
-        }
-      },
+      }
     ],
   },
 };

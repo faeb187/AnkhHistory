@@ -14,6 +14,6 @@ npm start
 
 ## ToDo
 
-- separate ANKH from its apps
 - change 'target' param to '\$target' in all UIs
 - ui-update-lang per UI
+- remove gulp

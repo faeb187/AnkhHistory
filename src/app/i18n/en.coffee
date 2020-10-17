@@ -4,6 +4,7 @@ export en =
   actions: "Actions"
   active: "Active"
   additionalProducts: "Additional Products"
+  back: "Back"
   bekb: "BeKB"
   cardNumber: "Card no"
   cardProduct: "Card product"

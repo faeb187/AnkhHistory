@@ -1,7 +1,7 @@
 #
 # UI process
 #
-import { $$, obs, media } from "../core"
+import { $$, obs, media, state } from "../core"
 
 export process =
   (->
@@ -18,13 +18,14 @@ export process =
       if m and !media.isInViewport m
         return obs.f "_ankh-ui-not-loaded", options
 
-      $ui = $$ "<p/>", id: id, class: "ui-process", innerText: "Process UI"
+      st = state.get(id: id) or {}
+      activeStep = st.activeStep
 
-      steps.forEach (step) ->
-        console.log step
+      if !activeStep
+        activeStep = 0
+        state.set id: id, state: activeStep: activeStep
 
-      $t.appendChild $ui
-
+      # obs.f "_helper-site-load", steps[activeStep].path
       obs.f "_ankh-ui-loaded", options
       obs.f "ankh-ui-ready", "ui-process##{id}"
       return

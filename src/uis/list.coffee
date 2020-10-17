@@ -114,6 +114,7 @@ export list =
         # @PARAM  e   MAN {Event} 'click' event
         # @RETURN {void}
         click: (event) ->
+          console.log "[NAV]", "clickedi now"
           $elm = event.target
 
           if $elm.tagName is "I"
