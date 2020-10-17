@@ -40,7 +40,9 @@ export list =
       update: (options) ->
         { $target } = options
         pth = location.pathname
+        console.log $target, pth
         $act = $$ "[href='#{pth}']", $target
+        console.log $act
         $$.addClass $act, "active"
         if pth.split("/").length > 1 then ui.updateParentActive $act
         ui.updateRootUlActive $act
@@ -172,7 +174,7 @@ export list =
 
     obs.l "ui-nav-update", (options) ->
       options.events.ui.forEach (uiEvent) -> ui.update uiEvent
-    # obs.l "_helper-site-load", ui.evs.click
+    obs.l "_helper-site-load", ui.evs.click
     obs.l "_ui-list-init", init
     return
   )()
