@@ -14,7 +14,8 @@ _additionalProducts.ids[1].ids[0].ids[1].ids = [
   ,
     # todo wrap select into <li>
     id: "additionalToolbarActions"
-    ui: "select"
+    ui: "input"
+    type: "select"
     options: [{ lang: "actions" }, { lang: "createAdditionalProduct" }]
   ]
 ,

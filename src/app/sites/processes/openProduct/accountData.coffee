@@ -15,9 +15,37 @@ _accountData.ids[1].ids[0].ids[1].ids = [
   ui: "process"
   steps: [...steps]
 ,
-  id: "accountDataTodo"
+  classNames: "ui-html-box"
+  id: "boxAccountData"
   ui: "html"
-  text: "accountData"
+  ids: [
+    id: "formAccountData"
+    ui: "html"
+    tag: "form"
+    ids: [
+      id: "legendAccountData"
+      lang: "accountData"
+      ui: "html"
+      tag: "legend"
+    ,
+      id: "selectCurrency"
+      name: "currency"
+      ui: "input"
+      type: "select"
+      label: "currency"
+      options: [
+        lang: "pleaseChoose"
+      ,
+        lang: "chfSwissFrancs", selected: true
+      ]
+      disabled: true
+    ,
+      id: "inputSubtitle"
+      name: "subtitle"
+      ui: "input"
+      label: "subtitle"
+    ]
+  ]
 ,
   id: "openProductButtons"
   ui: "html"

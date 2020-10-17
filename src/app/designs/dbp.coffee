@@ -69,7 +69,10 @@ export dbp =
                 ]
               ]
             ,
-              id: "search", ui: "input", placeholder: "partnerSearch"
+              id: "search"
+              ui: "input"
+              placeholder: "partnerSearch"
+              icon: "search"
             ]
           ]
         ,

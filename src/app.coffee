@@ -19,7 +19,6 @@ import {
   lang
   list
   process
-  select
   slider
   table
 } from "./uis"

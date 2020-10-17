@@ -1,22 +1,24 @@
-fieldset
-  mrg 2 * $mrg 0
-
-  legend
-    fs $fs-big
-    fw $fw-bold
-    mrgb $mrg
-
 .ui-input
+.ui-select
+  brd 1px $grey-03 solid
   fxd row
   fxai center
-  mrgb ($mrg / 2)
+  mrgb ($mrg/2)
+  pos relative
+
+  input
+  select
+    bsiz content-box
+    out none
+    pdg $pdg
+    w 22rem
 
   label
     w 8rem
 
-  input
-    brd 1px $grey-03 solid
-    pdg $pdg
-  
-    &[type='checkbox']
-      mrgl $mrg
+  .ui-icon
+    pos absolute auto
+    rgt 2*$pdg
+
+  &.ui-input-icon
+    pdgr $pdg

@@ -31,8 +31,8 @@ export html =
       if m and !media.isInViewport m
         return obs.f "_ankh-ui-not-loaded", opt
 
-      className = "ui-html #{classNames}"
-      $ui = $$ "<#{tag}/>", id: id, class: classNames
+      $ui = $$ "<#{tag}/>",
+        id: id, class: "ui-html ui-html-#{tag} #{classNames}"
 
       if src
         $ui.setAttribute "src", src
