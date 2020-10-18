@@ -364,6 +364,15 @@ export $$ =
       # TODO
       @
 
+    $$.post = (url, data) ->
+      new Promise (resolve, reject) ->
+        xhr = new XMLHttpRequest()
+        xhr.open "POST", url, true
+        xhr.setRequestHeader "Content-Type", "application/json"
+        xhr.send JSON.stringify data
+        xhr.onload = -> resolve JSON.parse @responseText
+        xhr.onerror = (error) -> reject error
+
     # @DESC   API read request
     # @PARAM  path  MAN {string}    request path
     # @PARAM  dta   OPT {object}    request data
@@ -397,7 +406,7 @@ export $$ =
           cb @responseText
 
           # send request
-      xhr.open "GET", path
+      xhr.open "POST", path, true
       xhr.send dta
 
       @

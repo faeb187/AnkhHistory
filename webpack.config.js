@@ -9,8 +9,13 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader'
+      },
+      {
         test: /\.coffee$/,
-        loader: 'coffee-loader',
+        loader: 'coffee-loader'
       }
     ],
   },

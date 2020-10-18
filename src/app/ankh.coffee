@@ -8,4 +8,4 @@ export ankh =
     year: "numeric"
   lang: "de"
   title: "BeKB"
-  networkAdapter: "apollo"
+  networkAdapter: "http://localhost:4000/graphql"

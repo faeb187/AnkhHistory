@@ -69,10 +69,17 @@ export dbp =
                 ]
               ]
             ,
-              id: "search"
-              ui: "input"
-              placeholder: "partnerSearch"
+              datalist: []
+              events:
+                keyup: [
+                  name: "_ui-input-search"
+                  target: "search"
+                  network: get: true
+                ]
               icon: "search"
+              id: "search"
+              placeholder: "partnerSearch"
+              ui: "input"
             ]
           ]
         ,

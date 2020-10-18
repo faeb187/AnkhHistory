@@ -40,9 +40,7 @@ export list =
       update: (options) ->
         { $target } = options
         pth = location.pathname
-        console.log $target, pth
         $act = $$ "[href='#{pth}']", $target
-        console.log $act
         $$.addClass $act, "active"
         if pth.split("/").length > 1 then ui.updateParentActive $act
         ui.updateRootUlActive $act

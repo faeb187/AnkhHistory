@@ -96,7 +96,7 @@ export site =
       obs.r "ankh-ui-ready"
       obs.l "ankh-ui-ready", (ui) ->
         ++r
-        console.log "[#{r}/#{c}]", ui
+        # console.debug "[#{r}/#{c}]", ui
         if r is c then render $root
 
     #- loads site

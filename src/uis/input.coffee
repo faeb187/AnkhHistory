@@ -3,19 +3,57 @@
 #
 import { $$, media, obs, state } from "../core"
 
+# todo dynamic adapter
+# import { get } from "../network/adapters/apollo"
+import { ankh } from "../app/ankh"
+
 export input =
   (->
     ui =
       rememberState: (options) ->
-        { tag, $target } = options
+        { uiId, tag, $target } = options
         eventType = if tag is "input" then "keyup" else "change"
 
         if tag is "input"
           $$.listen $$(tag, $target), eventType, (event) ->
             $element = event.target
-            state.set id: id, state: [$element.id]: $element.value
+            state.set id: uiId, state: [$element.id]: $element.value
 
-    # @param  disabled    OPT {boolean}
+      search: (options) ->
+        { events } = options
+
+        events.keyup?.forEach (searchEvent) ->
+          { name: eventName, $target } = searchEvent
+          if eventName isnt "_ui-input-search" then return
+
+          query = "{partner {partnerNo lastname firstname birthday }}"
+          $datalist = $$ "##{$target.id}-list"
+          $datalist.innerHTML = ""
+
+          try
+            res = await $$.post ankh.networkAdapter, { query }
+            res?.data?.partner?.forEach (partner) =>
+              text = "#{partner.lastname} #{partner.firstname}"
+              $datalist.appendChild $$ "<option/>", innerText: text
+
+          catch error
+            console.error "[ui-input] #{ui.search}", error
+
+      setEvents: (options) ->
+        { id, events = {}, target: $target } = options
+
+        events.keyup?.forEach (searchEvent) ->
+          $$.listen $target, "keyup", ->
+            obs.f "_ankh-ui-fire",
+              name: searchEvent.name
+              target: searchEvent.target
+              value: $target.value
+
+        return
+
+    # @param  datalist    OPT {json[]}      list to choose from on input (e.g. search results)
+    # @param  disabled    OPT {boolean}     whether the field is disabled or not
+    # @param  events      OPT {json}        events to bind to the field
     # @param  icon        OPT {string}      ion-icon name
     # @param  id          MAN {string}      ui id
     # @param  items       OPT {json[]}      checkbox|radio items
@@ -29,7 +67,9 @@ export input =
     # @param  value       OPT {string}      input value
     init = (options) ->
       {
+        datalist
         disabled
+        events
         icon
         id
         items
@@ -63,6 +103,13 @@ export input =
         if required then $input.setAttribute "required", true
         if checked then $input.setAttribute "checked", true
         if label then $ui.appendChild $$ "<label/>", for: id, "data-lang": label
+        if datalist
+          $datalist = $$ "<datalist/>", id: "#{id}-list"
+          $input.setAttribute "list", "#{id}-list"
+          $input.setAttribute "autocomplete", "off"
+          datalist.forEach (dl) ->
+            $datalist.appendChild $$ "<option/>", "data-lang": dl.lang
+          $ui.appendChild $datalist
         if opts
           opts.forEach (opt) ->
             $input.appendChild(
@@ -72,6 +119,8 @@ export input =
           $$.addClass $ui, "ui-input-icon"
           $ui.appendChild $$ "<ion-icon/>", class: "ui-icon", name: icon
 
+        if events then ui.setEvents options
+
         $ui.appendChild $input
       $t.appendChild $ui
 
@@ -79,11 +128,12 @@ export input =
         Object.keys(st).forEach (inputId) ->
           $$("##{inputId}").value = st[inputId]
 
-      ui.rememberState tag: tag, $target: $t
+      ui.rememberState uiId: id, tag: tag, $target: $t
 
       obs.f "_ankh-ui-loaded", options
       obs.f "ankh-ui-ready", "ui-input##{id}"
       return
 
+    obs.l "_ui-input-search", ui.search
     obs.l "_ui-input-init", init
   )()
