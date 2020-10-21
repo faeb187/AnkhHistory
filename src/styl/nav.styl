@@ -2,28 +2,25 @@
   fx 1
   pos relative
 
+.ui-list ul
+  fxd row
+
+.ui-list a
+  fx 1
+  pdg $pdg ($pdg / 2)
+    
+.ui-list ul ul
+  dsp none
+  pos absolute 
+  lft 0
+  top 100%
+
   ul
-    fxd row
+    dsp none
 
-    a
-      fx 1
-      pdg $pdg ($pdg / 2)
-      
-      &.active
-        fw $fw-bold
+.ui-list
+  .active
+    fw $fw-bold
 
-    ul
-      dsp none
-      pos absolute 
-      lft 0
-      top 100%
-
-      ul
-        dsp none
-
-    
-  > ul
-  > ul > li > ul
-    &.active
+    &+ ul
       dsp flex
-    

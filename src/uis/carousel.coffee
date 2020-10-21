@@ -6,13 +6,13 @@ import { $$, obs } from "../core"
 export carousel =
   (->
     # @DESC   build new carousel
-    # @PARAM  opt.id        MAN {string}  UI id
-    # @PARAM  opt.data      MAN {json[]}  carousel contents
-    # @PARAM  opt.target    MAN {string}  target node
-    init = (opt) ->
-      { id, data, target: $t } = opt
+    # @PARAM  opt.id        MAN {string}      ui id
+    # @PARAM  opt.data      MAN {json[]}      carousel contents
+    # @PARAM  $target       MAN {HTMLElement} target node
+    init: (options) ->
+      { id, data, $target } = options
 
-      if !id or !data?.length or !$t then return
+      if !id or !data?.length or !$target then return
 
       $ui = $$ "<section/>", id: id, class: "ui-carousel"
       $carousel = $$ "<div/>"
@@ -34,12 +34,7 @@ export carousel =
           $cnt.appendChild $p
 
         $carousel.appendChild $cnt
+
       $ui.appendChild $carousel
-      $t.appendChild $ui
-
-      obs.f "ankh-ui-ready", "ui-carousel##{id}"
-      return
-
-    obs.l "_ui-carousel-init", init
-    return
+      $ui
   )()

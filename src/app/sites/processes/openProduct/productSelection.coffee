@@ -5,7 +5,6 @@ _productSelection = JSON.parse JSON.stringify dbp
 _productSelection.ids[1].ids[0].ids[1].ids = [
   id: "breadcrumb"
   ui: "breadcrumb"
-  # events: ui: [name: "ui-breadcrumb-update", target: "breadcrumb"]
   numbered: true
   readonly: true
   items: [...steps]
@@ -47,18 +46,18 @@ _productSelection.ids[1].ids[0].ids[1].ids = [
   classNames: "ui-button-group"
   ids: [
     events:
-      click: [name: "ui-process-abort", target: "prcCtrl"]
+      click: [name: "ui-process-abort"]
     id: "btnAbort"
     ui: "button"
     lang: "abort"
   ,
     classNames: "primary"
     events:
-      click: [name: "ui-process-continue", target: "prcCtrl"]
+      click: [name: "ui-process-continue"]
     id: "btnContinue"
     ui: "button"
     lang: "continue"
   ]
 ]
 
-export productSelection = _productSelection
+export processesOpenProductProductSelection = _productSelection

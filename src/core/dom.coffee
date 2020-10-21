@@ -172,69 +172,39 @@ export $$ =
       if $elm.length then $elm = $elm[0]
       if $elm.className.indexOf(cn) > -1 then true else false
 
-    # @DESC   adds a class to node
-    # @PARAM  $elm  MAN {node|string} element or selector
+    # @DESC   adds a class to node(s)
+    # @PARAM  $elm  MAN {node(s)|string} element(s) or selector
     # @PARAM  cn    MAN {string}      class to add
-    # @RETURN {$$}
     $$.addClass = ($elm, cn) ->
       # MANDATORY element & class
-      if !$elm or !cn or typeof cn isnt "string"
-        return @
-
-        # GET node by selector
+      if !$elm or !cn or typeof cn isnt "string" then return @
       if typeof $elm is "string"
         $elm = $$ $elm
 
-        # NO node matched
       if !$elm then return @
 
-      # MULTIPLE NODES matched
       if $elm.length
-        $elm = $elm[0]
-
-        # ALREADY attached class
-      if $elm.className.indexOf(cn) > -1
+        $elm.forEach ($e) => !$e.classList.contains(cn) && $e.classList.add cn
         return @
 
-        # ADD class
-      $elm.className += " " + cn
-
+      if !$elm.classList.contains cn then $elm.classList.add cn
       @
 
-    # @DESC   removes a class from node
-    # @PARAM  $elm  MAN {node|string} element or selector
+    # @DESC   removes a class from node(s)
+    # @PARAM  $elm  MAN {node(s)|string} element(s) or selector
     # @PARAM  cn    MAN {string}      class to remove
-    # @RETURN {$$}
     $$.removeClass = ($elm, cn) ->
-      # MANDATORY element & class
-      if !$elm or !cn or typeof cn isnt "string"
-        return @
-
-        # GET node by selector
-      if typeof $elm is "string"
-        $elm = $$ $elm
-
-        # MATCHED no nodes
+      if !$elm or !cn or typeof cn isnt "string" then return @
+      if typeof $elm is "string" then $elm = $$ $elm
       if !$elm
         return @
 
-        # MATCHED multiple nodes
       if $elm.length
-        $elm = $elm[0]
+        $elm.forEach ($e) =>
+          $e.classList.contains(cn) && $e.classList.remove cn
+      return @
 
-        # NO className found
-      if !$elm.className
-        return @
-
-        # GET index of toRemove class
-      cns = $elm.className.split " "
-      idx = cns.indexOf cn
-
-      # REMOVE class from node
-      if idx > -1
-        cns.splice idx, 1
-        $elm.className = cns.join " "
-
+      if $elm.classList.contains cn then $elm.classList.remove cn
       @
 
     # @DESC   toggles a node class
@@ -327,7 +297,7 @@ export $$ =
       if !$elms.length then $elms = [$elms]
 
       # add event listeners
-      for $elm in $elms
+      $elms.forEach ($elm) =>
         $elm.addEventListener event, cb
 
       @

@@ -1,7 +1,7 @@
 #
 # UI button
 #
-import { $$, obs, media } from "../core"
+import { $$, obs } from "../core"
 
 export button =
   (->
@@ -24,56 +24,30 @@ export button =
           return
 
         # @DESC   inits a new button
-        # @PARAM  classNames        OPT {string}    class names
-        # @PARAM  opt.id            MAN {string}    UI id
-        # @PARAM  opt.lang          OPT {string}    lang ref
-        # @PARAM  opt.icon          OPT {string}    ion name
-        # @PARAM  opt.events        OPT {json}      custom events to bind
-        # @PARAM  opt.events.click  OPT {[string]}  list of custom 'click' events
-        # @PARAM  opt.target        MAN {node}      target node
-        # @RETURN {void}
-        # @PUBLIC
+        # @PARAM  classNames    OPT {string}      additional classes
+        # @PARAM  id            MAN {string}      ui id
+        # @PARAM  lang          OPT {string}      lang ref
+        # @PARAM  icon          OPT {string}      ion name
+        # @PARAM  events        OPT {json}        custom events to bind
+        # @PARAM  events.click  OPT {[string]}    list of custom 'click' events
+        # @PARAM  $target       MAN {HTMLElement} target node
+    init: (options) ->
+      { classNames = "", events: evs, id, lang, icon, $target } = options
 
-    init = (opt) ->
-      {
-        classNames = ""
-        events: evs
-        id
-        lang
-        media: m
-        icon
-        target: $t
-      } = opt
-
-      if (!icon and !lang) or !id or !$t then return
-      if media and !media.isInViewport m
-        return obs.f "_ankh-ui-not-loaded", opt
+      if (!icon and !lang) or !id or !$target then return
 
       $ui = $$ "<button/>", id: id, class: "ui-button #{classNames}"
 
-      if evs then $ui.events = evs
       if evs?.click
         evs.click.forEach (clickEvent) ->
-          $ui.onclick = -> obs.f "_ankh-ui-fire", clickEvent
-      ###if evs.click
-        hand = new Hammer.Manager $ui
-        hand.add new Hammer.Tap()
-        hand.on "tap", ui.evs.click
-      ###
+          { name: eventName } = clickEvent
+          $ui.onclick = (event) ->
+            event.preventDefault()
+            obs.f eventName, clickEvent
 
-      # SET caption/icon
       if lang
         $ui.setAttribute "data-lang", lang
       else
         $ui.appendChild $$ "<i/>", class: icon
-
-      # APPEND UI to target
-      $t.appendChild $ui
-
-      obs.f "_ankh-ui-loaded", opt
-      obs.f "ankh-ui-ready", "ui-button##{id}"
-      return
-
-    obs.l "_ui-button-init", init
-    return
+      $ui
   )()

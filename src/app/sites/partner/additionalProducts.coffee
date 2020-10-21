@@ -51,4 +51,4 @@ _additionalProducts.ids[1].ids[0].ids[1].ids = [
   ]
 ]
 
-export additionalProducts = _additionalProducts
+export partnerAdditionalProducts = _additionalProducts

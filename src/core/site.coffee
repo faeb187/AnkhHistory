@@ -1,133 +1,116 @@
 #
 # CORE site
 #
+import { camelize } from "../utils/string.util"
 import { $$ } from "./dom"
 import { obs } from "./obs"
-import { media } from "./media"
+import { initUi } from "./loader"
+import { warn } from "./logger"
 
-# todo dynamic
 import { routes } from "../app/conf/routes"
-import {
-  careOverview
-  partnerOverview
-  partnerProducts
-  partnerAdditionalProducts
-  prcOpenProduct
-  prcOpenProductProductSelection
-  prcOpenProductAccountData
-  reportsOverview
-} from "../app/sites"
+import * as sites from "../app/sites"
 
 export site =
-  (->
-    d = document
-    $b = $$ "body"
-    $ankh = $$ "#ankh", $b
+  (=>
+    mapSites = new Map()
 
-    sites = new Map()
-    sites.set "/care/overview", careOverview
-    sites.set "/partner/overview", partnerOverview
-    sites.set "/partner/products", partnerProducts
-    sites.set "/partner/additionalProducts", partnerAdditionalProducts
-    sites.set "/reports/overview", reportsOverview
-    sites.set "/processes/openProduct", prcOpenProduct
-    sites.set(
-      "/processes/openProduct/productSelection"
-      prcOpenProductProductSelection
-    )
-    sites.set "/processes/openProduct/accountData", prcOpenProductAccountData
+    setRoute = (route) =>
+      { path, items: subRoutes = [] } = route
 
-    getItemsByPath = (path) ->
+      name = camelize path.slice 1
+      conf = sites[name]
+
+      if conf
+        mapSites.set path, conf
+      else if !subRoutes.length
+        return warn "[CORE][site] no config for site:", name, path
+
+      subRoutes.forEach (subRoute) => setRoute subRoute
+      return
+
+    # jumps to the item set of  a pathname
+    getItemsByPath = (path) =>
       itemsByPath = []
 
-      subSearch = (items) ->
-        items.forEach (item) ->
+      subSearch = (items) =>
+        items.forEach (item) =>
           if item.path is path then return (itemsByPath = item.items or [])
           if item.items then subSearch item.items
 
       subSearch routes
       itemsByPath
 
-    getAvailablePath = (path) ->
-      # requested path is available
-      if sites.get path then return path
+    getAvailablePath = (path) =>
+      if mapSites.get path then return path
 
       foundPath = ""
-
-      # get the sub items of requested path
       items = getItemsByPath path
 
       # load default site
       if !items.length then return getAvailablePath routes[0].path
 
       # recursive sub search (only the first item)
-      subSearch = (subItem) ->
-        if sites.get subItem.path then return (foundPath = subItem.path)
+      subSearch = (subItem) =>
+        if mapSites.get subItem.path then return (foundPath = subItem.path)
         if !foundPath and subItem.items then subSearch subItem.items[0]
 
       subSearch items[0]
       foundPath
 
-    getUisFlattened = (uis) ->
-      f = []
-      r = (u) -> u.map (ui) -> f.push(ui) && ui.ids && r ui.ids
-      r uis
-      f
+    # @desc   recursively build a site
+    # @param  uiOptions   MAN {json}        ui configuration
+    # @param  $target     MAN {HTMLElement} ui target (parent)
+    build = (uiOptions, $target) =>
+      { id, ids, events } = uiOptions
 
-    getUiCount = (uis) ->
-      c = 0
-      r = (subUis) ->
-        subUis.map (subUi, idx) ->
-          if subUi.media and !media.isInViewport subUi.media then return
-          ++c
-          if subUi.ids && subUi.ids.length then r subUi.ids
-      r uis
-      c
+      $ui = initUi { ...uiOptions, $target }
+      if !$ui then return
 
-    render = ($root) ->
-      $$(".ui-progress", $b).setAttribute "data-fx", "out"
-      $ankh.replaceWith $root
-      setTimeout -> obs.f "_ankh-ready"
+      $target.appendChild $ui
+
+      ids?.forEach (subUiOptions) =>
+        build subUiOptions, $ui
       return
 
-    handleReady = (uis, $root) ->
-      r = 0
-      c = getUiCount uis
-      obs.r "ankh-ui-ready"
-      obs.l "ankh-ui-ready", (ui) ->
-        ++r
-        # console.debug "[#{r}/#{c}]", ui
-        if r is c then render $root
+    # @desc   load a site by its pathname
+    # @param  pathname  OPT {string}  path of the site
+    load = (pathname = location.pathname) =>
+      $ankh = $$ "#ankh"
+      $ankh.innerHTML = ""
 
-    #- loads site
-    #<! path {string} path of site
-    load = (path) ->
-      $root = $$ "<div/>", id: "ankh"
-
-      if path.endsWith "/" then path = path.slice 0, -1
+      path = if pathname.endsWith "/" then pathname.slice 0, -1 else pathname
 
       currentPath = getAvailablePath path
 
-      if currentPath isnt path then return load currentPath
+      if currentPath isnt path
+        load currentPath
+        return
+
       currentName = currentPath.split("/").pop()
 
       $$.history.go currentName, currentPath
-      $b.setAttribute "data-site", currentName
 
-      uis = (sites.get(currentPath) or {}).ids
+      $$("body").setAttribute "data-site", currentName
+
+      uis = (mapSites.get(currentPath) or {}).ids
       if !uis then throw new Error "[CORE][site] bad config: no site available"
 
-      handleReady uis, $root
+      uis.forEach (uiOptions) => build uiOptions, $ankh
 
-      for ui in uis
-        ui.target = $root
-        obs.f "_ui-#{ui.ui}-init", ui
+      obs.f "ankh-ready"
+      obs.f "ui-list-update", $$ "#nav"
+      obs.f "ui-lang-update", $$ ".ui-lang"
       return
 
-    obs.l "_helper-site-load", (event) ->
-      obs.r()
-      load event?.target?.getAttribute "href"
+    init: =>
+      routes.forEach (route) => setRoute route
+
+      load location.pathname
+
+      obs.l "core-site-load", (event) =>
+        load event.target.getAttribute "href"
+        return
       return
 
-    load: load
+    getAll: -> mapSites
   )()

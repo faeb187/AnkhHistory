@@ -1,7 +1,7 @@
 #
 # UI input
 #
-import { $$, media, obs, state } from "../core"
+import { $$, obs, state } from "../core"
 
 # todo dynamic adapter
 # import { get } from "../network/adapters/apollo"
@@ -14,10 +14,12 @@ export input =
         { uiId, tag, $target } = options
         eventType = if tag is "input" then "keyup" else "change"
 
+        ### @todo there is no $target anymore
         if tag is "input"
           $$.listen $$(tag, $target), eventType, (event) ->
             $element = event.target
             state.set id: uiId, state: [$element.id]: $element.value
+        ###
 
       search: (options) ->
         { events } = options
@@ -57,7 +59,6 @@ export input =
     # @param  icon        OPT {string}      ion-icon name
     # @param  id          MAN {string}      ui id
     # @param  items       OPT {json[]}      checkbox|radio items
-    # @param  media       OPT {json}        viewport config
     # @param  name        OPT?{string}      input name
     # @param  options     OPT {json[]}      select options
     # @param  type        OPT {string}      default: 'text'
@@ -65,7 +66,7 @@ export input =
     # @param  required    OPT {boolean}     required input
     # @param  target      MAN {HTMLElement} ui target
     # @param  value       OPT {string}      input value
-    init = (options) ->
+    init: (options) ->
       {
         datalist
         disabled
@@ -74,20 +75,16 @@ export input =
         id
         items
         label
-        media: m
         name
         options: opts
         placeholder
         required
-        target: $t
+        $target
         type = "text"
       } = options
 
-      if !id or !$t then return
+      if !id or !$target then return
       tag = if type is "select" then "select" else "input"
-
-      if m and !media.isInViewport
-        return obs.f "_ankh-ui-not-loaded", options
 
       $ui = $$ "<div/>", class: "ui-input"
       st = state.get(id: id) or {}
@@ -103,6 +100,7 @@ export input =
         if required then $input.setAttribute "required", true
         if checked then $input.setAttribute "checked", true
         if label then $ui.appendChild $$ "<label/>", for: id, "data-lang": label
+
         if datalist
           $datalist = $$ "<datalist/>", id: "#{id}-list"
           $input.setAttribute "list", "#{id}-list"
@@ -110,11 +108,13 @@ export input =
           datalist.forEach (dl) ->
             $datalist.appendChild $$ "<option/>", "data-lang": dl.lang
           $ui.appendChild $datalist
+
         if opts
           opts.forEach (opt) ->
             $input.appendChild(
               $$ "<option/>", "data-lang": opt.lang, selected: opt.selected
             )
+
         if icon
           $$.addClass $ui, "ui-input-icon"
           $ui.appendChild $$ "<ion-icon/>", class: "ui-icon", name: icon
@@ -122,18 +122,12 @@ export input =
         if events then ui.setEvents options
 
         $ui.appendChild $input
-      $t.appendChild $ui
 
       setTimeout ->
         Object.keys(st).forEach (inputId) ->
           $$("##{inputId}").value = st[inputId]
 
-      ui.rememberState uiId: id, tag: tag, $target: $t
-
-      obs.f "_ankh-ui-loaded", options
-      obs.f "ankh-ui-ready", "ui-input##{id}"
-      return
-
-    obs.l "_ui-input-search", ui.search
-    obs.l "_ui-input-init", init
+      ui.rememberState { tag, $target, uiId: id }
+      # obs.l "_ui-input-search", ui.search
+      $ui
   )()

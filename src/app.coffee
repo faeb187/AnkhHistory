@@ -5,24 +5,11 @@
 import { Modernizr } from "browsernizr"
 
 import { ankh } from "./app/ankh"
-import { site } from "./core"
-import {
-  accordion
-  breadcrumb
-  button
-  carousel
-  details
-  html
-  iframe
-  icon
-  input
-  lang
-  list
-  process
-  slider
-  table
-} from "./uis"
+import { obs } from "./core/obs"
+import { site } from "./core/site"
+import { eventer } from "./core/eventer"
 
 document.title = ankh.title
 
-site.load location.pathname
+site.init()
+eventer.init()

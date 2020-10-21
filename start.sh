@@ -19,6 +19,9 @@ gulp
 # vendor files
 cp ./src/vendor/flexbox-reset.css dist/assets/css
 
+# graphQL server
+# cd ../graphql-server && npm start && cd ../ankh
+
 # serve app
 npx http-server ./dist --proxy http://localhost:8080?
 

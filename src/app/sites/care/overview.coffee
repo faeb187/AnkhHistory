@@ -1,8 +1,8 @@
 import { dbp } from "../../designs/dbp"
 
-careO = JSON.parse JSON.stringify dbp
-careO.ids[1].ids[0].ids[1].ids = [
-  id: "careIframePending", ui: "iframe", src: "localhost:5000"
+_careOverview = JSON.parse JSON.stringify dbp
+_careOverview.ids[1].ids[0].ids[1].ids = [
+  id: "careIframePending", ui: "iframe", src: "http://localhost:4000/graphql"
 ]
 
-export overview = careO
+export careOverview = _careOverview

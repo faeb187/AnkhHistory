@@ -13,7 +13,8 @@ export dbp =
         ui: "list"
         items: routes
         role: "navigation"
-        events: click: [name: "_helper-site-load", target: "navMobile"]
+        events:
+          click: [name: "core-site-load", selector: "a"]
         media: max: "l"
       ]
     ]
@@ -87,7 +88,8 @@ export dbp =
           ui: "list"
           items: routes
           role: "navigation"
-          events: click: [name: "_helper-site-load", target: "nav"]
+          events:
+            click: [name: "core-site-load", selector: "a"]
           media: min: "l"
         ]
       ,
@@ -109,11 +111,11 @@ export dbp =
     icon: "menu"
     events:
       click: [
-        name: "_ui-slider-toggle"
+        name: "ui-slider-toggle"
         target: "slider-lft"
         side: "bottom"
       ,
-        name: "_ui-icon-toggle"
+        name: "ui-icon-toggle"
         target: "navToggle"
         icons: ["close", "menu"]
       ]

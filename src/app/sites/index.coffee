@@ -1,25 +1,25 @@
-# imports
-import { overview as _careOverview } from "./care/overview"
+import { careOverview as _careOverview } from "./care/overview"
 
-import { overview as _partnerOverview } from "./partner/overview"
-import { products as _partnerProducts } from "./partner/products"
-import { additionalProducts as _partnerAdditionalProducts } from "./partner/additionalProducts"
+import { partnerOverview as _partnerOverview } from "./partner/overview"
+import { partnerProducts as _partnerProducts } from "./partner/products"
+import { partnerAdditionalProducts as _partnerAdditionalProducts } from "./partner/additionalProducts"
 
-import { openProduct as _prcOpenProduct } from "./processes/openProduct"
-import { productSelection as _prcOpenProductProductSelection } from "./processes/openProduct/productSelection"
-import { accountData as _prcOpenProductAccountData } from "./processes/openProduct/accountData"
+import { processesOpenProduct as _prcOpenProduct } from "./processes/openProduct"
+import { processesOpenProductProductSelection as _prcOpenProductProductSelection } from "./processes/openProduct/productSelection"
+import { processesOpenProductAccountData as _prcOpenProductAccountData } from "./processes/openProduct/accountData"
+import { processesOpenProductDeliveryAddress as _prcOpenProductDeliveryAddress } from "./processes/openProduct/deliveryAddress"
 
-import { overview as _reportsOverview } from "./reports/overview"
+import { reportsOverview as _reportsOverview } from "./reports/overview"
 
-# exports
 export careOverview = _careOverview
 
 export partnerOverview = _partnerOverview
 export partnerProducts = _partnerProducts
 export partnerAdditionalProducts = _partnerAdditionalProducts
 
-export prcOpenProduct = _prcOpenProduct
-export prcOpenProductProductSelection = _prcOpenProductProductSelection
-export prcOpenProductAccountData = _prcOpenProductAccountData
+export processesOpenProduct = _prcOpenProduct
+export processesOpenProductProductSelection = _prcOpenProductProductSelection
+export processesOpenProductAccountData = _prcOpenProductAccountData
+export processesOpenProductDeliveryAddress = _prcOpenProductDeliveryAddress
 
 export reportsOverview = _reportsOverview

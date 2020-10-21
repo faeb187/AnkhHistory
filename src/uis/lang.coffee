@@ -6,17 +6,19 @@ import { de, en } from "../app/i18n"
 
 export lang =
   (->
-    # @DESC   click event to switch lang # @PARAM  event {Event} click on anchor
+    # @desc   click event to switch lang # @PARAM  event {Event} click on anchor
+    # @param  event MAN {Event} click event of lang switch
     changeLang = (event) ->
-      event.preventDefault()
-      $a = event.target
+      { target: $a } = event
 
-      # update lang
+      if !$a then return
+
+      event.preventDefault()
       obs.f "ui-lang-update", lang: $a.getAttribute "lang"
 
-      # update 'active' class
-      $$(".active", $a.parentNode).className = ""
+      $$.removeClass $$(".active", $a.parentNode), "active"
       $a.className = "active"
+      return
 
     def = "de"
     lib = de: de, en: en
@@ -25,16 +27,13 @@ export lang =
     # @PARAM  opt.id      MAN {string}  UI id
     # @PARAM  opt.target  MAN {string}  DOM target id
     # @RETURN {void}
-    init = (opt) ->
-      { id, target: $t } = opt
-      self = @
-      if !id or !$t then return
+    init: (opt) ->
+      { id, $target } = opt
 
-      # active lang by priority
-      # ( localStorage > default )
-      lang = state.get(id: id) or def
+      if !id or !$target then return
 
-      # UI markup
+      lang = state.get({ id }) or def
+
       $ui = $$ "<nav/>", id: id, class: "ui-lang"
 
       # iterate through language lib
@@ -47,24 +46,19 @@ export lang =
 
         $a.innerText = k
 
-        # SET active class
         if k is lang then $a.className = "active"
 
-        # SWITCH lang on click
         $$.listen $a, "click", changeLang
-
-        # append UI to DOM target
         $ui.appendChild $a
-      $t.appendChild $ui
 
-      obs.l "ui-lang-update", update
-      obs.f "ankh-ui-ready", "ui-lang"
-      return
+      obs.l "ui-lang-update", @update
+
+      $ui
 
     # @DESC   update language
     # @PARAM  opt.lang  OPT {string}  language code
     # @RETURN {void}
-    update = (opt = {}) ->
+    update: (opt = {}) ->
       { lang = "" } = opt
 
       # language by priority
@@ -88,12 +82,7 @@ export lang =
       $$("html").setAttribute "lang", lang
 
       state.set id: "lang", state: lang
-
+      # obs.l "_ankh-viewport-changed", update
       obs.f "ui-lang-updated"
       return
-
-    obs.l "_ankh-ready", update
-    obs.l "_ui-lang-init", init
-    obs.l "_ankh-viewport-changed", update
-    return
   )()

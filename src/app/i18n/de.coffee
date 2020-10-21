@@ -10,7 +10,6 @@ export de =
   cardProduct: "Kartenprodukt"
   cards: "Karten"
   care: "Betreuung"
-  careTodo: "Betreuung Todo"
   chfSwissFrancs: "CHF – Schweizer Franken"
   confirmationOfCompletion: "Abschlussbestätigung"
   continue: "Weiter"

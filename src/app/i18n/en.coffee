@@ -10,7 +10,6 @@ export en =
   cardProduct: "Card product"
   cards: "Cards"
   care: "Care"
-  careTodo: "Care Todo"
   chfSwissFrancs: "CHF – Swiss Francs"
   confirmationOfCompletion: "Confirmation of completion"
   continue: "Continue"

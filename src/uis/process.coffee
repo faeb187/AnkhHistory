@@ -1,7 +1,7 @@
 #
 # UI process
 #
-import { $$, obs, media, state } from "../core"
+import { $$, obs, state } from "../core"
 
 export process =
   (->
@@ -9,16 +9,18 @@ export process =
       continue: ->
         activeStep = state.get(id: "prcCtrl").activeStep
         state.set id: "prcCtrl", state: activeStep: ++activeStep
-        location.href = "/processes/openProduct"
+        ui.redirect "/processes/openProduct"
 
       abort: ->
         state.rm id: "prcCtrl"
-        location.href = "/"
+        ui.redirect "/"
 
       back: ->
         activeStep = state.get(id: "prcCtrl").activeStep
         state.set id: "prcCtrl", state: activeStep: --activeStep
-        location.href = "/processes/openProduct"
+        ui.redirect "/processes/openProduct"
+
+      redirect: (path) => obs.f "core-site-load", path
 
       # @DESC   whether a valid step is set or not
       # @PARAM  step    MAN {any}       step to verify
@@ -32,15 +34,12 @@ export process =
     # @PARAM  gateway   OPT {boolean}     forward to active step if true
     # @PARAM  id        MAN {string}      ui id
     # @PARAM  steps     MAN {json[]}      process steps
-    # @PARAM  media     OPT {json}        viewport config
     # @PARAM  target    MAN {HTMLElement} target node
-    init = (options) ->
-      { gateway, id, steps, media: m, target: $t } = options
+    init: (options) ->
+      { gateway, id, steps, $target } = options
 
-      if !id or !steps?.length or !$t then return
-
-      if m and !media.isInViewport m
-        return obs.f "_ankh-ui-not-loaded", options
+      if !id or !steps?.length or !$target
+        throw new Error "[UI][process] mandatory params missing"
 
       activeStep = (state.get(id: "prcCtrl") or {}).activeStep
 
@@ -48,16 +47,10 @@ export process =
         activeStep = 0
         state.set id: "prcCtrl", state: activeStep: activeStep
 
-      if gateway then return (location.href = steps[activeStep].path)
+      if gateway then return ui.redirect steps[activeStep].path
 
       obs.l "ui-process-continue", ui.continue
       obs.l "ui-process-abort", ui.abort
       obs.l "ui-process-back", ui.back
-
-      obs.f "_ankh-ui-loaded", options
-      obs.f "ankh-ui-ready", "ui-process##{id}"
       return
-
-    obs.l "_ui-process-init", init
-    return
   )()
