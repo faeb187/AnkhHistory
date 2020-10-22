@@ -22,9 +22,7 @@ export eventer =
 
       $$.listen $target, type, handler
 
-      setAttached.add { $target, type, handler }
-
-      logger.info "'#{eventName}' attached to: ##{$target.id}, type: #{type}"
+      setAttached.add { name: eventName, $target, type, handler }
       return
 
     #@desc  attach events
@@ -53,7 +51,7 @@ export eventer =
       return
 
     init: ->
-      logger.group "Eventer"
+      logger.groupCollapsed "Eventer"
       loader
         .getAllLoaded()
         .forEach (loadedUi) =>
@@ -63,6 +61,7 @@ export eventer =
 
           attach events, $ui
           return
+      logger.info "events: ", setAttached
       logger.groupEnd()
       return
   )()

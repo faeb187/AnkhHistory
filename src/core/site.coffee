@@ -1,10 +1,13 @@
 #
 # CORE site
 #
+import { copy } from "../utils/basic.util"
 import { camelize } from "../utils/string.util"
+
 import { $$ } from "./dom"
 import { obs } from "./obs"
 import { loader } from "./loader"
+import { logger } from "./logger"
 
 import { routes } from "../app/conf/routes"
 import * as sites from "../app/sites"
@@ -12,6 +15,7 @@ import * as sites from "../app/sites"
 export site =
   (->
     mapSites = new Map()
+    siteDefs = {}
 
     setRoute = (route) =>
       { path, items: subRoutes = [] } = route
@@ -22,7 +26,7 @@ export site =
       if conf
         mapSites.set path, conf
       else if !subRoutes.length
-        return warn "[CORE][site] no config for site:", name, path
+        return logger.warn "[CORE][site] no config for site:", name, path
 
       subRoutes.forEach (subRoute) => setRoute subRoute
       return
@@ -56,23 +60,36 @@ export site =
       subSearch items[0]
       foundPath
 
-    # @desc   recursively build a site
-    # @param  uiOptions   MAN {json}        ui configuration
-    # @param  $target     MAN {HTMLElement} ui target (parent)
-    build = (uiOptions, $target) ->
-      { id, ids, events } = uiOptions
+    # @desc   recursively build site definitions
+    # @param  uiOptions   MAN {json}    ui configuration
+    # @param  path        MAN {string}  current site path
+    # @param  parentId    MAN {string}  ui target
+    # @return {void}
+    build = (options) ->
+      { parentId, path, uiOptions } = options
+      { id, ids: uis } = uiOptions
 
-      $ui = loader.initUi { ...uiOptions, $target }
+      if !id
+        logger.error(
+          "[REQUIRED]"
+          "missing 'id' for type AnkhUiOptions anywhere in #{path}"
+        )
 
-      $target.appendChild $ui
+      flatUiOptions = copy uiOptions
+      if uis then delete flatUiOptions.ids
 
-      ids?.forEach (subUiOptions) =>
-        build subUiOptions, $ui
+      # $ui = loader.initUi { ...uiOptions, $target }
+      # $target.appendChild $ui
+      siteDef = siteDefs[path] or []
+      siteDefs[path] = siteDef.concat [uiOptions: flatUiOptions, parentId: id]
+
+      uis?.forEach (subUiOptions) =>
+        build { path, uiOptions: subUiOptions, parentId: id }
       return
 
     # @desc   load a site by its pathname
     # @param  pathname  OPT {string}  path of the site
-    load = (pathname = location.pathname) ->
+    load: (pathname = location.pathname) ->
       $ankh = $$ "#ankh"
       $ankh.innerHTML = ""
 
@@ -88,27 +105,32 @@ export site =
 
       $$.history.go currentName, currentPath
 
-      $$("body").setAttribute "data-site", currentName
+      # $$("body").setAttribute "data-site", currentName
 
       uis = (mapSites.get(currentPath) or {}).ids
       if !uis then throw new Error "[CORE][site] bad config: no site available"
 
-      uis.forEach (uiOptions) => build uiOptions, $ankh
+      uis.forEach (uiOptions) =>
+        build { uiOptions, path: currentPath, parentId: "ankh" }
 
-      obs.f "ankh-ready"
-      obs.f "ui-list-update", $$ "#navMobile" # TMP hacky
-      obs.f "ui-lang-update", $$ ".ui-lang" # TMP hacky
+      # obs.f "ankh-ready"
+      # obs.f "ui-list-update", $$ "#navMobile" # TMP hacky
+      # obs.f "ui-lang-update", $$ ".ui-lang" # TMP hacky
       return
 
     init: ->
-      routes.forEach (route) =>
-        setRoute route
+      logger.groupCollapsed "Site"
+      routes.forEach (route) => setRoute route
+      # load location.pathname
 
-      load location.pathname
-
+      ###
       obs.l "core-site-load", (options) ->
-        load options.event.target.getAttribute "href"
+        site.load options.event.target.getAttribute "href"
+      ###
+      logger.info "siteDefs", siteDefs
+      logger.groupEnd()
       return
 
     getAll: -> mapSites
+    getSiteDef: -> siteDefs[location.pathname]
   )()

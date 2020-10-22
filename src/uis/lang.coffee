@@ -25,12 +25,11 @@ export lang =
 
     # @DESC   build new language switcher
     # @PARAM  opt.id      MAN {string}  UI id
-    # @PARAM  opt.target  MAN {string}  DOM target id
     # @RETURN {void}
     init: (opt) ->
-      { id, style = {}, $target } = opt
+      { id, style = {} } = opt
 
-      if !id or !$target then return
+      if !id then return
 
       lang = state.get({ id }) or def
 

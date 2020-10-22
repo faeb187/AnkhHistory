@@ -3,9 +3,10 @@
 #
 import { $$ } from "./dom"
 import { obs } from "./obs"
-import { media } from "./media"
-import * as uis from "../uis"
 import { logger } from "./logger"
+import { media } from "./media"
+import { site } from "./site"
+import * as uis from "../uis"
 
 export loader =
   (->
@@ -31,10 +32,7 @@ export loader =
         $ui = uis[ui].init uiOptions
 
         if !$ui
-          return logger.error(
-            "[CORE][loader]"
-            "UI '#{ui}' didn't return itself"
-          )
+          return logger.error "UI '#{ui}' didn't return itself"
 
         $uiPlaceholder = $$ "##{id}-placeholder", $ankh
         $uiPlaceholder.childNodes?.forEach (childNode) =>
@@ -53,37 +51,65 @@ export loader =
     # @desc   initializing of ui's if not yet
     # @param  uiOptions MAN {json}        ui configuration
     # @return               {HTMLElement} initialized ui
-    initUi: (uiOptions) ->
-      { id, ui, media: m, $target } = uiOptions
+    initUi: (options) ->
+      { uiOptions, parentId } = options
+      { id, ui, media: m } = uiOptions
 
       if !id or !ui
-        return logger.error(
-          "[CORE][loader]"
-          "'ui' and/or 'id' missing: ui: #{ui} / id: #{id}"
-        )
-
-      if $target.id is "ankh" then $ankh = $target
+        return logger.error "'ui' and/or 'id' missing: ui: #{ui} / id: #{id}"
+      # if $target.id is "ankh" then $ankh = $target
 
       # already loaded?
       loadedUi = mapLoaded.get id
-      if loadedUi then return loadedUi.$ui
+      if loadedUi
+        logger.log(
+          "%ccached %c ##{id} (parent: #{parentId})"
+          "color: #bfb"
+          "color: #fff"
+        )
+        return
 
       # not in viewport?
       if m and !media.isInViewport m
-        mapNotLoaded.set id, { uiOptions }
-        $uiPlaceholder = $$ "<div/>", id: "#{id}-placeholder", "data-fx": "out"
-        return $uiPlaceholder
+        mapNotLoaded.set id, { uiOptions, parentId }
+        return logger.log(
+          "%cdeferred %c #{id} (parent: #{parentId}"
+          "color: #ff0"
+          "color: #fff"
+        )
+        # $uiPlaceholder = $$ "<div/>", id: "#{id}-placeholder", "data-fx": "out"
+        # return $uiPlaceholder
 
       # load it (all ui's init() only once)
       $ui = uis[ui].init uiOptions
       if !$ui
+        return logger.error "UI '#{uis[ui]}' didn't return itself", uiOptions
+
+      mapLoaded.set id, { $ui, uiOptions, parentId }
+      logger.info(
+        "%cloaded %c ##{id} (parent: #{parentId}"
+        "color: #0f0"
+        "color: #fff"
+      )
+      return
+
+    load: ->
+      logger.groupCollapsed "Loader"
+
+      siteDef = site.getSiteDef()
+
+      if !siteDef?.length
         return logger.error(
-          "[CORE][loader]"
-          "UI '#{uis[ui]}' didn't return itself"
+          "UI's missing, site.build() should generate the siteDef (UI's) for:"
+          location.pathname
         )
 
-      mapLoaded.set id, { $ui, uiOptions }
-      $ui
+      siteDef.forEach (ui) => loader.initUi ui
+
+      logger.log "mapLoaded", mapLoaded
+      logger.log "mapNotLoaded", mapNotLoaded
+      logger.groupEnd()
+      return
 
     getAllLoaded: -> mapLoaded
   )()
