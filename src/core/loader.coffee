@@ -112,4 +112,5 @@ export loader =
       return
 
     getAllLoaded: -> mapLoaded
+    getAllNotLoaded: -> mapNotLoaded
   )()

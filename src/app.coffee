@@ -10,7 +10,7 @@
 import { Modernizr } from "browsernizr"
 
 import { ankh } from "./app/ankh"
-import { eventer, loader, logger, media, site, obs } from "./core"
+import { eventer, loader, logger, media, renderer, site, obs } from "./core"
 
 document.title = ankh.title
 
@@ -37,7 +37,7 @@ eventer.init()
 
 # [5]
 # render site
-# renderer.render()
+renderer.render()
 
 # [6]
 # listen to site requests and load site

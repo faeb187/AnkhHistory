@@ -81,7 +81,9 @@ export site =
       # $ui = loader.initUi { ...uiOptions, $target }
       # $target.appendChild $ui
       siteDef = siteDefs[path] or []
-      siteDefs[path] = siteDef.concat [uiOptions: flatUiOptions, parentId: id]
+      siteDefs[path] = siteDef.concat [
+        uiOptions: flatUiOptions, parentId: parentId
+      ]
 
       uis?.forEach (subUiOptions) =>
         build { path, uiOptions: subUiOptions, parentId: id }
@@ -98,7 +100,7 @@ export site =
       currentPath = getAvailablePath path
 
       if currentPath isnt path
-        load currentPath
+        site.load currentPath
         return
 
       currentName = currentPath.split("/").pop()
