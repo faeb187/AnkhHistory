@@ -6,6 +6,6 @@ export ankh =
   date:
     month: "short"
     year: "numeric"
-  lang: "en"
+  lang: "de"
   title: "BeKB"
   networkAdapter: "http://localhost:4000/graphql"

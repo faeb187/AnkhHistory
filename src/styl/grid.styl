@@ -1,2 +1,86 @@
+$color-primary = #c03
+$fs-big = 16px
+$fw-bold = bold
+$grey-04 = #ccc
+
+@font-face
+  ff Frutiger
+  fst normal
+  fw 400
+  src url(/assets/fonts/frutiger/FrutigerLTPro-Roman.woff2) format('woff2')
+
+@font-face
+  ff Frutiger
+  fst normal
+  fw bold
+  src url(/assets/fonts/frutiger/FrutigerLTPro-Bold.woff2) format('woff2')
+
+@font-face
+  ff Frutiger
+  fst normal
+  fw 300
+  src url(/assets/fonts/frutiger/FrutigerLTPro-Light.woff2) format('woff2')
+
+*
+  brd 0
+  bsiz border-box
+  mrg 0
+  pdg 0
+
+  & [data-fx='out']
+    dsp none !important
+
+html
+body
+#ankh
+  h 100%
+  ovr hidden
+
+body
+  ff Frutiger
+  fs 14px
+
+a
+  &:link
+  &:visited
+  &:hover
+  &:active
+    c #000
+    txtd none
+
+ul
+li
+  ls none
+
 .ui-grid
-  // @todo
+  dsp grid
+
+.ui-grid-inline
+  dsp inline-grid
+
+#header
+#footer
+  bc #eee
+
+#logoSmall
+  w 32px
+
+#navMobile
+  li
+    pdg 1rem
+
+  a
+    fs $fs-big
+
+  > ul > li > a
+    fw $fw-bold
+
+#lang
+  a
+    dsp inline-grid
+    fxjc center
+    fxac center
+    fs 16px
+    &.active
+      bc $color-primary
+      c #fff

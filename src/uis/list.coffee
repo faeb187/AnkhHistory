@@ -1,6 +1,5 @@
 #
 # UI list
-# @todo replace updateActiveParents with stylus
 #
 import { $$, obs, state } from "../core"
 
@@ -9,19 +8,29 @@ export list =
     ui =
       # @desc   updates active list items
       # @param  $target which list ui to update
-      update: ($target) =>
-        console.log "updating...", $target
-        $$.removeClass $$(".active", $target), "active"
-        pth = location.pathname
-        $act = $$ "[href='#{pth}']", $target
-        $$.addClass $act, "active"
+      update: ($target) ->
+        $actBefore = $$ ".active", $target
+        if $actBefore.length
+          $$.removeClass $$(".active", $target), "active"
 
-        $parentUl = $$.parent $act, "ul"
+        pth = location.pathname
+        $actLi = $$("[href='#{pth}']", $target).parentNode
+        $$.addClass $actLi, "active"
+
+        $parentUl = $actLi.parentNode
         if $$.hasClass $parentUl, "ui-list" then return
         if $$.hasClass $parentUl.parentNode, "ui-list" then return
 
-        $parentLi = $$.parent $act.parentNode, "li"
-        $$.addClass $parentLi.firstChild, "active"
+        $parentLi = $$.parent $actLi, "li"
+        $$.addClass $parentLi, "active"
+
+      toggle: (options) ->
+        { event, args } = options
+
+        $toToggle = $$ "##{args.toToggle}"
+        $toToggle.setAttribute "data-fx",
+          if $toToggle.getAttribute("data-fx") is "in" then "out" else "in"
+        return
 
       # @DESC   adds list item to list
       # @PARAM  itm                   MAN {json}    list item
@@ -63,7 +72,7 @@ export list =
     # @PARAM  id            MAN {string}    UI id
     # @PARAM  items         MAN {[json]}    array containing list items
     init: (options) ->
-      { id, items, role } = options
+      { id, items, role, style = {} } = options
 
       if !id or !items?.length then return
 
@@ -77,8 +86,11 @@ export list =
       $ui.id = id
       $ui.className = "ui-list"
 
+      $$.style $ui, style
+
       items.forEach (item) -> ui.addListItem item, $ul
 
       obs.l "ui-list-update", ui.update
+      obs.l "ui-list-toggle", ui.toggle
       $ui
   )()

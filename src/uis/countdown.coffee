@@ -1,7 +1,6 @@
 #
 #  UI countdown
 #
-import moment from "moment"
 import { dom } from "../core"
 
 export countdown =

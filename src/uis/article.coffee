@@ -1,7 +1,6 @@
 #
 # UI article
 #
-import moment from "moment"
 import { $$ } from "../core"
 
 export article =
@@ -71,7 +70,7 @@ export article =
                 datetime: opt.createdAt
                 pubdate: "pubdate"
 
-              $time.innerHTML = moment(opt.createdAt).fromNow()
+              $time.innerHTML = opt.createdAt # format without moment
               $footer.appendChild $time
 
               # APPEND UI to DOM target

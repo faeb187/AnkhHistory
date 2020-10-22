@@ -28,13 +28,15 @@ export lang =
     # @PARAM  opt.target  MAN {string}  DOM target id
     # @RETURN {void}
     init: (opt) ->
-      { id, $target } = opt
+      { id, style = {}, $target } = opt
 
       if !id or !$target then return
 
       lang = state.get({ id }) or def
 
       $ui = $$ "<nav/>", id: id, class: "ui-lang"
+
+      $$.style $ui, style
 
       # iterate through language lib
       idx = 0

@@ -9,21 +9,20 @@ export grid =
     # @PARAM  id        MAN {string}      ui id
     init: (options) ->
       {
+        attributes = {}
         id
         element = "div"
-        rows
-        columns
-        gap
-        rowGap
-        columnGap
+        style = {}
         inline = false
       } = options
 
-      if !id or !rows or !columns then return
+      if !id then return
 
-      cn = "ui-grid#{if inline then "-inline" else ""}"
+      cn = "ui-grid#{(inline && "-inline") || ""}"
+      $ui = $$ "<#{element}/>", { id, class: cn }
 
-      $ui = $$ "<#{element}/>", { id, class: "#{cn} ui-grid-rows-#{rows}" }
+      $$.style $ui, style
+      $$.addAttr $ui, attributes
 
       $ui
   )()

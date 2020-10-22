@@ -17,7 +17,7 @@ coffee -c -b gulpfile.coffee
 gulp
 
 # vendor files
-cp ./src/vendor/flexbox-reset.css dist/assets/css
+# cp ./src/vendor/flexbox-reset.css dist/assets/css
 
 # graphQL server
 # cd ../graphql-server && npm start && cd ../ankh

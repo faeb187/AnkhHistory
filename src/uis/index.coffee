@@ -2,12 +2,13 @@ import { accordion as _accordion } from "./accordion"
 # import { article as _article } from "./article"
 import { breadcrumb as _breadcrumb } from "./breadcrumb"
 import { button as _button } from "./button"
-import { carousel as _carousel } from "./carousel"
+# import { carousel as _carousel } from "./carousel"
 # import { chart as _chart } from "./chart"
 # import { context as _context } from "./context"
 # import { countdown as _countdown } from "./countdown"
 import { details as _details } from "./details"
 # import { fab as _fab } from "./fab"
+import { grid as _grid } from "./grid"
 import { html as _html } from "./html"
 import { icon as _icon } from "./icon"
 import { iframe as _iframe } from "./iframe"
@@ -27,12 +28,13 @@ export accordion = _accordion
 # export article = _article
 export breadcrumb = _breadcrumb
 export button = _button
-export carousel = _carousel
+# export carousel = _carousel
 # export chart = _chart
 # export context = _context
 # export countdown = _countdown
 export details = _details
 # export fab = _fab
+export grid = _grid
 export html = _html
 export icon = _icon
 export iframe = _iframe

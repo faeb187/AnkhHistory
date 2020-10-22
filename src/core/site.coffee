@@ -4,14 +4,13 @@
 import { camelize } from "../utils/string.util"
 import { $$ } from "./dom"
 import { obs } from "./obs"
-import { initUi } from "./loader"
-import { warn } from "./logger"
+import { loader } from "./loader"
 
 import { routes } from "../app/conf/routes"
 import * as sites from "../app/sites"
 
 export site =
-  (=>
+  (->
     mapSites = new Map()
 
     setRoute = (route) =>
@@ -29,10 +28,10 @@ export site =
       return
 
     # jumps to the item set of  a pathname
-    getItemsByPath = (path) =>
+    getItemsByPath = (path) ->
       itemsByPath = []
 
-      subSearch = (items) =>
+      subSearch = (items) ->
         items.forEach (item) =>
           if item.path is path then return (itemsByPath = item.items or [])
           if item.items then subSearch item.items
@@ -40,7 +39,7 @@ export site =
       subSearch routes
       itemsByPath
 
-    getAvailablePath = (path) =>
+    getAvailablePath = (path) ->
       if mapSites.get path then return path
 
       foundPath = ""
@@ -50,7 +49,7 @@ export site =
       if !items.length then return getAvailablePath routes[0].path
 
       # recursive sub search (only the first item)
-      subSearch = (subItem) =>
+      subSearch = (subItem) ->
         if mapSites.get subItem.path then return (foundPath = subItem.path)
         if !foundPath and subItem.items then subSearch subItem.items[0]
 
@@ -60,11 +59,10 @@ export site =
     # @desc   recursively build a site
     # @param  uiOptions   MAN {json}        ui configuration
     # @param  $target     MAN {HTMLElement} ui target (parent)
-    build = (uiOptions, $target) =>
+    build = (uiOptions, $target) ->
       { id, ids, events } = uiOptions
 
-      $ui = initUi { ...uiOptions, $target }
-      if !$ui then return
+      $ui = loader.initUi { ...uiOptions, $target }
 
       $target.appendChild $ui
 
@@ -74,7 +72,7 @@ export site =
 
     # @desc   load a site by its pathname
     # @param  pathname  OPT {string}  path of the site
-    load = (pathname = location.pathname) =>
+    load = (pathname = location.pathname) ->
       $ankh = $$ "#ankh"
       $ankh.innerHTML = ""
 
@@ -98,18 +96,18 @@ export site =
       uis.forEach (uiOptions) => build uiOptions, $ankh
 
       obs.f "ankh-ready"
-      obs.f "ui-list-update", $$ "#nav"
-      obs.f "ui-lang-update", $$ ".ui-lang"
+      obs.f "ui-list-update", $$ "#navMobile" # TMP hacky
+      obs.f "ui-lang-update", $$ ".ui-lang" # TMP hacky
       return
 
-    init: =>
-      routes.forEach (route) => setRoute route
+    init: ->
+      routes.forEach (route) =>
+        setRoute route
 
       load location.pathname
 
-      obs.l "core-site-load", (event) =>
-        load event.target.getAttribute "href"
-        return
+      obs.l "core-site-load", (options) ->
+        load options.event.target.getAttribute "href"
       return
 
     getAll: -> mapSites

@@ -5,11 +5,10 @@
 import { Modernizr } from "browsernizr"
 
 import { ankh } from "./app/ankh"
-import { obs } from "./core/obs"
-import { site } from "./core/site"
-import { eventer } from "./core/eventer"
+import { eventer, media, site, obs } from "./core"
 
 document.title = ankh.title
 
+media.init()
 site.init()
 eventer.init()

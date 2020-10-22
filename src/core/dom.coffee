@@ -202,7 +202,7 @@ export $$ =
       if $elm.length
         $elm.forEach ($e) =>
           $e.classList.contains(cn) && $e.classList.remove cn
-      return @
+        return @
 
       if $elm.classList.contains cn then $elm.classList.remove cn
       @
@@ -223,6 +223,16 @@ export $$ =
       else
         cns.splice idx, 1
         elm.className = cns.join " "
+      @
+
+    # @desc   set styles to element
+    $$.style = (elm, styles) ->
+      (elm.style[k] = v) for k, v of styles
+      @
+
+    # @desc   set attributes to element
+    $$.addAttr = (elm, attributes) ->
+      elm.setAttribute k, v for k, v of attributes
       @
 
     # @DESC   toggles style.display

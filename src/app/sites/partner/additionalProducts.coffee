@@ -1,54 +1,154 @@
-import { cols, data } from "../../data/additionalProducts/cards"
-import { dbp } from "../../designs/dbp"
+import { routes } from "../../conf/routes"
 
-_additionalProducts = JSON.parse JSON.stringify dbp
-_additionalProducts.ids[1].ids[0].ids[1].ids = [
-  id: "toolbar"
+copy = (x) -> JSON.parse JSON.stringify x
+
+color = primary: "#cc0033"
+
+logo =
+  id: "logoSmall"
   ui: "html"
-  tag: "menu"
-  type: "toolbar"
+  tag: "img"
+  src: "/assets/img/logo-small.png"
+  alt: "bekb"
+  media: max: "m"
+
+redTop =
+  id: "redTop"
+  ui: "html"
+  style:
+    background: color.primary
+    gridColumn: "2 / 24"
+
+redBtm = copy { ...redTop, id: "redBtm" }
+redBtm.style.gridRow = "-1 / -2"
+
+export partnerAdditionalProducts =
   ids: [
-    id: "additionalToolbarSwitch"
-    ui: "icon"
-    icon: "toggle"
-  ,
-    # todo wrap select into <li>
-    id: "additionalToolbarActions"
-    ui: "input"
-    type: "select"
-    options: [{ lang: "actions" }, { lang: "createAdditionalProduct" }]
-  ]
-,
-  id: "additionalAccordion"
-  ui: "accordion"
-  ids: [
-    id: "additionalDetailsCards"
-    ui: "details"
-    open: true
-    summary: lang: "cards"
+    id: "app"
+    ui: "grid"
+    style:
+      gridTemplateColumns: "repeat(24, 1fr)"
+      gridTemplateRows: "8px repeat(24, 1fr) 8px"
+      height: "100%"
+      position: "relative"
     ids: [
-      id: "additionalTableCards"
-      ui: "table"
-      cols: cols
-      data: data
+      copy redTop
+    ,
+      id: "header"
+      ui: "grid"
+      element: "header"
+      style:
+        alignItems: "center"
+        gridArea: "2 / 2 / 4 / 24"
+        gridTemplateColumns: "repeat(5, 1fr)"
+        justifyItems: "center"
+      inline: true
+      ids: [
+        copy logo
+        {
+          ...copy(logo)
+          id: "logo"
+          src: "/assets/img/logo.svg"
+          style:
+            gridColumnStart: 1
+            gridColumnEnd: 3
+          media: min: "m"
+        }
+      ]
+    ,
+      id: "main"
+      ui: "grid"
+      element: "main"
+      style:
+        gridColumn: "1 / 25"
+        gridRow: "4 / -4"
+      inline: true
+    ,
+      id: "footer"
+      ui: "grid"
+      element: "footer"
+      style:
+        alignItems: "center"
+        gridColumn: "2 / 24"
+        gridGap: "1rem"
+        gridRow: "-4 / -2"
+        gridTemplateColumns: "repeat(5, 1fr)"
+        justifyItems: "center"
+      inline: true
+      ids: [
+        id: "navToggle"
+        ui: "icon"
+        icon: "menu"
+        style:
+          gridColumnStart: 5
+          height: "32px"
+          width: "32px"
+        events:
+          click: [name: "ui-list-toggle", args: toToggle: "navMobileWrapper"]
+        media: max: "l"
+      ]
+    ,
+      copy redBtm
     ]
   ,
-    id: "additionalDetailsEbanking"
-    ui: "details"
-    summary: lang: "ebanking"
-  ,
-    id: "additionalDetailsSafes"
-    ui: "details"
-    summary: lang: "safes"
-  ,
-    id: "additionalDetailsPaymentTransactions"
-    ui: "details"
-    summary: lang: "paymentTransactions"
-  ,
-    id: "additionalDetailsContractsAndDocuments"
-    ui: "details"
-    summary: lang: "contractsAndDocuments"
+    id: "navMobileWrapper"
+    ui: "grid"
+    attributes:
+      "data-fx": "out"
+    style:
+      background: "#fff"
+      grid: "none"
+      gridTemplateRows: "8px repeat(24, 1fr) 8px"
+      gridTemplateColumns: "repeat(24, 1fr)"
+      height: "100%"
+      position: "absolute"
+      top: 0
+      bottom: 0
+      left: 0
+      right: 0
+      zIndex: 9999
+    media: max: "l"
+    ids: [
+      { ...copy(redTop), id: "redTopNavMobile" }
+    ,
+      id: "navMobile"
+      ui: "list"
+      items: routes
+      role: "navigation"
+      style:
+        gridColumn: "2 / 24"
+        gridRow: "4 / -4"
+      events:
+        click: [name: "core-site-load", args: selector: "a"]
+    ,
+      id: "navMobileFooter"
+      ui: "grid"
+      style:
+        alignItems: "center"
+        gridColumn: "2 / 24"
+        gridGap: "1rem"
+        gridRow: "-4 / -2"
+        gridTemplateColumns: "repeat(5, 1fr)"
+        justifyItems: "center"
+      ids: [
+        id: "lang"
+        ui: "lang"
+        style:
+          display: "inline-grid"
+          gridArea: "1 / 1 / 2 / 3"
+          gridTemplateColumns: "1fr 1fr"
+      ,
+        id: "navToggleX"
+        ui: "icon"
+        icon: "close"
+        style:
+          gridArea: "1 / 5 / 2 / 6"
+          height: "32px"
+          width: "32px"
+        events:
+          click: [name: "ui-list-toggle", args: toToggle: "navMobileWrapper"]
+      ]
+    ,
+      { ...copy(redBtm), id: "redBtmNavMobile" }
+    ]
   ]
-]
-
-export partnerAdditionalProducts = _additionalProducts

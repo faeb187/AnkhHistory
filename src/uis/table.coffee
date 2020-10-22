@@ -1,7 +1,6 @@
 #
 # UI table
 #
-import moment from "moment"
 import { $$, obs, state } from "../core"
 
 export table =
@@ -51,7 +50,7 @@ export table =
 
             v = tr[col.lang]
             if col.date
-              v = moment(v).format "DD/YY"
+              # v = v // todo format without moment
               $td.setAttribute "data-date", true
             else if col.currency
               v = v.toLocaleString "de"
