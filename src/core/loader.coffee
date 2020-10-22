@@ -1,8 +1,6 @@
 #
 # CORE loader
 #
-
-# import { measure } from "./analytics"
 import { $$ } from "./dom"
 import { obs } from "./obs"
 import { media } from "./media"
@@ -31,6 +29,7 @@ export loader =
         if !media.isInViewport m then return
 
         $ui = uis[ui].init uiOptions
+
         if !$ui
           return logger.error(
             "[CORE][loader]"

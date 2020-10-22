@@ -1,0 +1,16 @@
+title ANKH Initialization
+
+App->Media:init()
+note over Media: **sets breakpoints**\nviewport functionality 
+
+App-->Site:init()
+note over Site: **setup routes**\nload site configs
+
+Site-->Loader:initUi()
+note over Loader: **load UI's**\nor return the already loaded
+
+App-->Eventer:init()
+note over Eventer: **attach events**\nto just loaded UI's
+
+App-->Renderer:init()
+note over Renderer: **render site**\nafter assembling UI's
