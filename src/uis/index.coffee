@@ -14,7 +14,6 @@ import { icon as _icon } from "./icon"
 import { iframe as _iframe } from "./iframe"
 import { input as _input } from "./input"
 import { lang as _lang } from "./lang"
-# import { layout as _layout } from "./layout"
 import { list as _list } from "./list"
 # import { map as _map } from "./map"
 # import { mcbl as _mcbl } from "./mcbl"
@@ -40,7 +39,6 @@ export icon = _icon
 export iframe = _iframe
 export input = _input
 export lang = _lang
-# export layout = _layout
 export list = _list
 # export map = _map
 # export mcbl = _mcbl
