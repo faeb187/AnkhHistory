@@ -1,6 +1,5 @@
+import { copy } from "../../../utils/basic.util"
 import { routes } from "../../conf/routes"
-
-copy = (x) -> JSON.parse JSON.stringify x
 
 color = primary: "#cc0033"
 
@@ -120,6 +119,7 @@ export partnerAdditionalProducts =
         gridRow: "4 / -4"
       events:
         click: [name: "core-site-load", args: selector: "a"]
+        init: [l: "core-renderer-rendered", f: "ui-list-update"]
     ,
       id: "navMobileFooter"
       ui: "grid"

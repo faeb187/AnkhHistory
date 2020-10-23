@@ -26,7 +26,7 @@ export obs =
             return @
 
             # REGISTER event
-          if !evs[ev] then evs[ev] = [cb] else evs[ev].push cb
+          if !evs[ev] then evs[ev] = [cb] else evs[ev] = evs[ev].concat [cb]
 
           @
 

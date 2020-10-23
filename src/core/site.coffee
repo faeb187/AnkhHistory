@@ -107,8 +107,6 @@ export site =
 
       $$.history.go currentName, currentPath
 
-      # $$("body").setAttribute "data-site", currentName
-
       uis = (mapSites.get(currentPath) or {}).ids
       if !uis then throw new Error "[CORE][site] bad config: no site available"
 

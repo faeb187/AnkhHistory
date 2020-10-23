@@ -2,11 +2,15 @@
 # CORE renderer
 #
 import { $$ } from "./dom"
+import { obs } from "./obs"
 import { loader } from "./loader"
 import { logger } from "./logger"
 
 export renderer =
   (->
+    # @todo on init
+    $b = $$ "body"
+
     render: ->
       logger.groupCollapsed "Renderer"
 
@@ -28,9 +32,15 @@ export renderer =
 
         logger.log "ui:", $ui.id, "parentId:", parentId
 
-        $$("##{parentId}", $df).appendChild $ui.cloneNode true
+        $$("##{parentId}", $df).appendChild $ui
 
       $$("#ankh").replaceWith $df
+      $$("body").setAttribute(
+        "data-site"
+        location.pathname.slice(1).replace /\//g, "-"
+      )
+
+      obs.f "core-renderer-rendered"
 
       logger.groupEnd()
       return

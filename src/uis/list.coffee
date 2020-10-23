@@ -4,11 +4,13 @@
 import { $$, obs, state } from "../core"
 
 export list =
-  (=>
+  (->
     ui =
       # @desc   updates active list items
       # @param  $target which list ui to update
-      update: ($target) ->
+      update: (event) ->
+        { type, $target } = event
+
         $actBefore = $$ ".active", $target
         if $actBefore.length
           $$.removeClass $$(".active", $target), "active"
@@ -92,5 +94,6 @@ export list =
 
       obs.l "ui-list-update", ui.update
       obs.l "ui-list-toggle", ui.toggle
+
       $ui
   )()

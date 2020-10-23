@@ -1,6 +1,5 @@
 #
 # CORE eventer
-# @todo don't try to attach to 'notLoaded' uis
 #
 import { $$ } from "./dom"
 import { obs } from "./obs"
@@ -10,7 +9,7 @@ import { loader } from "./loader"
 
 export eventer =
   (->
-    supportedTypes = ["click"]
+    supportedTypes = ["click", "init"]
     setAttached = new Set()
 
     attachOne = (ankhEvent) ->
@@ -33,6 +32,12 @@ export eventer =
           return logger.warn "[CORE][eventer]", "unsupported type: #{type}"
 
         events[type].forEach (event) =>
+          # @todo refactoring event types
+          if type is "init"
+            { l, f, args = {} } = event
+            obs.l l, -> obs.f f, { args, type, $target }
+            return
+
           { name: eventName, args = {} } = event
 
           handler = (e) ->

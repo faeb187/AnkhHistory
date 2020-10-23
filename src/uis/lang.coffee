@@ -53,6 +53,7 @@ export lang =
         $ui.appendChild $a
 
       obs.l "ui-lang-update", @update
+      obs.l "core-renderer-rendered", @update
 
       $ui
 
