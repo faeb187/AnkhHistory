@@ -5,3 +5,6 @@ node_modules
 # ankh
 gulpfile.js
 dist
+
+# tmp
+_assets
