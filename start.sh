@@ -7,20 +7,15 @@ rm dist/index.html
 rm -r dist/assets/css
 rm -r dist/assets/js
 
-# some webpack
+# deployment
 npm run build
 
-# compile gulpfile
+# _deployment (@todo migrate to webpack)
 coffee -c -b gulpfile.coffee
-
-# deployment
 gulp
 
-# vendor files
-# cp ./src/vendor/flexbox-reset.css dist/assets/css
-
-# graphQL server
-# cd ../graphql-server && npm start && cd ../ankh
+# provide index.html
+cp src/index.html dist
 
 # serve app
 npx http-server ./dist --proxy http://localhost:8080?

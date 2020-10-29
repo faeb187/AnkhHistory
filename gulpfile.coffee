@@ -3,18 +3,10 @@
 #
 gulp = require "gulp"
 poststyl = require "poststylus"
-pug = require "gulp-pug"
 rename = require "gulp-rename"
 rucksack = require "rucksack-css"
 rupture = require "rupture"
 stylus = require "gulp-stylus"
-
-# ankh pug
-gulp.task "pug", ->
-  gulp
-    .src "src/pug/index.pug"
-    .pipe pug()
-    .pipe gulp.dest "dist"
 
 # ankh styl
 gulp.task "styl", ->
@@ -31,5 +23,5 @@ gulp.task "styl", ->
     .pipe rename "main.min.css"
     .pipe gulp.dest "dist/assets/css"
 
-gulp.task "default", gulp.series("pug", "styl"), (done) =>
+gulp.task "default", gulp.series("styl"), (done) =>
   done()
