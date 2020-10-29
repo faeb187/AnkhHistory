@@ -1,16 +1,12 @@
 #
 # CORE renderer
 #
-import { $$ } from "./dom"
-import { obs } from "./obs"
-import { loader } from "./loader"
-import { logger } from "./logger"
+import { $$, loader, logger, observer } from "core"
 
 export renderer =
   (->
-    # @todo on init
-    $b = $$ "body"
-
+    $b = null
+    init: -> $b = $$ "body"
     render: ->
       logger.groupCollapsed "Renderer"
 
@@ -40,7 +36,7 @@ export renderer =
         location.pathname.slice(1).replace /\//g, "-"
       )
 
-      obs.f "core-renderer-rendered"
+      observer.f "core-renderer-rendered"
 
       logger.groupEnd()
       return

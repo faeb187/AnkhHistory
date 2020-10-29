@@ -1,11 +1,7 @@
 #
 # CORE loader
 #
-import { $$ } from "./dom"
-import { obs } from "./obs"
-import { logger } from "./logger"
-import { media } from "./media"
-import { site } from "./site"
+import { $$, logger, media, observer, site } from "core"
 import * as uis from "../uis"
 
 export loader =
@@ -42,11 +38,6 @@ export loader =
         mapLoaded.set id, { uiOptions, $ui }
         mapNotLoaded.delete id
         return
-
-    obs.l "ankh-viewport", ->
-      updateLoaded()
-      updateNotLoaded()
-      return
 
     # @desc   initializing of ui's if not yet
     # @param  uiOptions MAN {json}        ui configuration
@@ -113,4 +104,11 @@ export loader =
 
     getAllLoaded: -> mapLoaded
     getAllNotLoaded: -> mapNotLoaded
+
+    init: ->
+      observer.l "ankh-viewport", ->
+        updateLoaded()
+        updateNotLoaded()
+        return
+      return
   )()

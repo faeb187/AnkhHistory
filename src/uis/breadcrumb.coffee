@@ -1,7 +1,7 @@
 #
 # UI breadcrumb
 #
-import { $$, obs } from "../core"
+import { $$, observer } from "core"
 
 export breadcrumb =
   (->
@@ -52,7 +52,7 @@ export breadcrumb =
       if !events then options.events = {}
       options.events.ui = [updateEvent]
 
-      obs.l "ui-breadcrumb-update", (opts) ->
+      observer.l "ui-breadcrumb-update", (opts) ->
         opts.events.ui.forEach (uiEvent) ->
           ui.update $target: uiEvent.$target, active: options.active
 

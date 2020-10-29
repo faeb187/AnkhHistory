@@ -1,11 +1,7 @@
 #
 # CORE eventer
 #
-import { $$ } from "./dom"
-import { obs } from "./obs"
-import { logger } from "./logger"
-import { site } from "./site"
-import { loader } from "./loader"
+import { $$, loader, logger, observer, site } from "core"
 
 export eventer =
   (->
@@ -35,7 +31,7 @@ export eventer =
           # @todo refactoring event types
           if type is "init"
             { l, f, args = {} } = event
-            obs.l l, -> obs.f f, { args, type, $target }
+            observer.l l, -> observer.f f, { args, type, $target }
             return
 
           { name: eventName, args = {} } = event
@@ -44,7 +40,7 @@ export eventer =
             logger.info "[CORE][eventer]", "triggered: #{eventName}"
             e.preventDefault()
             e.stopPropagation()
-            obs.f eventName, event: e, args: event.args
+            observer.f eventName, event: e, args: event.args
 
           if !args.selector
             return attachOne { eventName, $target, type, handler }

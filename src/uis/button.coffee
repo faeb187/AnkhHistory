@@ -1,7 +1,7 @@
 #
 # UI button
 #
-import { $$, obs } from "../core"
+import { $$, observer } from "core"
 
 export button =
   (->
@@ -20,7 +20,7 @@ export button =
             return
 
             # FIRE custom 'click' events
-          obs.f ev.ev, ev.arg for ev in evs when ev
+          observer.f ev.ev, ev.arg for ev in evs when ev
           return
 
         # @DESC   inits a new button
@@ -43,7 +43,7 @@ export button =
           { name: eventName } = clickEvent
           $ui.onclick = (event) ->
             event.preventDefault()
-            obs.f eventName, clickEvent
+            observer.f eventName, clickEvent
 
       if lang
         $ui.setAttribute "data-lang", lang

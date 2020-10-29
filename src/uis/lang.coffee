@@ -1,7 +1,7 @@
 #
 # UI lang
 #
-import { $$, obs, state } from "../core"
+import { $$, observer, state } from "core"
 import { de, en } from "../app/i18n"
 
 export lang =
@@ -14,7 +14,7 @@ export lang =
       if !$a then return
 
       event.preventDefault()
-      obs.f "ui-lang-update", lang: $a.getAttribute "lang"
+      observer.f "ui-lang-update", lang: $a.getAttribute "lang"
 
       $$.removeClass $$(".active", $a.parentNode), "active"
       $a.className = "active"
@@ -52,8 +52,8 @@ export lang =
         $$.listen $a, "click", changeLang
         $ui.appendChild $a
 
-      obs.l "ui-lang-update", @update
-      obs.l "core-renderer-rendered", @update
+      observer.l "ui-lang-update", @update
+      observer.l "core-renderer-rendered", @update
 
       $ui
 
@@ -84,7 +84,7 @@ export lang =
       $$("html").setAttribute "lang", lang
 
       state.set id: "lang", state: lang
-      # obs.l "_ankh-viewport-changed", update
-      obs.f "ui-lang-updated"
+      # observer.l "_ankh-viewport-changed", update
+      observer.f "ui-lang-updated"
       return
   )()

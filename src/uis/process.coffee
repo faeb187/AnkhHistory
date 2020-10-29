@@ -1,7 +1,7 @@
 #
 # UI process
 #
-import { $$, obs, state } from "../core"
+import { $$, observer, state } from "core"
 
 export process =
   (->
@@ -20,7 +20,7 @@ export process =
         state.set id: "prcCtrl", state: activeStep: --activeStep
         ui.redirect "/processes/openProduct"
 
-      redirect: (path) => obs.f "core-site-load", path
+      redirect: (path) => observer.f "core-site-load", path
 
       # @DESC   whether a valid step is set or not
       # @PARAM  step    MAN {any}       step to verify
@@ -49,8 +49,8 @@ export process =
 
       if gateway then return ui.redirect steps[activeStep].path
 
-      obs.l "ui-process-continue", ui.continue
-      obs.l "ui-process-abort", ui.abort
-      obs.l "ui-process-back", ui.back
+      observer.l "ui-process-continue", ui.continue
+      observer.l "ui-process-abort", ui.abort
+      observer.l "ui-process-back", ui.back
       return
   )()

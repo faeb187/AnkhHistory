@@ -10,7 +10,7 @@
 import { Modernizr } from "browsernizr"
 
 import { ankh } from "./app/ankh"
-import { eventer, loader, logger, media, renderer, site, obs } from "./core"
+import { eventer, loader, logger, media, renderer, site, observer } from "core"
 
 document.title = ankh.title
 
@@ -29,6 +29,7 @@ site.load location.pathname
 
 # [3]
 # load UI's based on site definition
+loader.init()
 loader.load()
 
 # [4]
@@ -37,11 +38,12 @@ eventer.init()
 
 # [5]
 # render site
+renderer.init()
 renderer.render()
 
 # [6]
 # listen to site requests and load site
-obs.l "core-site-load", (options) ->
+observer.l "core-site-load", (options) ->
   site.load options.event.target.getAttribute "href"
   loader.load()
   # ....?

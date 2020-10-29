@@ -1,7 +1,7 @@
 #
 # UI list
 #
-import { $$, obs, state } from "../core"
+import { $$, observer, state } from "core"
 
 export list =
   (->
@@ -92,8 +92,8 @@ export list =
 
       items.forEach (item) -> ui.addListItem item, $ul
 
-      obs.l "ui-list-update", ui.update
-      obs.l "ui-list-toggle", ui.toggle
+      observer.l "ui-list-update", ui.update
+      observer.l "ui-list-toggle", ui.toggle
 
       $ui
   )()

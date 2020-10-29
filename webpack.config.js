@@ -6,6 +6,9 @@ module.exports = {
     minimize: false
   },
   resolve: {
+    alias: {
+      core: path.resolve(__dirname, 'src/core/')
+    },
     extensions: [ '.js', '.coffee' ]
   },
   module: {

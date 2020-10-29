@@ -1,7 +1,7 @@
 #
 # UI slider
 #
-import { $$, obs } from "../core"
+import { $$, observer } from "core"
 
 export slider =
   (->
@@ -21,7 +21,7 @@ export slider =
 
       $ui = $$ "<div/>", id: id, class: "ui-slider"
 
-      obs.l "_ui-slider-toggle", (opts) ->
+      observer.l "_ui-slider-toggle", (opts) ->
         opts.events.click.forEach (clickEvent) ->
           if clickEvent.name is "_ui-slider-toggle"
             ui.events.toggle clickEvent

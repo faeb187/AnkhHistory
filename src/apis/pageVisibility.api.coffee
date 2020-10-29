@@ -1,7 +1,7 @@
 #
-# HELPER stalker
+# API Page Visibility
 #
-export stalker =
+export pageVisibility =
   (->
     # @DEFINE variables
     d = document
@@ -39,6 +39,7 @@ export stalker =
       # @RETURN {void}
       # @PUBLIC
 
+
         init: ->
           # ATTACH events
           window.addEventListener "online", onLine
@@ -48,6 +49,7 @@ export stalker =
             if navigator.onLine then "online" else "offline"
             +new Date()
           ]
+          console.log log
           return
     )
   )()

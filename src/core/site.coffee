@@ -4,10 +4,7 @@
 import { copy } from "../utils/basic.util"
 import { camelize } from "../utils/string.util"
 
-import { $$ } from "./dom"
-import { obs } from "./obs"
-import { loader } from "./loader"
-import { logger } from "./logger"
+import { $$, loader, logger, observer } from "core"
 
 import { routes } from "../app/conf/routes"
 import * as sites from "../app/sites"
@@ -113,9 +110,9 @@ export site =
       uis.forEach (uiOptions) =>
         build { uiOptions, path: currentPath, parentId: "ankh" }
 
-      # obs.f "ankh-ready"
-      # obs.f "ui-list-update", $$ "#navMobile" # TMP hacky
-      # obs.f "ui-lang-update", $$ ".ui-lang" # TMP hacky
+      # observer.f "ankh-ready"
+      # observer.f "ui-list-update", $$ "#navMobile" # TMP hacky
+      # observer.f "ui-lang-update", $$ ".ui-lang" # TMP hacky
       return
 
     init: ->
@@ -124,7 +121,7 @@ export site =
       # load location.pathname
 
       ###
-      obs.l "core-site-load", (options) ->
+      observer.l "core-site-load", (options) ->
         site.load options.event.target.getAttribute "href"
       ###
       logger.info "siteDefs", siteDefs

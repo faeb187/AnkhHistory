@@ -1,3 +1,6 @@
+#
+# CORE logger
+#
 export logger =
   (->
     error: (...messages) -> console.error ...messages

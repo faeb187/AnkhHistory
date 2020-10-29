@@ -1,7 +1,7 @@
 #
 # UI input
 #
-import { $$, obs, state } from "../core"
+import { $$, observer, state } from "core"
 
 # todo dynamic adapter
 # import { get } from "../network/adapters/apollo"
@@ -46,7 +46,7 @@ export input =
 
         events.keyup?.forEach (searchEvent) ->
           $$.listen $target, "keyup", ->
-            obs.f "_ankh-ui-fire",
+            observer.f "_ankh-ui-fire",
               name: searchEvent.name
               target: searchEvent.target
               value: $target.value
@@ -128,6 +128,6 @@ export input =
           $$("##{inputId}").value = st[inputId]
 
       ui.rememberState { tag, $target, uiId: id }
-      # obs.l "_ui-input-search", ui.search
+      # observer.l "_ui-input-search", ui.search
       $ui
   )()

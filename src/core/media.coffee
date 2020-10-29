@@ -1,5 +1,4 @@
-import { $$ } from "./dom"
-import { obs } from "./obs"
+import { $$, observer } from "core"
 
 export media =
   (->
@@ -16,13 +15,13 @@ export media =
       return "hd"
 
     handleResize = (event) ->
-      obs.f "ankh-resize", event
+      observer.f "ankh-resize", event
 
       vpW = window.innerWidth
       viewportBefore = viewport
       viewport = getViewportName vpW
       if viewport isnt viewportBefore
-        obs.f "ankh-viewport", viewport
+        observer.f "ankh-viewport", viewport
       return
 
     isInViewport: (media = {}) ->
