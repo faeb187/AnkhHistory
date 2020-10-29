@@ -10,7 +10,7 @@ export icon =
         toggleIcon: (opt) =>
           { icons, $target } = opt
 
-          $icon = $$ "ion-icon", $target
+          $icon = $$("ion-icon", $target)[0]
           [icon] = icons.filter (icon) =>
             $icon.getAttribute("name") isnt icon
           $icon.setAttribute "name", icon

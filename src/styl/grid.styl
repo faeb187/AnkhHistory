@@ -1,63 +1,3 @@
-$color-primary = #c03
-$fs-big = 16px
-$fw-bold = bold
-$grey-04 = #ccc
-
-@font-face
-  ff Frutiger
-  fst normal
-  fw 400
-  src url(/assets/fonts/frutiger/FrutigerLTPro-Roman.woff2) format('woff2')
-
-@font-face
-  ff Frutiger
-  fst normal
-  fw bold
-  src url(/assets/fonts/frutiger/FrutigerLTPro-Bold.woff2) format('woff2')
-
-@font-face
-  ff Frutiger
-  fst normal
-  fw 300
-  src url(/assets/fonts/frutiger/FrutigerLTPro-Light.woff2) format('woff2')
-
-*
-  brd 0
-  bsiz border-box
-  mrg 0
-  pdg 0
-
-  & .hidden
-  & [data-fx='out']
-    pos absolute
-    vis hidden
-    lft -9999px
-
-  /*& .hidden
-    vis hidden !important*/
-
-html
-body
-#ankh
-  h 100%
-  ovr hidden
-
-body
-  ff Frutiger
-  fs 14px
-
-a
-  &:link
-  &:visited
-  &:hover
-  &:active
-    c #000
-    txtd none
-
-ul
-li
-  ls none
-
 .ui-grid
   dsp grid
 
@@ -66,27 +6,29 @@ li
 
 #header
 #footer
-  bc #eee
+  bc #eee // tmp
+
+#header
+  fxai center
+  grid-area 2 / 2 / 4 / 24
+  grid-template-columns repeat(5, 1fr)
+
++above('l')
+  #header
+    grid-area 2 / 2 / 6 / 24
+    grid-template-rows repeat(2, 1fr)
 
 #logoSmall
   w 32px
 
-#navMobile
-  li
-    pdg 1rem
-
-  a
-    fs $fs-big
-
-  > ul > li > a
-    fw $fw-bold
-
-#lang
+/*
+#langMobile
   a
     dsp inline-grid
     fxjc center
     fxac center
     fs 16px
     &.active
-      bc $color-primary
-      c #fff
+      bc $color-01
+      c $white
+*/

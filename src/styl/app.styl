@@ -1,71 +1,39 @@
 html
-  fs $fs
-  fw $fw-normal
-  ff $ff
+body
+#ankh
+  h 100%
+  ovr hidden
 
 body
-  w     100vw
-
-a
-  curs  pointer
-
-i
-  fs    3rem
-
-img
-  maxw  100%
-
-b
-  fw    700
-
-h2
-  fw    700
-  fs    1rem
-
-small
-  fs    .9rem
-
-  +above( 'xl' )
-    fs  .9rem
+  ff $ff
+  fs $fs
+  fw $fw-normal
 
 *
-  & [data-fx= 'in']
-    dsp flex
+  brd 0
+  bsiz border-box
+  mrg 0
+  pdg 0
 
-  & table[data-fx= 'in']
-    dsp table
+  & .hidden
+  & [data-fx='out']
+    pos absolute
+    vis hidden
+    lft -9999px
 
-  & [data-fx= 'out' ]
-    dsp none
+a
+  &:link
+  &:visited
+  &:hover
+  &:active
+    c #000
+    txtd none
 
-#ankh
-  fx    1 1 auto
-  
-  > div
-    fx  1 1 auto
+ul
+li
+  ls none
 
-#cnt
-  fx    1 1 auto
-  w     100%
-  fxai  center
-
-#h
-  w     100%
-
-#m
-  w     100%
-  mrgb  1rem
-  mrgt  1rem
-
-#f
-  fxd   row
-  fx    0 1 auto
-  fxjc  space-between
-  fxai  center
-  pdg   0 2rem
-  w     100vw - 4rem
-
-// BeKB
+/*
 #cnt
 #f
   w $w-cnt
@@ -120,3 +88,4 @@ small
 
 .ui-html-box
   bc $grey-04
+*/

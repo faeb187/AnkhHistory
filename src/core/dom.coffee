@@ -43,7 +43,8 @@ export $$ =
       if !$elms.length then return []
 
       # return found element(s)
-      if $elms.length is 1 then $elms[0] else $elms
+      # if $elms.length is 1 then $elms[0] else $elms
+      $elms
 
     # @DESC   (bulk) append element(s) to HTMLNode
     $$.append = (toAppend, $t) ->

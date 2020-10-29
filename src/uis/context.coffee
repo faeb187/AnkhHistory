@@ -33,7 +33,7 @@ export context =
       # DEFINE variables
       opt = opt or {}
       id = opt.id
-      $elm = $$ "#" + id
+      $elm = $$("##{id}")[0]
 
       # LISTEN for right click
       if $elm then $$.listen $elm, "contextmenu", ui.evs.contextMenu

@@ -55,10 +55,12 @@ export eventer =
       logger.groupCollapsed "Eventer"
       loader
         .getAllLoaded()
-        .forEach (loadedUi) =>
+        .forEach (loadedUi, id) =>
           { $ui, uiOptions } = loadedUi
           { events } = uiOptions
-          if !events then return
+
+          # @todo don't filter placeholders here....
+          if id.startsWith("_") or !events then return
 
           eventer.attach events, $ui
           return

@@ -29,7 +29,7 @@ export input =
           if eventName isnt "_ui-input-search" then return
 
           query = "{partner {partnerNo lastname firstname birthday }}"
-          $datalist = $$ "##{$target.id}-list"
+          $datalist = $$("##{$target.id}-list")[0]
           $datalist.innerHTML = ""
 
           try

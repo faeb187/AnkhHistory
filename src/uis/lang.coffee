@@ -16,7 +16,7 @@ export lang =
       event.preventDefault()
       observer.f "ui-lang-update", lang: $a.getAttribute "lang"
 
-      $$.removeClass $$(".active", $a.parentNode), "active"
+      $$.removeClass $$(".active", $a.parentNode)[0], "active"
       $a.className = "active"
       return
 
@@ -31,7 +31,7 @@ export lang =
 
       if !id then return
 
-      lang = state.get({ id }) or def
+      lang = state.get(id: "lang") or def
 
       $ui = $$ "<nav/>", id: id, class: "ui-lang"
 
@@ -81,7 +81,7 @@ export lang =
         else
           elm.innerHTML = v
 
-      $$("html").setAttribute "lang", lang
+      $$("html")[0].setAttribute "lang", lang
 
       state.set id: "lang", state: lang
       # observer.l "_ankh-viewport-changed", update

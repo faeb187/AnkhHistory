@@ -1,26 +1,13 @@
-.ui-list
-  fx 1
-  pos relative
+#navMobile
+  li
+    pdg 1rem
 
-.ui-list ul
-  fxd row
+  a
+    fs $fs-big
 
-.ui-list a
-  fx 1
-  pdg $pdg ($pdg / 2)
-    
-.ui-list ul ul
-  dsp none
-  pos absolute 
-  lft 0
-  top 100%
-
-  ul
-    dsp none
-
-.ui-list
-  .active
+  > ul > li > a
     fw $fw-bold
 
-    &+ ul
-      dsp flex
+#nav
+  grid-row-start 2
+  grid-column 1 / 6

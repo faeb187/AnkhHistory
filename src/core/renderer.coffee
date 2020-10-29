@@ -8,7 +8,7 @@ export renderer =
     $b = null
 
     renderDeferred = ($ui) ->
-      $placeholder = $$ "#_#{$ui.id}"
+      $placeholder = $$("#_#{$ui.id}")[0]
 
       # [1] keep eventual children placeholders
       $placeholder.childNodes?.forEach (childNode) =>
@@ -33,7 +33,7 @@ export renderer =
     #
 
     init: ->
-      $b = $$ "body"
+      $b = document.body
       observer.l "core-loader-ui-ready", renderDeferred
       observer.l "ankh-viewport", updateVisibility
       return
@@ -51,10 +51,10 @@ export renderer =
 
       mapLoaded.forEach (loadedUi) =>
         { $ui, parentId } = loadedUi
-        $$("##{parentId}", $df).appendChild $ui
+        $$("##{parentId}", $df)[0].appendChild $ui
 
-      $$("#ankh").replaceWith $df
-      $$("body").setAttribute "data-site", siteName
+      $$("#ankh")[0].replaceWith $df
+      $$("body")[0].setAttribute "data-site", siteName
 
       observer.f "core-renderer-rendered"
 

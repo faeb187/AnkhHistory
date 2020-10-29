@@ -11,12 +11,11 @@ export list =
       update: (event) ->
         { type, $target } = event
 
-        $actBefore = $$ ".active", $target
-        if $actBefore.length
-          $$.removeClass $$(".active", $target), "active"
+        $actBefore = $$(".active", $target)[0]
+        if $actBefore then $$.removeClass $actBefore, "active"
 
         pth = location.pathname
-        $actLi = $$("[href='#{pth}']", $target).parentNode
+        $actLi = $$("[href='#{pth}']", $target)[0].parentNode
         $$.addClass $actLi, "active"
 
         $parentUl = $actLi.parentNode

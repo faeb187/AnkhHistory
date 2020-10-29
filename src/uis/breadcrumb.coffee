@@ -12,8 +12,8 @@ export breadcrumb =
       update: (options) ->
         { active = 0, $target } = options
 
-        $items = $$ "a", $target
-        $active = $$ ".active", $target
+        $items = $$("a", $target)[0]
+        $active = $$(".active", $target)[0]
 
         if $active then $$.removeClass $active, "active"
         $$.addClass $items[active], "active"

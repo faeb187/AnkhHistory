@@ -89,7 +89,7 @@ export site =
     # @desc   load a site by its pathname
     # @param  pathname  OPT {string}  path of the site
     load: (pathname = location.pathname) ->
-      $ankh = $$ "#ankh"
+      $ankh = $$("#ankh")[0]
       $ankh.innerHTML = ""
 
       path = if pathname.endsWith "/" then pathname.slice 0, -1 else pathname
