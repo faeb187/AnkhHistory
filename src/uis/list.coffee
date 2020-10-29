@@ -27,11 +27,7 @@ export list =
         $$.addClass $parentLi, "active"
 
       toggle: (options) ->
-        { event, args } = options
-
-        $toToggle = $$ "##{args.toToggle}"
-        $toToggle.setAttribute "data-fx",
-          if $toToggle.getAttribute("data-fx") is "in" then "out" else "in"
+        $$.toggleClass $$("##{options?.args?.toToggle}"), "hidden"
         return
 
       # @DESC   adds list item to list

@@ -8,7 +8,6 @@ rucksack = require "rucksack-css"
 rupture = require "rupture"
 stylus = require "gulp-stylus"
 
-# ankh styl
 gulp.task "styl", ->
   gulp
     .src "src/styl/main.styl"
@@ -22,6 +21,3 @@ gulp.task "styl", ->
     )
     .pipe rename "main.min.css"
     .pipe gulp.dest "dist/assets/css"
-
-gulp.task "default", gulp.series("styl"), (done) =>
-  done()

@@ -4,7 +4,6 @@ export media =
   (->
     bps = {}
     viewport = ""
-    throttle = {}
 
     getViewportName = (vpW) ->
       if vpW >= 0 and vpW < 400 then return "xs"
@@ -14,9 +13,7 @@ export media =
       if vpW >= 1050 and vpW < 1800 then return "xl"
       return "hd"
 
-    handleResize = (event) ->
-      observer.f "ankh-resize", event
-
+    onResizeDone = ->
       vpW = window.innerWidth
       viewportBefore = viewport
       viewport = getViewportName vpW
@@ -44,19 +41,8 @@ export media =
         xl: 1050
         hd: 1800
 
-      viewport = ""
-
-      throttle =
-        delay: 100
-        active: false
-
-      $$.listen window, "resize", ->
-        if !throttle.active
-          handleResize()
-          throttle.active = true
-
-          setTimeout (=> throttle.active = false), throttle.delay
-        clearTimeout lastResize
-        lastResize = setTimeout (=> handleResize), throttle.delay
+      window.addEventListener "resize", ->
+        clearTimeout resizeTimeout
+        resizeTimeout = setTimeout onResizeDone, 200
         return
   )()

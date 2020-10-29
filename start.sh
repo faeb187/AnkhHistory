@@ -2,7 +2,6 @@
 
 #clean up
 rm dist/*.js
-rm gulpfile.js
 rm dist/index.html
 rm -r dist/assets/css
 rm -r dist/assets/js
@@ -10,9 +9,10 @@ rm -r dist/assets/js
 # deployment
 npm run build
 
-# _deployment (@todo migrate to webpack)
+# @todo webpack stylus
 coffee -c -b gulpfile.coffee
-gulp
+gulp styl
+rm gulpfile.js
 
 # provide index.html
 cp src/index.html dist

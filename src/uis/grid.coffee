@@ -11,6 +11,7 @@ export grid =
       {
         attributes = {}
         id
+        className = ""
         element = "div"
         style = {}
         inline = false
@@ -18,7 +19,7 @@ export grid =
 
       if !id then return
 
-      cn = "ui-grid#{(inline && "-inline") || ""}"
+      cn = "ui-grid#{(inline && "-inline") || ""} #{className}"
       $ui = $$ "<#{element}/>", { id, class: cn }
 
       $$.style $ui, style

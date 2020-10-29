@@ -8,8 +8,8 @@ logo =
   ui: "html"
   tag: "img"
   src: "/assets/img/logo-small.png"
-  alt: "bekb"
-  media: max: "m"
+  lang: "bekb"
+  media: max: "l"
 
 redTop =
   id: "redTop"
@@ -40,7 +40,6 @@ export partnerAdditionalProducts =
         alignItems: "center"
         gridArea: "2 / 2 / 4 / 24"
         gridTemplateColumns: "repeat(5, 1fr)"
-        justifyItems: "center"
       inline: true
       ids: [
         copy logo
@@ -48,10 +47,8 @@ export partnerAdditionalProducts =
           ...copy(logo)
           id: "logo"
           src: "/assets/img/logo.svg"
-          style:
-            gridColumnStart: 1
-            gridColumnEnd: 3
-          media: min: "m"
+          lang: "bekb"
+          media: min: "l"
         }
       ]
     ,
@@ -92,8 +89,7 @@ export partnerAdditionalProducts =
   ,
     id: "navMobileWrapper"
     ui: "grid"
-    attributes:
-      "data-fx": "out"
+    className: "hidden"
     style:
       background: "#fff"
       grid: "none"

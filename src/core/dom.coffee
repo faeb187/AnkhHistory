@@ -235,23 +235,6 @@ export $$ =
       elm.setAttribute k, v for k, v of attributes
       @
 
-    # @DESC   toggles style.display
-    # @PARAM  elm   MAN {node|string} element or selector
-    # @PARAM  dsp   OPT {string}      visible type (@DEF:block|flex)
-    # @RETURN {$$}
-    $$.toggle = (elm, dsp) ->
-      if !elm then return $$
-      dsp = dsp or "block"
-
-      if typeof elm is "string" then elm = $$ elm
-      if !elm then return $$
-
-      if elm.length then elm = elm[0]
-      curDsp = elm.style.display
-      elm.style.display = if curDsp is "none" then dsp else "none"
-
-      $$
-
     # @DESC   uppercase first character of string
     # @PARAM  str   MAN {string}  string
     # @RETURN {string|$$}

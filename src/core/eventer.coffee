@@ -22,7 +22,7 @@ export eventer =
 
     #@desc  attach events
     #@param events  MAN {AnkhEvent} events to attach
-    attach = (events, $target) ->
+    attach: (events, $target) ->
       Object.keys(events).forEach (type) =>
         if !supportedTypes.includes type
           return logger.warn "[CORE][eventer]", "unsupported type: #{type}"
@@ -60,7 +60,7 @@ export eventer =
           { events } = uiOptions
           if !events then return
 
-          attach events, $ui
+          eventer.attach events, $ui
           return
       logger.info "events: ", setAttached
       logger.groupEnd()
