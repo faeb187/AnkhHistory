@@ -84,7 +84,7 @@ export lang =
       $$("html")[0].setAttribute "lang", lang
 
       state.set id: "lang", state: lang
-      # observer.l "_ankh-viewport-changed", update
+      observer.l "core-renderer-rendered", lang.update
       observer.f "ui-lang-updated"
       return
   )()

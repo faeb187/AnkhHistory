@@ -16,6 +16,9 @@ export renderer =
 
       # [2] render the received ui
       $placeholder.replaceWith $ui
+
+      # [3] notify subscribers (e.g. lang update)
+      observer.f "core-renderer-rendered"
       return
 
     updateVisibility = ->

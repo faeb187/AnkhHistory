@@ -21,7 +21,7 @@ export gridMain = {
   element: "main"
   style:
     gridColumn: "1 / 25"
-    gridRow: "4 / -4"
+    gridRow: "6 / -4"
 }
 
 export gridFooter = {

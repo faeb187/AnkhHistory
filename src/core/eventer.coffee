@@ -53,17 +53,29 @@ export eventer =
 
     init: ->
       logger.groupCollapsed "Eventer"
+
+      # [1] get all loaded ui's of the site
       loader
         .getAllLoaded()
         .forEach (loadedUi, id) =>
           { $ui, uiOptions } = loadedUi
           { events } = uiOptions
 
-          # @todo don't filter placeholders here....
+          # [1][@todo] don't filter placeholders here....
           if id.startsWith("_") or !events then return
 
+          # [2] attach events
           eventer.attach events, $ui
           return
+
+      # [3] listen to deferred ui loadings
+      observer.l "core-loader-ui-ready", ($ui) ->
+        { events } = $ui
+
+        # ...and attach events if available
+        if events then eventer.attach events, $ui
+        return
+
       logger.info "events: ", setAttached
       logger.groupEnd()
       return

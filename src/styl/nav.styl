@@ -8,6 +8,28 @@
   > ul > li > a
     fw $fw-bold
 
-#nav
-  grid-row-start 2
-  grid-column 1 / 6
+#navMain
+#navPartner
+  dsp inline-grid
+  grid-template-columns repeat(24, 1fr)
+  grid-column 1/25
+  grid-row 3
+  
+  a
+    align-self center
+    fs $fs-big
+    fw $fw-thin
+    ws nowrap
+
+    &:first-child
+      grid-column-start 2
+
+    &:not(:last-child)
+      mrgr 2*$mrg
+
+    &.active
+      fw $fw-bold
+
+#navPartner
+  bc $grey-04
+  grid-row 4/6

@@ -5,6 +5,8 @@ common =
 export navMain = {
   ...common
   id: "navMain"
+  attributes:
+    "aria-label": "Main"
   media: min: "l"
   items: [
     lang: "partner"
@@ -15,8 +17,13 @@ export navMain = {
 export navPartner = {
   ...common
   id: "navPartner"
+  attributes:
+    "aria-label": "Partner"
   media: min: "l"
   items: [
+    lang: "products"
+    path: "/partner/products"
+  ,
     lang: "additionalProducts"
     path: "/partner/additionalProducts"
   ]

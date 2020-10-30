@@ -12,7 +12,7 @@ export nav =
 
       if !id or !items?.length then return
 
-      $ui = $$ "<nav/>", { id, class: "ui-nav", role: "navigation" }
+      $ui = $$ "<nav/>", { id, class: "ui-nav" }
 
       items.forEach (item) =>
         { lang, path: href } = item

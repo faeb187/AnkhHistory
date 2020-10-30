@@ -5,21 +5,24 @@
   dsp inline-grid
 
 #header
-#footer
-  bc #eee // tmp
-
-#header
-  fxai center
-  grid-area 2 / 2 / 4 / 24
-  grid-template-columns repeat(5, 1fr)
+  grid-area 2/1/4/25
+  grid-template-columns repeat(24, 1fr)
 
 +above('l')
   #header
-    grid-area 2 / 2 / 6 / 24
-    grid-template-rows repeat(2, 1fr)
+    grid-row 2/8
+    grid-template-rows repeat(6, 1fr)
+
+#logo
+#logoSmall
+  align-self center
 
 #logoSmall
+  grid-column-start 2
   w 32px
+
+#logo
+  grid-column 2/6
 
 /*
 #langMobile
