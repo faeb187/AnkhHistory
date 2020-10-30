@@ -12,38 +12,27 @@ import { Modernizr } from "browsernizr"
 import { ankh } from "./app/ankh"
 import { eventer, loader, logger, media, renderer, site, observer } from "core"
 
+init = (path) ->
+  site.load path
+  loader.load()
+  renderer.render()
+  return
+
+# @todo flexible title per site
 document.title = ankh.title
 
 logger.title "ANKHORAGE"
 
-# [1]
-# set breakpoints and...
-# initiate viewport management
-media.init()
-
-# [2]
-# build site definition...
-# (flattened UI options of one route)
-site.init()
-site.load location.pathname
-
-# [3]
-# load UI's based on site definition
-loader.init()
-loader.load()
-
-# [4]
-# attach events to loaded & visible UI's
+# [1] init core modules
 eventer.init()
-
-# [5]
-# render site
+loader.init()
+media.init()
 renderer.init()
-renderer.render()
+site.init()
 
-# [6]
-# listen to site requests and load site
+# [2] init site
+init location.pathname
+
+# [3] listen for site requests
 observer.l "core-site-load", (options) ->
-  site.load options.event.target.getAttribute "href"
-  loader.load()
-  # ....?
+  init options.event.target.getAttribute "href"

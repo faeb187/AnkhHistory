@@ -1,7 +1,7 @@
 #
 # CORE loader
 #
-import { $$, logger, media, observer, site } from "core"
+import { $$, eventer, logger, media, observer, site } from "core"
 import { copy } from "../utils/basic.util"
 import * as uis from "../uis"
 
@@ -14,23 +14,23 @@ export loader =
 
     updateDeferred = ->
       getNotLoaded().forEach (notLoadedUi, id) =>
-        { uiOptions, uiOptions: { media: m, ui } } = notLoadedUi
+        { uiOptions } = notLoadedUi
+        { events, media: m, ui } = uiOptions
 
         # [1] is the UI now in the viewport?
         if !m or !media.isInViewport m then return
 
         # [2] load it
         $ui = uis[ui].init uiOptions
+        if !$ui then return logger.error "UI##{ui} didn't return itself"
 
-        # [2][NOK] UI failure
-        if !$ui
-          return logger.error "UI '#{ui}' didn't return itself"
+        # [3] attach events
+        if events then eventer.attach events, $ui
 
-        # [3] update loaded state
-        mapLoaded.set uiOptions.id, { uiOptions, $ui }
-        mapLoaded.delete id
+        # [4] update loaded state
+        mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete id
 
-        # [4] delegate rendering
+        # [5] delegate rendering
         observer.f "core-loader-ui-ready", $ui
         return
 
@@ -40,7 +40,7 @@ export loader =
 
     initUi: (options) ->
       { uiOptions, parentId } = options
-      { id, ui, media: m } = uiOptions
+      { events, id, ui, media: m } = uiOptions
 
       # [1] identification & classification
       if !id or !ui
@@ -87,7 +87,10 @@ export loader =
       if !$ui
         return logger.error "UI '#{uis[ui]}' didn't return itself", uiOptions
 
-      # [4][OK] loaded successfully
+      # [5] attach events
+      if events then eventer.attach events, $ui
+
+      # [6] register loaded ui
       mapLoaded.set id, { $ui, uiOptions, parentId }
       logger.info(
         "%cloaded %c ##{id} (parent: #{parentId}"

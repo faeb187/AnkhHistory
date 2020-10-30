@@ -61,6 +61,6 @@ export renderer =
 
       observer.f "core-renderer-rendered"
 
-      logger.groupEnd()
+      console.groupEnd()
       return
   )()

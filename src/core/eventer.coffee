@@ -55,6 +55,7 @@ export eventer =
       logger.groupCollapsed "Eventer"
 
       # [1] get all loaded ui's of the site
+      ###
       loader
         .getAllLoaded()
         .forEach (loadedUi, id) =>
@@ -67,6 +68,7 @@ export eventer =
           # [2] attach events
           eventer.attach events, $ui
           return
+      ###
 
       # [3] listen to deferred ui loadings
       observer.l "core-loader-ui-ready", ($ui) ->
