@@ -5,7 +5,7 @@ import { $$, loader, logger, media, observer } from "core"
 
 export renderer =
   (->
-    $b = null
+    $ankh = undefined
 
     renderDeferred = ($ui) ->
       $placeholder = $$("#_#{$ui.id}")[0]
@@ -20,7 +20,6 @@ export renderer =
       # [3] notify subscribers (e.g. lang update)
       observer.f "core-renderer-rendered"
       return
-
     updateVisibility = ->
       loader
         .getAllLoaded()
@@ -33,31 +32,24 @@ export renderer =
           return
       return
 
-    #
-
     init: ->
-      $b = document.body
+      $ankh = $$("#ankh")[0]
+
       observer.l "core-loader-ui-ready", renderDeferred
       observer.l "ankh-viewport", updateVisibility
       return
-
     render: ->
       logger.groupCollapsed "Renderer"
 
       mapLoaded = loader.getAllLoaded()
-
-      siteName = location.pathname.slice(1).replace /\//g, "-"
-
       $df = document.createDocumentFragment()
-      $ankh = $$ "<div/>", id: "ankh"
-      $df.appendChild $ankh
 
       mapLoaded.forEach (loadedUi) =>
         { $ui, parentId } = loadedUi
-        $$("##{parentId}", $df)[0].appendChild $ui
+        ($$("##{parentId}", $df)[0] or $df).appendChild $ui
 
-      $$("#ankh")[0].replaceWith $df
-      $$("body")[0].setAttribute "data-site", siteName
+      $ankh.innerHTML = ""
+      $ankh.appendChild $df
 
       observer.f "core-renderer-rendered"
 

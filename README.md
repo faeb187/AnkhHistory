@@ -1,7 +1,5 @@
 # Ankhorage
 
-ankhorage ui framework
-
 ## Installation
 
 ```bash
@@ -10,10 +8,19 @@ npm i
 
 # deploy app
 npm start
+
+# deploy app (dev)
+npm run watch
 ```
 
 ## ToDo
 
-- change 'target' param to '\$target' in all UIs
+- set document.title
+- typescript migration
+- jest coverage 100%
+- doctor package
 - ui-update-lang per UI
-- remove gulp
+- remove gulp (stylus-loader?)
+- ensure multi-tenancy capability
+- camunda test (ui-process)
+- keycloak integration
