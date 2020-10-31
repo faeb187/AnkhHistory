@@ -10,7 +10,8 @@ import * as uis from "../uis"
 
 export loader =
   (->
-    mapLoaded = siteConfigurations = undefined
+    mapLoaded = undefined
+    siteConfigurations = undefined
 
     getNotLoaded = -> new Map [...mapLoaded].filter ([k, v]) => k.startsWith "_"
     setRoute = (route) ->
@@ -29,7 +30,9 @@ export loader =
     updateDeferred = ->
       getNotLoaded().forEach (notLoadedUi, id) =>
         { uiOptions } = notLoadedUi
-        { events, media: m, ui } = notLoadedUi
+        { events, media: m, ui } = uiOptions
+
+        if m then logger.log "#{id} should show:", media.isInViewport m
 
         # [1] is the UI now in the viewport?
         if !m or !media.isInViewport m then return

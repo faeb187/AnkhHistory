@@ -8,6 +8,7 @@ export renderer =
     $ankh = undefined
 
     renderDeferred = ($ui) ->
+      logger.log "renderDeferred", $ui
       $placeholder = $$("#_#{$ui.id}")[0]
 
       # [1] keep eventual children placeholders
