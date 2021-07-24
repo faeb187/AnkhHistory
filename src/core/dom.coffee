@@ -8,10 +8,10 @@ export $$ =
     isNode = (elm) ->
       elm instanceof HTMLElement
 
-      # @DESC   find element(s)
+    # @DESC   find element(s)
     # @PARAM  p1  MAN {string}      CSS selector
     # @PARAM  p2  OPT {string|Node} parent container
-    # @RETURN {Node|array}  node or array of nodes or empty array
+    # @RETURN {HTMLElement[]}
     #
     # @DESC   create element
     # @PARAM  p1  MAN {string}  <tagName/> (e.g. $$ '<div/>')
@@ -43,8 +43,7 @@ export $$ =
       if !$elms.length then return []
 
       # return found element(s)
-      # if $elms.length is 1 then $elms[0] else $elms
-      $elms
+      Array.from $elms
 
     # @DESC   (bulk) append element(s) to HTMLNode
     $$.append = (toAppend, $t) ->

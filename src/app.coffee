@@ -3,7 +3,7 @@
 # @todo no direct access between CORE modules (handle it here)
 #
 import { ankh } from "./app/ankh"
-import { eventer, loader, logger, media, renderer, observer } from "core"
+import { loader, logger, media, renderer, observer } from "core"
 
 init = (path) ->
   loader.loadSite path
@@ -13,7 +13,6 @@ init = (path) ->
 logger.title "ANKHORAGE"
 
 # [1] init core modules
-eventer.init()
 loader.init()
 media.init()
 renderer.init()

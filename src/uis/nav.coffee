@@ -22,7 +22,7 @@ export nav =
         return
 
       observer.l "core-renderer-rendered", ->
-        Array.from($$ ".ui-nav").forEach ($nav) => nav.update $nav
+        $$(".ui-nav").forEach ($nav) => nav.update $nav
         return
 
       $ui

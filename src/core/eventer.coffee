@@ -19,10 +19,7 @@ export eventer =
 
       setAttached.add { name: eventName, $target, type, handler }
       return
-
-    #@desc  attach events
-    #@param events  MAN {AnkhEvent} events to attach
-    attach: (events, $target) ->
+    attach = (events, $target) ->
       Object.keys(events).forEach (type) =>
         if !supportedTypes.includes type
           return logger.warn "[CORE][eventer]", "unsupported type: #{type}"
@@ -51,9 +48,5 @@ export eventer =
         return
       return
 
-    init: ->
-      observer.l "core-loader-ui-ready", ($ui) ->
-        if $ui.events then eventer.attach $ui.events, $ui
-        return
-      return
+    { attach }
   )()

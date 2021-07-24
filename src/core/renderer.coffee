@@ -8,12 +8,15 @@ export renderer =
     $ankh = undefined
 
     renderDeferred = ($ui) ->
-      logger.log "renderDeferred", $ui
+      logger.log $ui.id, $$("#_#{$ui.id}")[0]
       $placeholder = $$("#_#{$ui.id}")[0]
+      console.log "id/placeholder:", $ui.id, $placeholder
 
       # [1] keep eventual children placeholders
-      $placeholder.childNodes?.forEach (childNode) =>
-        $ui.appendChild $placeholder.removeChild childNode
+      while $placeholder.firstChild
+        $ui.appendChild $placeholder.removeChild $placeholder.firstChild
+
+      logger.log "PRESERVED", Array.from $ui.childNodes
 
       # [2] render the received ui
       $placeholder.replaceWith $ui
@@ -24,7 +27,10 @@ export renderer =
     updateVisibility = ->
       loader
         .getAllLoaded()
-        .forEach (loadedUi) =>
+        .forEach (loadedUi, id) =>
+          # ignore placeholders
+          if id.startsWith "_" then return
+
           { $ui, uiOptions: { media: m } } = loadedUi
           if m
             before = $ui.getAttribute "data-fx"
@@ -32,14 +38,13 @@ export renderer =
             if before isnt after then $ui.setAttribute "data-fx", after
           return
       return
-
-    init: ->
+    init = ->
       $ankh = $$("#ankh")[0]
 
       observer.l "core-loader-ui-ready", renderDeferred
       observer.l "ankh-viewport", updateVisibility
       return
-    render: ->
+    render = ->
       logger.groupCollapsed "Renderer"
 
       mapLoaded = loader.getAllLoaded()
@@ -49,6 +54,7 @@ export renderer =
         { $ui, parentId } = loadedUi
         ($$("##{parentId}", $df)[0] or $df).appendChild $ui
 
+      # @todo only render changes
       $ankh.innerHTML = ""
       $ankh.appendChild $df
 
@@ -56,4 +62,6 @@ export renderer =
 
       console.groupEnd()
       return
+
+    { init, render, renderDeferred }
   )()

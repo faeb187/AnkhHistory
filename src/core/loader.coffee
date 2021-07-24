@@ -1,7 +1,7 @@
 #
 # CORE loader
 #
-import { $$, eventer, logger, media, observer, site } from "core"
+import { $$, eventer, logger, media, observer, renderer, site } from "core"
 import { copy } from "../utils/basic.util"
 import { camelize } from "../utils/string.util"
 import { routes } from "../app/conf/routes"
@@ -32,8 +32,6 @@ export loader =
         { uiOptions } = notLoadedUi
         { events, media: m, ui } = uiOptions
 
-        if m then logger.log "#{id} should show:", media.isInViewport m
-
         # [1] is the UI now in the viewport?
         if !m or !media.isInViewport m then return
 
@@ -48,8 +46,10 @@ export loader =
         mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete id
 
         # [5] delegate rendering
-        observer.f "core-loader-ui-ready", $ui
+        # @todo setTimeout needed because direct DOM rendering (collect all and then render at once)
+        setTimeout -> renderer.renderDeferred $ui
         return
+      return
     getItemsByPath = (path) ->
       itemsByPath = []
 
@@ -136,7 +136,6 @@ export loader =
         "color: #fff"
       )
       return
-
     loadSite = (path) ->
       logger.groupCollapsed "Loader:loadSite"
 
