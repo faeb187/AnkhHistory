@@ -22,6 +22,7 @@ export nav =
         return
 
       observer.l "core-renderer-rendered", ->
+        console.log $$ ".ui-nav"
         $$(".ui-nav").forEach ($nav) => nav.update $nav
         return
 

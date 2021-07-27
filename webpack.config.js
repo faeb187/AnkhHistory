@@ -1,27 +1,43 @@
 const path = require("path");
-const poststyl = require("poststylus");
-const rucksack = require("rucksack-css");
-const rupture = require("rupture");
+// import poststyl from "poststylus";
+// import rucksack from "rucksack-css";
+// import rupture from "rupture";
 
 module.exports = {
-  entry: './src/app',
+  devtool: "inline-source-map",
+  entry: "./src/app.ts",
+  mode: "development",
   optimization: {
-    minimize: false
+    minimize: false,
   },
   resolve: {
     alias: {
-      core: path.resolve(__dirname, 'src/core/')
+      core: path.resolve(__dirname, "src/core"),
+      types: path.resolve(__dirname, "src/types"),
+      uis: path.resolve(__dirname, "src/uis"),
+      utils: path.resolve(__dirname, "src/utils"),
     },
-    extensions: [ '.js', '.coffee' ]
+    extensions: [".ts"],
   },
   module: {
     rules: [
       {
+        test: /\.ts$/,
+        use: "ts-loader",
+        exclude: "/node_modules/",
+      },
+      /*{
+        test: /\.coffee$/,
+        loader: "coffee-loader",
+        include: "/src/",
+        exclude: "/node_modules/",
+      },*/
+      /*{
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
-        include: path.resolve(__dirname, 'src'),
-        loader: 'graphql-tag/loader'
-      },
+        include: path.resolve(__dirname, "src"),
+        loader: "graphql-tag/loader",
+      },*/
       /*{
         test: /\.styl$/,
         use: [
@@ -41,11 +57,6 @@ module.exports = {
           }
         ]
       },*/
-      {
-        test: /\.coffee$/,
-        loader: 'coffee-loader',
-        include: path.resolve(__dirname, 'src'),
-      }
     ],
   },
 };
