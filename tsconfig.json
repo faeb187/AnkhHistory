@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "lib": ["dom","es6"],
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "outDir": "./dist",
+    "paths": {
+      "core": ["core"],
+      "types": ["types"],
+      "uis": ["uis"],
+      "utils": ["utils"]
+    },
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "rootDir": "./src",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es5",
+  },
+}
