@@ -5,7 +5,7 @@ gulp = require "gulp"
 poststyl = require "poststylus"
 rename = require "gulp-rename"
 rucksack = require "rucksack-css"
-rupture = require "rupture"
+rupture = require"rupture"
 stylus = require "gulp-stylus"
 
 gulp.task "styl", ->
