@@ -12,9 +12,9 @@
     "framework",
     "mobile first",
     "content first",
-    "coffee",
+    "typescript",
     "html5",
-    "css3"
+    "stylus"
   ],
   "author": "faeb187",
   "license": "MIT",
@@ -38,7 +38,7 @@
         "src"
       ],
       "extensions": [
-        "coffee",
+        "ts",
         "styl"
       ]
     }
@@ -62,8 +62,7 @@
     "@types/node": "^16.4.3",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
-    "coffee-loader": "^3.0.0",
-    "coffeescript": "^2.5.1",
+    "coffeescript": "^2.6.0",
     "css-loader": "^6.2.0",
     "eslint": "^7.31.0",
     "graphql-tag": "^2.12.5",

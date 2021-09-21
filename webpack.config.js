@@ -27,12 +27,6 @@ module.exports = {
         exclude: "/node_modules/",
       },
       /*{
-        test: /\.coffee$/,
-        loader: "coffee-loader",
-        include: "/src/",
-        exclude: "/node_modules/",
-      },*/
-      /*{
         test: /\.(graphql|gql)$/,
         exclude: /node_modules/,
         include: path.resolve(__dirname, "src"),
