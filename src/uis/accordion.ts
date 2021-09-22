@@ -3,17 +3,18 @@
  */
 import { $$, observer } from "core";
 
-// @PARAM  opt.id      MAN {string}      ui id
-// @PARAM  opt.ids     OPT {json}        ui-details configs
-// @PARAM  $target     MAN {HTMLElement} ui target
-type UiAccordionOptions = {
+type AnkhUiAccordionOptions = {
   id: string;
   $target: HTMLElement;
 };
 
 export const accordion = (() => ({
-  init: (options: UiAccordionOptions) => {
+  init: (options: AnkhUiAccordionOptions) => {
     const { id, $target } = options;
-    return $$("<section/>", { class: "ui-accordion" });
+    const $ui = $$("<section/>", { class: "ui-accordion" });
+
+    // @todo
+
+    return $ui;
   },
 }))();

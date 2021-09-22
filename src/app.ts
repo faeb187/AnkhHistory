@@ -5,12 +5,9 @@
 // import { ankh } from "./app/ankh";
 import { loader, logger, media, renderer, observer } from "core";
 
-import type { ObserverCoreSiteLoadOptions } from "./types/observer.type";
-
 const init = (path: string) => {
   loader.loadSite(path);
-  renderer.render();
-  return;
+  return renderer.render();
 };
 
 logger.title("ANKHORAGE");
@@ -24,7 +21,7 @@ renderer.init();
 init(location.pathname);
 
 // [3] listen for site requests
-observer.l("core-site-load", (options: ObserverCoreSiteLoadOptions) => {
+observer.l("core-site-load", (options: any) => {
   const href = options.event.target.getAttribute("href");
 
   if (!href) return logger.error("core-site-load called without 'href'");

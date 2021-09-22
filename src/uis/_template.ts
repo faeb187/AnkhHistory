@@ -1,16 +1,14 @@
 /**
  * UI [uiName]
  */
-import { $$, observer } from "../core";
-
-type UiOptions = {
-  id: string;
-};
+import { $$ } from "../core";
+import { AnkhUiOptions } from "types/ui.type";
 
 export const uiName = (() => ({
-  init: (options: UiOptions) => {
+  init: (options: AnkhUiOptions) => {
     const { id } = options;
-
-    return $$("<[uiRoot]/>", { id, class: "ui-[uiName]" });
+    const $ui = $$("<[uiRoot]/>", { id, class: "ui-[uiName]" });
+    //
+    return $ui;
   },
 }))();

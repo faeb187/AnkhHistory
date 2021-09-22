@@ -1,6 +1,6 @@
 import { logger } from "core";
 
-type StatsItem = {
+type AnkhStat = {
   label: string;
   start: Date;
   stop: Date;
@@ -8,7 +8,7 @@ type StatsItem = {
 
 export const measure = (() => {
   const mapMeasures = new Map();
-  let capture: StatsItem;
+  let capture: AnkhStat;
 
   return {
     start: (label: string) => {
@@ -19,7 +19,7 @@ export const measure = (() => {
     stop: () => {
       capture.stop = new Date();
       const resultInMs = Math.abs(+capture.stop - +capture.start);
-      logger.info("[CORE][stats]", `${capture.label}: ${resultInMs}ms`);
+      logger.info("[stats]", `${capture.label}: ${resultInMs}ms`);
       return resultInMs;
     },
   };
