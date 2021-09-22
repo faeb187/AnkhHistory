@@ -1,18 +1,11 @@
 import { observer } from "core";
 
-type Breakpoints = {
-  [bp: string]: number;
-};
-
-type Media = {
-  max: string;
-  min: string;
-};
+import type { AnkhMediaOptions } from "types/media.type";
 
 export const media = (() => {
   // breakpoints
   // [!] in sync with rupture
-  let bps: Breakpoints = {
+  let bps = {
     xs: 0,
     s: 400,
     m: 500,
@@ -41,13 +34,14 @@ export const media = (() => {
   };
 
   return {
-    isInViewport: (media: Media) => {
+    isInViewport: (mediaOptions: AnkhMediaOptions) => {
+      const { max, min } = mediaOptions;
       const vpW = window.innerWidth;
-      const min = bps[media.min];
-      const max = bps[media.max];
+      const minValue = min && bps[min];
+      const maxValue = max && bps[max];
 
-      if (min && vpW <= min) return false;
-      if (max && vpW > max) return false;
+      if (minValue && vpW <= minValue) return false;
+      if (maxValue && vpW > maxValue) return false;
       return true;
     },
     init: () => {

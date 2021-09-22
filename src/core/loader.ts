@@ -8,94 +8,69 @@ import { routes } from "../app/conf/routes";
 import * as sites from "../app/sites";
 import * as uis from "uis";
 
-import type { Route } from "../types/basic.type";
-
-type AnkhSite = {
-  id: string;
-  innerText?: string;
-};
-
-type AnkhSiteIndex = { [prop: string]: AnkhSite[] };
-
-type UiOptions = {
-  events: any;
-  id: string;
-  media: any;
-  ui: string;
-};
-
-type AnkhUi = {
-  init?: any;
-};
-
-type AnkhUiIndex = { [prop: string]: AnkhUi };
-
-type NotLoadedUi = {
-  parentId?: string;
-  uiOptions: UiOptions;
-  updatedParentId?: string;
-  $ui?: HTMLElement;
-};
+import type { AnkhSite } from "types/site.type";
+import type { AnkhRoute } from "types/route.type";
+import type {
+  AnkhUiModules,
+  AnkhUiNotLoaded,
+  AnkhUiOptions,
+} from "types/ui.type";
 
 export const loader = (() => {
-  let mapLoaded: Map<string, NotLoadedUi>;
+  let mapLoaded: Map<string, AnkhUiNotLoaded>;
   let siteConfigurations: any;
 
   const getNotLoaded = () =>
-    new Map<string, NotLoadedUi>([
+    new Map<string, AnkhUiNotLoaded>([
       ...Array.from(mapLoaded).filter(([k, v]) => k.startsWith("_")),
     ]);
 
-  const setRoute = (route: Route) => {
-    const { path, items: subRoutes = [] } = route;
+  const setRoute = (route: AnkhRoute) => {
+    const { path, routes: subRoutes = [] } = route;
 
     const name = camelize(path.slice(1));
-    const conf = (sites as AnkhSiteIndex)[name];
+    const conf = (sites as AnkhSite)[name];
+    console.log("sites", sites);
+    console.log("conf", conf);
 
     if (conf) siteConfigurations.set(path, conf);
     else if (!subRoutes.length)
       return logger.warn("no config for site:", name, path);
 
-    subRoutes.forEach((subRoute) => setRoute(subRoute));
+    subRoutes.forEach((subRoute: AnkhRoute) => setRoute(subRoute));
   };
 
   const updateDeferred = () => {
-    getNotLoaded().forEach(
-      (
-        notLoadedUi: NotLoadedUi,
-        id: string,
-        mapNotLoadedUis: Map<string, NotLoadedUi>
-      ) => {
-        const { uiOptions } = notLoadedUi;
-        const { events, media: m, ui } = uiOptions;
+    getNotLoaded().forEach((notLoadedUi: AnkhUiNotLoaded, id: string) => {
+      const { uiOptions } = notLoadedUi;
+      const { events, media: m, ui } = uiOptions;
 
-        // [1] is the UI now in the viewport?
-        if (!m || !media.isInViewport(m)) return;
+      // [1] is the UI now in the viewport?
+      if (!m || !media.isInViewport(m)) return;
 
-        // [2] load it
-        const $ui = (uis as AnkhUiIndex)[ui].init(uiOptions);
-        if (!$ui) return logger.error("UI##{ui} didn't return itself");
+      // [2] load it
+      const $ui = (uis as AnkhUiModules)[ui].init(uiOptions);
+      if (!$ui) return logger.error(`UI#${ui} didn't return itself`);
 
-        // [3] attach events
-        events && eventer.attach(events, $ui);
+      // [3] attach events
+      events && eventer.attach(events, $ui);
 
-        // [4] update loaded state
-        mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete(id);
+      // [4] update loaded state
+      mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete(id);
 
-        // [5] delegate rendering
-        // @todo setTimeout needed because direct DOM rendering (collect all and then render at once)
-        setTimeout(() => renderer.renderDeferred($ui));
-      }
-    );
+      // [5] delegate rendering
+      // @todo setTimeout needed because direct DOM rendering (collect all and then render at once)
+      setTimeout(() => renderer.renderDeferred($ui));
+    });
   };
 
   const getRoutesByPath = (path: string) => {
-    let routesByPath: Route[] = [];
+    let routesByPath: AnkhRoute[] = [];
 
-    const subSearch = (routes: Route[]) => {
-      routes.forEach((route: Route) => {
-        if (route.path === path) return (routesByPath = route.items || []);
-        if (route.items) return subSearch(route.items);
+    const subSearch = (routes: AnkhRoute[]) => {
+      routes.forEach((route: AnkhRoute) => {
+        if (route.path === path) return (routesByPath = route.routes || []);
+        if (route.routes) return subSearch(route.routes);
       });
     };
 
@@ -113,18 +88,18 @@ export const loader = (() => {
     if (!currentRoutes.length) return getCurrentPath(routes[0].path);
 
     // recursive sub search (only the first item)
-    const subSearch = (subRoute: Route) => {
+    const subSearch = (subRoute: AnkhRoute) => {
       if (siteConfigurations.get(subRoute.path))
         return (foundPath = subRoute.path);
 
-      if (!foundPath && subRoute.items) subSearch(subRoute.items[0]);
+      if (!foundPath && subRoute.routes) subSearch(subRoute.routes[0]);
     };
 
     subSearch(currentRoutes[0]);
     return foundPath;
   };
 
-  const initUi = (uiOptions: any) => {
+  const initUi = (uiOptions: AnkhUiOptions) => {
     const { events, id, ui, media: m, parentId } = uiOptions;
 
     // [1] identification & classification
@@ -170,12 +145,12 @@ export const loader = (() => {
     }
 
     // [4] load it
-    const $ui = (uis as AnkhUiIndex)[ui].init(uiOptions);
+    const $ui = (uis as AnkhUiModules)[ui].init(uiOptions);
 
     // [4][NOK] loading error
     if (!$ui)
       return logger.error(
-        `UI '${(uis as AnkhUiIndex)[ui]}' didn't return itself`,
+        `UI '${(uis as AnkhUiModules)[ui]}' didn't return itself`,
         uiOptions
       );
 
@@ -219,11 +194,11 @@ export const loader = (() => {
     logger.groupCollapsed("Loader:init");
 
     // [1] initialize maps
-    mapLoaded = new Map<string, NotLoadedUi>();
+    mapLoaded = new Map<string, AnkhUiNotLoaded>();
     siteConfigurations = new Map();
 
     // [2] set app routes
-    routes.forEach((route: Route) => setRoute(route));
+    routes.forEach((route: AnkhRoute) => setRoute(route));
     logger.log("siteConfigurations", siteConfigurations);
 
     // [3] update deferred UI's on viewport change

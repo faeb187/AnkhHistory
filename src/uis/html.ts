@@ -1,23 +1,11 @@
 /**
  * UI html
  */
-import { $$, observer } from "core";
-
-import type { KeyValue } from "types/basic.type";
-
-type UiHtmlOptions = {
-  attributes?: object;
-  classNames?: string;
-  id: string;
-  lang?: string;
-  src?: string; // path to image
-  style?: KeyValue;
-  tag?: string; // default: 'div'
-  text?: string; // innerText (bypass 'lang')
-};
+import { $$ } from "core";
+import type { AnkhUiHtmlOptions } from "types/ui.type";
 
 export const html = (() => ({
-  init: (options: UiHtmlOptions) => {
+  init: (options: AnkhUiHtmlOptions) => {
     const {
       attributes = {},
       classNames = "",
@@ -28,8 +16,6 @@ export const html = (() => ({
       style = {},
       text,
     } = options;
-
-    if (!id) return;
 
     const $ui = $$(`<${tag}/>`, {
       id,
