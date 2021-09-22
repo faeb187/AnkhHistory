@@ -3,27 +3,27 @@
  */
 import { $$ } from "core";
 
-type UiArticleAuthor = {
-  username: string;
+type AnkhUiArticle = {
+  lang: string; // id to paragraph text or programming lang
+  code: string; // code block with syntax highlighting
+};
+
+type AnkhUiArticleAuthor = {
   email: string;
+  username: string;
   website: string;
 };
 
-type UiArticleItem = {
-  lang: any; // id to paragraph text or programming lang
-  code: any; // code block with syntax highlighting
-};
-
-type UiArticleOptions = {
-  author: UiArticleAuthor;
+type AnkhUiArticleOptions = {
+  author: AnkhUiArticleAuthor;
   createdAt: Date;
-  items: UiArticleItem[];
+  items: AnkhUiArticle[];
   target: HTMLElement;
   title: string;
 };
 
 export const article = (() => ({
-  init: (opt: UiArticleOptions) => {
+  init: (opt: AnkhUiArticleOptions) => {
     let $elm;
     const { target, title, items } = opt;
     const $ui = $$("<article/>", { class: "ui-article" });

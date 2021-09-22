@@ -3,30 +3,26 @@
  */
 import { $$, observer } from "core";
 
-import type { ObserverCoreBreadcrumbUpdateOptions } from "types/observer.type";
+type AnkhUiBreadcrumb = { lang?: string };
 
-type UiBreadCrumbItem = {
-  lang?: string; // lang reference of innerText
-};
-
-type UiBreadcrumbOptions = {
-  active?: number; // index of active item (default: 0)
-  events?: any;
+type AnkhUiBreadcrumbOptions = {
+  active: number;
+  events: any;
   id: string;
-  items: UiBreadCrumbItem[];
-  numbered: boolean; // items are numbered
-  readonly: boolean; // no click events
+  items: AnkhUiBreadcrumb[];
+  numbered: boolean;
+  readonly: boolean;
   $target: HTMLElement;
 };
 
-type UiBreadcrumbUpdateOptions = {
-  active?: number;
+type AnkhUiBreadcrumbUpdateOptions = {
+  active: number;
   $target: HTMLElement;
 };
 
 export const breadcrumb = (() => {
   const ui = {
-    update: (options: UiBreadcrumbUpdateOptions) => {
+    update: (options: AnkhUiBreadcrumbUpdateOptions) => {
       const { active = 0, $target } = options;
       const $items = $$.find("a", $target);
       const $active = $$.find(".active", $target)[0];
@@ -35,7 +31,7 @@ export const breadcrumb = (() => {
       $$.addClass($items[active], "active");
     },
 
-    getItem: (item: UiBreadCrumbItem) => {
+    getItem: (item: AnkhUiBreadcrumb) => {
       const { lang } = item;
       const $item = $$("<a/>");
 
@@ -45,7 +41,7 @@ export const breadcrumb = (() => {
   };
 
   return {
-    init: (options: UiBreadcrumbOptions) => {
+    init: (options: AnkhUiBreadcrumbOptions) => {
       const {
         active = 0,
         id,
@@ -67,14 +63,11 @@ export const breadcrumb = (() => {
       if (!events) options.events = {};
       options.events.ui = [updateEvent];
 
-      observer.l(
-        "ui-breadcrumb-update",
-        (opts: ObserverCoreBreadcrumbUpdateOptions) => {
-          opts.events.ui.forEach((uiEvent) => {
-            ui.update({ $target: uiEvent.$target, active: options.active });
-          });
-        }
-      );
+      observer.l("ui-breadcrumb-update", (opts: any) => {
+        opts.events.ui.forEach((uiEvent: any) => {
+          ui.update({ $target: uiEvent.$target, active: options.active });
+        });
+      });
       return $ui;
     },
   };

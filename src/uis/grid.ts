@@ -1,25 +1,16 @@
 import { $$ } from "core";
-import type { KeyValue } from "types";
-
-type UIGridInitOptions = {
-  attributes: any;
-  className: string;
-  element: string;
-  id: string;
-  inline: false;
-  style?: KeyValue;
-};
+import type { AnkhUiGridOptions } from "types/ui.type";
 
 export const grid = (() => {
   return {
-    init: (options: UIGridInitOptions) => {
+    init: (options: AnkhUiGridOptions) => {
       const {
         attributes = {},
-        id,
         className = "",
         element = "div",
-        style = {},
+        id,
         inline = false,
+        style = {},
       } = options;
 
       const cn = `ui-grid${inline ? "-inline" : ""} ${className}`;

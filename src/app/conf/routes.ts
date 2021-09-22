@@ -1,20 +1,3 @@
-import type { Route } from "types";
+import type { AnkhRoute } from "types/route.type";
 
-export const routes: Route[] = [
-  {
-    lang: "home",
-    path: "/home",
-  },
-  /*
-  {
-    lang: "partner",
-    path: "/partner",
-    items: [
-      {
-        lang: "additionalProducts",
-        path: "/partner/additionalProducts",
-      },
-    ],
-  },
-  */
-];
+export const routes: AnkhRoute[] = [{ lang: "home", path: "/home" }];

@@ -1,16 +1,13 @@
-/**
- * UI lang
- */
 import { $$, observer, state } from "core";
 import { de, en } from "../app/i18n";
 
 import type { ClickEvent, KeyValue } from "types/basic.type";
 
-type UiLangOptions = {
+type AnkhUiLangOptions = {
   id: string;
-  style?: KeyValue;
+  style: KeyValue;
 };
-type UiLangUpdateOptions = { lang: string };
+type AnkhUiLangUpdateOptions = { lang: string };
 
 export const lang = (() => {
   const changeLang = (event: ClickEvent) => {
@@ -28,7 +25,7 @@ export const lang = (() => {
   const def = "de";
   const lib = { de, en };
 
-  const init = (options: UiLangOptions) => {
+  const init = (options: AnkhUiLangOptions) => {
     const { id, style = {} } = options;
     const lang = state.get({ id: "lang" }) || def;
     const $ui = $$("<nav/>", { id, class: "ui-lang" });
@@ -58,7 +55,7 @@ export const lang = (() => {
     return $ui;
   };
 
-  const update = (options: UiLangUpdateOptions) => {
+  const update = (options: AnkhUiLangUpdateOptions) => {
     const { lang: l = "" } = options;
 
     // language by priority

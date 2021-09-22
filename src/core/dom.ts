@@ -1,9 +1,9 @@
-import type { KeyValue } from "../types/basic.type";
+import type { KeyValue } from "types/basic.type";
 
 export const $$ = (() => {
   const d = document;
   const dp = new DOMParser();
-  const isHTMLElement = (element: unknown) => element instanceof HTMLElement;
+  // const isHTMLElement = (element: unknown) => element instanceof HTMLElement;
 
   const $$ = (element: string, attributes?: object) => {
     const $element = d.createElement(element.slice(1, -2));
@@ -117,7 +117,11 @@ export const $$ = (() => {
     return Array.prototype.indexOf.call($parent.childNodes, $element);
   };
 
-  $$.listen = ($element: HTMLElement, event: any, handler: any) => {
+  $$.listen = (
+    $element: HTMLElement,
+    event: keyof HTMLElementEventMap,
+    handler: any
+  ) => {
     $element.addEventListener(event, handler);
     return $$;
   };
