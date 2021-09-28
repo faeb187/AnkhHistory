@@ -6,5 +6,8 @@ node_modules
 gulpfile.js
 dist
 
+# jest
+coverage
+
 # tmp
 _assets

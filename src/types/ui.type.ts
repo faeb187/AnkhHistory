@@ -17,7 +17,6 @@ type AnkhUiOptions = {
   id: string;
   media?: AnkhMediaOptions;
   parentId?: string;
-  text?: string;
   ui: string;
 };
 
@@ -40,12 +39,13 @@ type AnkhUiGridOptions = AnkhUiOptions & {
 
 // UI: html
 type AnkhUiHtmlOptions = AnkhUiOptions & {
-  attributes: KeyValue;
-  classNames: string;
-  lang: string;
+  attributes?: KeyValue;
+  classNames?: string;
+  lang?: string;
   src?: string; // path to image
   style?: KeyValue;
-  tag: string;
+  tag?: string;
+  text?: string;
 };
 
 export {

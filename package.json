@@ -18,18 +18,25 @@
   ],
   "author": "faeb187",
   "license": "MIT",
-  "test": "jest --verbose --forceExit --coverage --detectOpenHandles --passWithNoTests",
   "jest": {
-    "preset": "ts-jest",
+    "moduleNameMapper": {
+      "^core(.*)$": "<rootDir>/src/core/$1",
+      "^uis(.*)$": "<rootDir>/src/uis/$1"
+    },
     "modulePathIgnorePatterns": [
       "dist"
-    ]
+    ],
+    "preset": "ts-jest",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    }
   },
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "gql": "node ../graphql-server.js",
     "lint": "eslint . --ext .ts",
     "start": "./start.sh",
+    "test": "jest --verbose --forceExit --coverage --detectOpenHandles --passWithNoTests",
     "watch": "npm-watch"
   },
   "watch": {
