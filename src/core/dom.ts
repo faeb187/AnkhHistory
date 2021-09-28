@@ -1,11 +1,12 @@
 import type { KeyValue } from "types/basic.type";
+import type { AnkhEventDom } from "types/event.type";
 
 export const $$ = (() => {
   const d = document;
   const dp = new DOMParser();
   // const isHTMLElement = (element: unknown) => element instanceof HTMLElement;
 
-  const $$ = (element: string, attributes?: object) => {
+  const $$ = (element: string, attributes?: KeyValue) => {
     const $element = d.createElement(element.slice(1, -2));
 
     attributes &&
@@ -46,7 +47,7 @@ export const $$ = (() => {
     return measures;
   };
 
-  $$.parse = (str: string = "") => dp.parseFromString(str, "text/html");
+  $$.parse = (str: string) => dp.parseFromString(str, "text/html");
 
   $$.css = ($element: HTMLElement, props?: KeyValue) => {
     props &&
@@ -92,7 +93,7 @@ export const $$ = (() => {
     return $$;
   };
 
-  $$.addAttr = (element: HTMLElement, attributes?: object) => {
+  $$.addAttr = (element: HTMLElement, attributes?: KeyValue) => {
     attributes &&
       Object.entries(attributes).forEach(([key, value]) =>
         element.setAttribute(key, value)
@@ -117,17 +118,15 @@ export const $$ = (() => {
     return Array.prototype.indexOf.call($parent.childNodes, $element);
   };
 
-  $$.listen = (
-    $element: HTMLElement,
-    event: keyof HTMLElementEventMap,
-    handler: any
-  ) => {
-    $element.addEventListener(event, handler);
+  $$.listen = (event: AnkhEventDom) => {
+    const { handler, target, type } = event;
+    if (handler) target.addEventListener(type, handler);
     return $$;
   };
 
-  $$.destroy = ($element: HTMLElement, event: any, handler: any) => {
-    $element.removeEventListener(event, handler);
+  $$.destroy = (event: AnkhEventDom) => {
+    const { handler, target, type } = event;
+    if (handler) target.removeEventListener(type, handler);
     return $$;
   };
 
@@ -144,8 +143,8 @@ export const $$ = (() => {
 
   type PreloadOptions = {
     items: string[];
-    onFileLoaded: (src: string) => any;
-    onFinish: (totalLoaded: number) => any;
+    onFileLoaded: (src: string) => void;
+    onFinish: (totalLoaded: number) => void;
   };
 
   $$.preload = (opt: PreloadOptions) => {

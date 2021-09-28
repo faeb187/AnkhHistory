@@ -1,5 +1,6 @@
-import { AnkhMediaOptions } from "types/media.type";
+import type { AnkhMediaOptions } from "types/media.type";
 import type { KeyValue } from "types/basic.type";
+import type { AnkhEventDom } from "types/event.type";
 
 type AnkhUiModules = { [prop: string]: AnkhUi };
 
@@ -12,7 +13,7 @@ type AnkhUi = {
 
 // @todo extract AnkhUiOptionsCommon
 type AnkhUiOptions = {
-  events?: any;
+  events?: AnkhEventDom[];
   id: string;
   media?: AnkhMediaOptions;
   parentId?: string;
@@ -24,8 +25,9 @@ type AnkhUiNotLoaded = {
   parentId?: string;
   uiOptions: AnkhUiOptions;
   updatedParentId?: string;
-  $ui?: HTMLElement;
 };
+
+type AnkhUiLoaded = AnkhUiNotLoaded & { $ui: HTMLElement };
 
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
@@ -49,6 +51,7 @@ type AnkhUiHtmlOptions = AnkhUiOptions & {
 export {
   AnkhUiModules,
   AnkhUi,
+  AnkhUiLoaded,
   AnkhUiNotLoaded,
   AnkhUiOptions,
   AnkhUiGridOptions,

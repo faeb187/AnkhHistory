@@ -62,7 +62,7 @@ export const article = (() => ({
       // add article creation date
       if (opt.createdAt) {
         const $time = $$("<time/>", {
-          datetime: opt.createdAt,
+          // datetime: opt.createdAt,
           pubdate: "pubdate",
         });
 

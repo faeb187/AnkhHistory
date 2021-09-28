@@ -1,21 +1,23 @@
 type ObserverEvents = {
-  [eventName: string]: any[];
+  [eventName: string]: ObserverEventHandler[];
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ObserverEventHandler = (options: any) => void;
+
 export const observer = (() => {
-  let evs: ObserverEvents = {};
+  const evs: ObserverEvents = {};
 
   return {
-    l: (ev: string, cb: any) => {
-      !evs[ev] ? (evs[ev] = [cb]) : (evs[ev] = evs[ev].concat([cb]));
-
+    l: (ev: string, cb: ObserverEventHandler) => {
+      evs[ev] = !evs[ev] ? [cb] : evs[ev].concat([cb]);
       return this;
     },
-    f: (ev: string, arg: any = {}) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    f: (ev: string, args?: any) => {
       const cbs = evs[ev];
-      if (!cbs?.length) return this;
 
-      cbs.forEach((cb) => cb(arg));
+      if (cbs?.length) cbs.forEach((cb) => cb(args));
       return this;
     },
 

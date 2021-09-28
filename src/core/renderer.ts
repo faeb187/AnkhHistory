@@ -1,9 +1,10 @@
 import { $$, loader, logger, media, observer } from "core";
+import type { AnkhUiLoaded } from "types/ui.type";
 
 export const renderer = (() => {
   let $ankh: HTMLElement;
 
-  const renderDeferred = ($ui: any) => {
+  const renderDeferred = ($ui: HTMLElement) => {
     logger.log($ui.id, $$.find(`#_${$ui.id}`)[0]);
 
     const $placeholder = $$.find(`#_${$ui.id}`)[0];
@@ -23,7 +24,7 @@ export const renderer = (() => {
   };
 
   const updateVisibility = () => {
-    loader.getAllLoaded().forEach((loadedUi: any, id: string) => {
+    loader.getAllLoaded().forEach((loadedUi: AnkhUiLoaded, id: string) => {
       // ignore placeholders
       if (id.startsWith("_")) return;
 
@@ -53,8 +54,8 @@ export const renderer = (() => {
     const mapLoaded = loader.getAllLoaded();
     const $df = document.createDocumentFragment();
 
-    mapLoaded.forEach((loadedUi: any) => {
-      const { $ui, parentId } = loadedUi;
+    mapLoaded.forEach((loadedUi: AnkhUiLoaded) => {
+      const { $ui, parentId = "" } = loadedUi;
       ($$.find(`#${parentId}`, $df)[0] || $df).appendChild($ui);
     });
 

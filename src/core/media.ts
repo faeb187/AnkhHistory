@@ -5,7 +5,7 @@ import type { AnkhMediaOptions } from "types/media.type";
 export const media = (() => {
   // breakpoints
   // [!] in sync with rupture
-  let bps = {
+  const bps = {
     xs: 0,
     s: 400,
     m: 500,
