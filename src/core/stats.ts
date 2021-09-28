@@ -7,7 +7,7 @@ type AnkhStat = {
 };
 
 export const measure = (() => {
-  const mapMeasures = new Map();
+  // const mapMeasures = new Map();
   let capture: AnkhStat;
 
   return {

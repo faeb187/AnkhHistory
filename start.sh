@@ -10,9 +10,9 @@ rm -r dist/assets/js
 npm run build
 
 # @todo webpack stylus
-coffee -c -b gulpfile.coffee
+# coffee -c -b gulpfile.coffee
 gulp styl
-rm gulpfile.js
+# rm gulpfile.js
 
 # provide index.html
 cp src/index.html dist
