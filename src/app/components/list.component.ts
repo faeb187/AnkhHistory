@@ -8,8 +8,5 @@ export const navMobile = {
     gridColumn: "2 / 24",
     gridRow: "4 / -4",
   },
-  events: {
-    click: [{ name: "core-site-load", args: { selector: "a" } }],
-    init: [{ l: "core-renderer-rendered", f: "ui-list-update" }],
-  },
+  events: [{ name: "core-site-load", args: { selector: "a" }, type: "click" }],
 };

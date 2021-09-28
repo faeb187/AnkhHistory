@@ -3,6 +3,8 @@ import { de, en } from "../app/i18n";
 
 import type { ClickEvent, KeyValue } from "types/basic.type";
 
+type Lang = "de" | "en";
+
 type AnkhUiLangOptions = {
   id: string;
   style: KeyValue;
@@ -33,7 +35,6 @@ export const lang = (() => {
     style && $$.css($ui, style);
 
     // iterate through language lib
-    const idx = 0;
     Object.keys(lib).forEach((k) => {
       const $a = $$("<a/>", {
         rel: "alternate",
@@ -45,7 +46,7 @@ export const lang = (() => {
 
       if (k === lang) $a.className = "active";
 
-      $$.listen($a, "click", changeLang);
+      $$.listen({ target: $a, type: "click", handler: changeLang });
       $ui.appendChild($a);
     });
 
@@ -61,10 +62,10 @@ export const lang = (() => {
     // language by priority
     // ( direct change > localStorage > default )
     // @TODO language by geolocation
-    const evaluatedLang: "de" | "en" = l || state.get({ id: "lang" }) || def;
+    const evaluatedLang = (l || state.get({ id: "lang" }) || def) as Lang;
 
     // update elements
-    $$.find("[data-lang]").forEach((elm: HTMLElement, index: number) => {
+    $$.find("[data-lang]").forEach((elm: HTMLElement) => {
       const langKey = elm.getAttribute("data-lang") as string;
       const langLib = lib[evaluatedLang] as KeyValue;
       const v = langLib[langKey];
@@ -83,4 +84,6 @@ export const lang = (() => {
     observer.l("core-renderer-rendered", update);
     observer.f("ui-lang-updated");
   };
+
+  return { init, update };
 })();

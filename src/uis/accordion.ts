@@ -1,7 +1,7 @@
 /**
  * UI accordion
  */
-import { $$, observer } from "core";
+import { $$ } from "core";
 
 type AnkhUiAccordionOptions = {
   id: string;
@@ -14,6 +14,7 @@ export const accordion = (() => ({
     const $ui = $$("<section/>", { class: "ui-accordion" });
 
     // @todo
+    console.log(id, $target);
 
     return $ui;
   },

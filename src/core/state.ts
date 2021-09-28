@@ -1,14 +1,15 @@
+type State = string | Record<string, unknown>;
+
 export const state = (() => {
-  const state = {};
   const prefix = location.host + "-";
   const ls = {
-    set: (id: string, state: any) => {
+    set: (id: string, state: State) => {
       if (typeof state !== "string") state = JSON.stringify(state);
       localStorage.setItem(`${prefix}${id}`, state);
     },
     get: (id: string) => {
       const s = localStorage.getItem(`${prefix}${id}`);
-      return s && s.slice(0, 1) === "{" ? JSON.parse(s) : s;
+      return s && s.slice(0, 1) === "{" ? (JSON.parse(s) as State) : s;
     },
     rm: (id: string) => {
       localStorage.removeItem(`${prefix}${id}`);
@@ -16,7 +17,7 @@ export const state = (() => {
   };
 
   return {
-    set: (opt: { id: string; state: any }) => {
+    set: (opt: { id: string; state: State }) => {
       ls.set(opt.id, opt.state);
     },
     get: (opt: { id: string }) => ls.get(opt.id),

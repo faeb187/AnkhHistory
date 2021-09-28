@@ -12,17 +12,18 @@ import type { AnkhSite } from "types/site.type";
 import type { AnkhRoute } from "types/route.type";
 import type {
   AnkhUiModules,
+  AnkhUiLoaded,
   AnkhUiNotLoaded,
   AnkhUiOptions,
 } from "types/ui.type";
 
 export const loader = (() => {
-  let mapLoaded: Map<string, AnkhUiNotLoaded>;
-  let siteConfigurations: any;
+  let mapLoaded: Map<string, AnkhUiLoaded>;
+  let siteConfigurations: Map<string, AnkhUiOptions[]>;
 
   const getNotLoaded = () =>
     new Map<string, AnkhUiNotLoaded>([
-      ...Array.from(mapLoaded).filter(([k, v]) => k.startsWith("_")),
+      ...Array.from(mapLoaded).filter(([k]) => k.startsWith("_")),
     ]);
 
   const setRoute = (route: AnkhRoute) => {
@@ -100,7 +101,7 @@ export const loader = (() => {
   };
 
   const initUi = (uiOptions: AnkhUiOptions) => {
-    const { events, id, ui, media: m, parentId } = uiOptions;
+    const { events, id, ui, media: m, parentId = "ankh" } = uiOptions;
 
     // [1] identification & classification
     if (!id || !ui)
@@ -128,7 +129,7 @@ export const loader = (() => {
       if (id === "navToggleX")
         console.log("navToggleX:", updatedId, updatedParentId);
 
-      mapLoaded.set(updatedId, { uiOptions, updatedParentId });
+      // mapLoaded.set(updatedId, { uiOptions, updatedParentId });
       logger.log(
         `%cdeferred %c ${id} (parent: ${updatedParentId}`,
         "color: #ff0",
@@ -148,11 +149,7 @@ export const loader = (() => {
     const $ui = (uis as AnkhUiModules)[ui].init(uiOptions);
 
     // [4][NOK] loading error
-    if (!$ui)
-      return logger.error(
-        `UI '${(uis as AnkhUiModules)[ui]}' didn't return itself`,
-        uiOptions
-      );
+    if (!$ui) return logger.error(`UI '${ui}' didn't return itself`, uiOptions);
 
     // [5] attach events
     events && eventer.attach(events, $ui);
@@ -173,15 +170,16 @@ export const loader = (() => {
     const currentPath = getCurrentPath(path);
     logger.log("currentPath", currentPath);
 
-    const siteUis = siteConfigurations.get(currentPath) || {};
+    const siteUis = siteConfigurations.get(currentPath) || [];
     if (!siteUis) return logger.error("bad config: no site available");
     logger.log("siteUis", siteUis);
 
     // [2] navigate to current site
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     $$.history.go(currentPath, currentPath.split("/").pop()!); // @todo check this again (!)
 
     // [3] prepare/load the ui's
-    siteUis.forEach((ui: any) => initUi(ui));
+    siteUis.forEach((ui: AnkhUiOptions) => initUi(ui));
 
     logger.log("mapLoaded", mapLoaded);
     logger.log("siteConfigurations", siteConfigurations);
@@ -194,7 +192,7 @@ export const loader = (() => {
     logger.groupCollapsed("Loader:init");
 
     // [1] initialize maps
-    mapLoaded = new Map<string, AnkhUiNotLoaded>();
+    mapLoaded = new Map();
     siteConfigurations = new Map();
 
     // [2] set app routes
