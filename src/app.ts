@@ -1,6 +1,7 @@
 // @todo no direct access between CORE modules (handle it here)
 
 // import { ankh } from "./app/ankh";
+import "styl/main";
 import { loader, logger, media, renderer, observer } from "core";
 
 const init = (path: string) => {
