@@ -10,6 +10,7 @@
     "outDir": "./dist",
     "paths": {
       "core": ["core"],
+      "styl": ["styl"],
       "types": ["types"],
       "uis": ["uis"],
       "utils": ["utils"]
@@ -19,6 +20,6 @@
     "rootDir": "./src",
     "sourceMap": true,
     "strict": true,
-    "target": "es5",
+    "target": "es6",
   },
 }
