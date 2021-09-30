@@ -1,4 +1,4 @@
-import { routes } from "../conf/routes";
+import { routes } from "app/routes";
 
 export const navMobile = {
   ui: "list",

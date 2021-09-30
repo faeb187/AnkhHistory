@@ -4,8 +4,8 @@
 
 import { $$, eventer, logger, media, observer, renderer } from "core";
 import { camelize } from "utils";
-import { routes } from "../app/conf/routes";
-import * as sites from "../app/sites";
+import { routes } from "app/routes";
+import * as sites from "app/sites";
 import * as uis from "uis";
 
 import type { AnkhSite } from "types/site.type";
