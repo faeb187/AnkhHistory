@@ -9,6 +9,7 @@
     "noImplicitAny": true,
     "outDir": "./dist",
     "paths": {
+      "app": ["app"],
       "core": ["core"],
       "styl": ["styl"],
       "types": ["types"],

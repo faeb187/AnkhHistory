@@ -8,6 +8,6 @@ export const ankh = {
     year: "numeric",
   },
   lang: "en",
-  title: "BeKB",
+  title: "GM",
   networkAdapter: "http://localhost:4000/graphql",
 };

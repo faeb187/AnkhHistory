@@ -12,6 +12,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      app: path.resolve(__dirname, "src/app"),
       core: path.resolve(__dirname, "src/core"),
       styl: path.resolve(__dirname, "src/styl"),
       types: path.resolve(__dirname, "src/types"),
