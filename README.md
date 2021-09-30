@@ -21,4 +21,6 @@ npm run watch
 - set document.title
 - doctor package
 - ui-update-lang per UI
+- jest coverage 100%
+- ensure multi-tenancy capabilityf
 - camunda test (ui-process)
