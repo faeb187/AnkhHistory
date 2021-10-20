@@ -1,4 +1,6 @@
-import { $$, loader, logger, media, observer } from "core";
+import $$ from "twodollars";
+
+import { loader, logger, media, observer } from "core";
 import type { AnkhUiLoaded } from "types/ui.type";
 
 export const renderer = (() => {
@@ -44,8 +46,8 @@ export const renderer = (() => {
   const init = () => {
     $ankh = $$.find("#ankh")[0];
 
-    observer.l("core-loader-ui-ready", renderDeferred);
-    observer.l("ankh-viewport", updateVisibility);
+    observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
+    observer.l({ name: "ankh-viewport", handler: updateVisibility });
   };
 
   const render = () => {
