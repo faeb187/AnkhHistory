@@ -1,0 +1,156 @@
+import $$ from "twodollars"
+
+type MapMarker = {
+  color: string;
+  icon: string;
+  location: string;
+  shadow: boolean;
+  size: string;
+};
+
+type UiMapOptions = {
+  center: string; // center location
+  id: string;
+  height: number;
+  markers: MapMarker[];
+  target: string;
+  width: number;
+  zoom: number; // zoom level (0-22)
+};
+
+export const map = (()=>{
+    return ({
+        init: (options: UiMapOptions) => {
+          const initMap = () => {
+            new google.maps.Map(options.target, {
+              center: options.center,
+              scrollwheel: false,
+              zoom: 8
+            });
+
+          const url =
+            "https://maps.googleapis.com/maps/api/js?key=AIzaSyCgbKN00AITyqutT6eyYM_Gf0F55r4JDLU&callback=initMap"
+
+          const getScript = (source, callback) => {
+            const script = $$.create("<script/>", {async: 1});
+            const prior = $$.create("script")[0];
+            prior.parentNode.insertBefore(script, prior);
+
+            script.onload = script.onreadystatechange = (_, isAbort) => {
+              if (isAbort || !script.readyState ||
+                /loaded|complete/.test(script.readyState)
+              ){
+                script.onload = script.onreadystatechange = null;
+                script = undefined
+
+                if(!isAbort && callback) callback();
+              }
+            };
+          };
+
+          getScript(url, ()=> console.log("loaded"));
+          return;
+
+          const {id, center, height, target, width, zoom } = options;
+          
+          const c = center.replace(///\ ///g, "%20");
+          const w = width || 300;
+          const h = height || 300;
+          
+          let z = zoom || 13;
+          
+          if(z < 0) z = 0;
+          else if(z > 22) z = 22;
+
+          const markers = "";
+
+          const $ui = $$.create("<div/>", {class: "ui-map"});
+          const $map = $$.create("<div/>",{class: "map"});
+
+          // ADD markers
+          if(markers)
+            for mrk in opt.markers
+              # MANDATORY marker location
+              if !mrk.location then continue
+
+              m = "&markers="
+
+              # SET marker style...
+              if mrk.size
+                m += "size:" + mrk.size
+                if mrk.color then m += "%7Ccolor:0x" + mrk.color
+                if mrk.shadow then m += "%7Cshadow:true"
+              # ...OR custom marker icon...
+              else if mrk.icon
+                m += "icon:" + mrk.icon
+                if mrk.shadow then m += "%7Cshadow:true"
+              # ...OR default marker style
+              else
+                m += "size:small%7Cshadow:true"
+
+              # ADD marker location
+              markers += m + "%7C" + mrk.location.replace ///\ ///g, "%20"
+
+              # CREATE map
+          $img = new Image()
+          url = "https://maps.googleapis.com/maps/api/staticmap?center="
+          src =
+            url +
+            center +
+            "&zoom=" +
+            z +
+            "&size=" +
+            w +
+            "x" +
+            h +
+            markers +
+            "&sensor=false"
+          $img.src = src
+
+          # APPEND UI to DOM target
+          $map.appendChild $img
+          $ui.appendChild $map
+          $t.appendChild $ui
+
+          # ZOOM by scrolling
+          mouseOver = (e) ->
+            $map.addEventListener( "mousewheel", mouseWheel);
+            $map.addEventListener("mouseout", mouseOut);
+
+          mouseOut = (e) ->
+            $$.destroy $map, "mousewheel", mouseWheel
+            $$.destroy $map, "mouseout", mouseOut
+
+          mouseWheel = (e) ->
+            e.preventDefault()
+
+            # new zoome level
+            z = z - e.deltaY / 100
+
+            # farest zoom factor
+            if z < 0
+              z = 0
+              return
+            # nearest zoom factor
+            else if z > 22
+              z = 22
+              return
+
+            # REFRESH map with new zoom value
+            $img.src =
+              url +
+              center +
+              "&zoom=" +
+              z +
+              "&size=" +
+              w +
+              "x" +
+              h +
+              markers +
+              "&sensor=false"
+
+          $$.listen $map, "mouseover", mouseOver
+
+          return
+    )
+})()

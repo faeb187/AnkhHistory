@@ -1,21 +1,19 @@
-import { $$, observer, state } from "core";
-import { de, en } from "../app/i18n";
+import $$ from "twodollars";
 
-import type { ClickEvent, KeyValue } from "types/basic.type";
+import { observer, state } from "core";
+import { de, en } from "../app/i18n";
 
 type Lang = "de" | "en";
 
 type AnkhUiLangOptions = {
   id: string;
-  style: KeyValue;
+  style: Record<string, string>;
 };
-type AnkhUiLangUpdateOptions = { lang: string };
-
 export const lang = (() => {
-  const changeLang = (event: ClickEvent) => {
+  const changeLang = (event: MouseEvent) => {
     event.preventDefault();
 
-    const { target: $a } = event;
+    const $a = event.target as HTMLElement;
     const $aParent = $a.parentNode as HTMLElement;
 
     observer.f("ui-lang-update", { lang: $a.getAttribute("lang") });
@@ -30,13 +28,13 @@ export const lang = (() => {
   const init = (options: AnkhUiLangOptions) => {
     const { id, style = {} } = options;
     const lang = state.get({ id: "lang" }) || def;
-    const $ui = $$("<nav/>", { id, class: "ui-lang" });
+    const $ui = $$.create("<nav/>", { id, class: "ui-lang" });
 
     style && $$.css($ui, style);
 
     // iterate through language lib
     Object.keys(lib).forEach((k) => {
-      const $a = $$("<a/>", {
+      const $a = $$.create("<a/>", {
         rel: "alternate",
         hreflang: k,
         lang: k,
@@ -46,15 +44,17 @@ export const lang = (() => {
 
       if (k === lang) $a.className = "active";
 
-      $$.listen({ target: $a, type: "click", handler: changeLang });
+      $a.addEventListener("click", changeLang);
       $ui.appendChild($a);
     });
 
-    observer.l("ui-lang-update", update);
-    observer.l("core-renderer-rendered", update);
+    observer.l({ name: "ui-lang-update", handler: update });
+    observer.l({ name: "core-renderer-rendered", handler: update });
 
     return $ui;
   };
+
+  type AnkhUiLangUpdateOptions = { lang: string };
 
   const update = (options: AnkhUiLangUpdateOptions) => {
     const { lang: l = "" } = options;
@@ -67,7 +67,7 @@ export const lang = (() => {
     // update elements
     $$.find("[data-lang]").forEach((elm: HTMLElement) => {
       const langKey = elm.getAttribute("data-lang") as string;
-      const langLib = lib[evaluatedLang] as KeyValue;
+      const langLib = lib[evaluatedLang] as Record<string, string>;
       const v = langLib[langKey];
 
       if (elm.getAttribute("data-lang-rendered"))
@@ -81,7 +81,7 @@ export const lang = (() => {
 
     state.set({ id: "lang", state: evaluatedLang });
 
-    observer.l("core-renderer-rendered", update);
+    observer.l({ name: "core-renderer-rendered", handler: update });
     observer.f("ui-lang-updated");
   };
 

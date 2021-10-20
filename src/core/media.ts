@@ -29,8 +29,7 @@ export const media = (() => {
     const viewportBefore = viewport;
 
     viewport = getViewportName(vpW);
-
-    if (viewport !== viewportBefore) observer.f("ankh-viewport", viewport);
+    if (viewport !== viewportBefore) observer.f("ankh-viewport", { viewport });
   };
 
   return {
