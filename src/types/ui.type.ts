@@ -1,6 +1,6 @@
 import type { AnkhMediaOptions } from "types/media.type";
 import type { KeyValue } from "types/basic.type";
-import type { AnkhEventDom } from "types/event.type";
+import type { ObserverEvent } from "core/observer";
 
 type AnkhUiModules = { [prop: string]: AnkhUi };
 
@@ -13,7 +13,7 @@ type AnkhUi = {
 
 // @todo extract AnkhUiOptionsCommon
 type AnkhUiOptions = {
-  events?: AnkhEventDom[];
+  events?: ObserverEvent[];
   id: string;
   media?: AnkhMediaOptions;
   parentId?: string;

@@ -1,7 +1,4 @@
-/**
- * UI accordion
- */
-import { $$ } from "core";
+import $$ from "twodollars";
 
 type AnkhUiAccordionOptions = {
   id: string;
@@ -11,7 +8,7 @@ type AnkhUiAccordionOptions = {
 export const accordion = (() => ({
   init: (options: AnkhUiAccordionOptions) => {
     const { id, $target } = options;
-    const $ui = $$("<section/>", { class: "ui-accordion" });
+    const $ui = $$.create("<section/>", { class: "ui-accordion" });
 
     // @todo
     console.log(id, $target);

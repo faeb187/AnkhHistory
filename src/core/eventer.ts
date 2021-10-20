@@ -1,38 +1,33 @@
-import { $$, logger, observer } from "core";
-import type { AnkhEventDom } from "types/event.type";
+import $$ from "twodollars";
+
+import { logger, observer } from "core";
+import type { ObserverEvent } from "core/observer";
 
 export const eventer = (() => {
   const setAttached = new Set();
 
-  const attachOne = (ankhEvent: AnkhEventDom) => {
-    $$.listen(ankhEvent);
-    setAttached.add(ankhEvent);
-    return;
-  };
+  const attach = (events: ObserverEvent[]) =>
+    events.forEach((event: ObserverEvent) => attachOne(event));
 
-  const attach = (events: AnkhEventDom[], target: HTMLElement) => {
-    events.forEach((event: AnkhEventDom) => {
-      const { args = {}, name, type } = event;
+  const attachOne = (event: ObserverEvent) => {
+    const { args = {}, name, bind } = event;
 
-      const handler = (e: Event) => {
-        logger.info("[CORE][eventer]", "triggered: #{eventName}");
-        e.preventDefault();
-        e.stopPropagation();
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        observer.f(name!, { event: e, args });
-      };
-      if (!args.selector) return attachOne(event);
+    const handler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-      $$.find(args.selector, target).forEach((subTarget: HTMLElement) => {
-        attachOne({
-          name,
-          target: subTarget,
-          type,
-          handler,
-        });
-        return;
-      });
-    });
+      logger.info("[CORE][eventer]", "triggered DOM event");
+
+      observer.f(name, { event: e, args });
+    };
+
+    if (bind) {
+      const { target, type } = bind;
+      const elements = typeof target === "string" ? $$.find(target) : [target];
+
+      elements.forEach((element) => element.addEventListener(type, handler));
+      setAttached.add(event);
+    }
   };
   return { attach };
 })();

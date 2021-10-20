@@ -1,13 +1,14 @@
 // @todo (uis as AnkhUiIndex) only once at top (somehow)
 // @todo proper types (and not in this file)
-// @todo '@core' doesn't work, why?
+import $$ from "twodollars";
 
-import { $$, eventer, logger, media, observer, renderer } from "core";
+import { eventer, logger, media, observer, renderer } from "core";
 import { camelize } from "utils";
 import { routes } from "app/routes";
 import * as sites from "app/sites";
 import * as uis from "uis";
 
+import type { ObserverEvent } from "core/observer";
 import type { AnkhSite } from "types/site.type";
 import type { AnkhRoute } from "types/route.type";
 import type {
@@ -44,7 +45,7 @@ export const loader = (() => {
   const updateDeferred = () => {
     getNotLoaded().forEach((notLoadedUi: AnkhUiNotLoaded, id: string) => {
       const { uiOptions } = notLoadedUi;
-      const { events, media: m, ui } = uiOptions;
+      const { events = [], media: m, ui } = uiOptions;
 
       // [1] is the UI now in the viewport?
       if (!m || !media.isInViewport(m)) return;
@@ -54,7 +55,7 @@ export const loader = (() => {
       if (!$ui) return logger.error(`UI#${ui} didn't return itself`);
 
       // [3] attach events
-      events && eventer.attach(events, $ui);
+      eventer.attach(events.map((event: ObserverEvent) => ({ ...event, $ui })));
 
       // [4] update loaded state
       mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete(id);
@@ -101,7 +102,7 @@ export const loader = (() => {
   };
 
   const initUi = (uiOptions: AnkhUiOptions) => {
-    const { events, id, ui, media: m, parentId = "ankh" } = uiOptions;
+    const { events = [], id, ui, media: m, parentId = "ankh" } = uiOptions;
 
     // [1] identification & classification
     if (!id || !ui)
@@ -140,7 +141,7 @@ export const loader = (() => {
       // ...skip loading, set placeholder
       return mapLoaded.set(updatedId, {
         uiOptions,
-        $ui: $$("<div/>", { id: updatedId, "data-fx": "out" }),
+        $ui: $$.create("<div/>", { id: updatedId, "data-fx": "out" }),
         parentId: updatedParentId,
       });
     }
@@ -152,7 +153,7 @@ export const loader = (() => {
     if (!$ui) return logger.error(`UI '${ui}' didn't return itself`, uiOptions);
 
     // [5] attach events
-    events && eventer.attach(events, $ui);
+    eventer.attach(events.map((event: ObserverEvent) => ({ ...event, $ui })));
 
     // [6] register loaded ui
     mapLoaded.set(id, { $ui, uiOptions, parentId });
@@ -200,7 +201,7 @@ export const loader = (() => {
     logger.log("siteConfigurations", siteConfigurations);
 
     // [3] update deferred UI's on viewport change
-    observer.l("ankh-viewport", updateDeferred);
+    observer.l({ name: "ankh-viewport", handler: updateDeferred });
 
     logger.groupEnd();
   };
