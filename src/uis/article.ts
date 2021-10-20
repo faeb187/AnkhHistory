@@ -1,7 +1,4 @@
-/**
- * UI article
- */
-import { $$ } from "core";
+import $$ from "twodollars";
 
 type AnkhUiArticle = {
   lang: string; // id to paragraph text or programming lang
@@ -26,42 +23,42 @@ export const article = (() => ({
   init: (opt: AnkhUiArticleOptions) => {
     let $elm;
     const { target, title, items } = opt;
-    const $ui = $$("<article/>", { class: "ui-article" });
+    const $ui = $$.create("<article/>", { class: "ui-article" });
 
     // ADD article title
-    const $title = $$("<h2/>", { "data-lang": title });
+    const $title = $$.create("<h2/>", { "data-lang": title });
     $ui.appendChild($title);
 
     // ADD article items
     items.forEach((itm) => {
       // code block
       if (itm.code) {
-        const $pre = $$("<pre/>");
-        const $code = $$("<code/>", { class: itm.lang });
+        const $pre = $$.create("<pre/>");
+        const $code = $$.create("<code/>", { class: itm.lang });
         $code.innerHTML = itm.code;
         $pre.appendChild($code);
-        $elm = $$("<p/>").appendChild($pre);
+        $elm = $$.create("<p/>").appendChild($pre);
       }
       // normal paragraph
-      else $elm = $$("<p/>", { "data-lang": itm.lang });
+      else $elm = $$.create("<p/>", { "data-lang": itm.lang });
 
       $ui.appendChild($elm);
     });
 
     // article footer required?
     if (opt.author || opt.createdAt) {
-      const $footer = $$("<footer/>");
+      const $footer = $$.create("<footer/>");
 
       // add article author
       if (opt.author) {
-        const $address = $$("<address/>");
+        const $address = $$.create("<address/>");
         $address.innerText = `by ${opt.author.username}`;
         $footer.appendChild($address);
       }
 
       // add article creation date
       if (opt.createdAt) {
-        const $time = $$("<time/>", {
+        const $time = $$.create("<time/>", {
           // datetime: opt.createdAt,
           pubdate: "pubdate",
         });

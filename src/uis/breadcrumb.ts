@@ -1,14 +1,11 @@
-/**
- * UI breadcrumb
- */
-import { $$ } from "core";
-import { AnkhEvent } from "types/event.type";
+import $$ from "twodollars";
+import type { ObserverEvent } from "core/observer";
 
 type AnkhUiBreadcrumb = { lang?: string };
 
 type AnkhUiBreadcrumbOptions = {
   active: number;
-  events: AnkhEvent[];
+  events: ObserverEvent[];
   id: string;
   items: AnkhUiBreadcrumb[];
   numbered: boolean;
@@ -34,7 +31,7 @@ export const breadcrumb = (() => {
 
     getItem: (item: AnkhUiBreadcrumb) => {
       const { lang } = item;
-      const $item = $$("<a/>");
+      const $item = $$.create("<a/>");
 
       if (lang) $item.setAttribute("data-lang", lang);
       return $item;
@@ -52,20 +49,18 @@ export const breadcrumb = (() => {
         readonly,
       } = options;
 
-      const $ui = $$("<nav/>", { id: id, class: "ui-breadcrumb" });
+      const $ui = $$.create("<nav/>", { id: id, class: "ui-breadcrumb" });
 
       if (numbered) $$.addClass($ui, "numbered");
       if (readonly) $$.addClass($ui, "readonly");
 
       items.forEach((item) => $ui.appendChild(ui.getItem(item)));
 
-      const updateEvent = {
+      const updateEvent: ObserverEvent = {
+        args: { id },
         name: "ui-breadcrumb-update",
-        target: id,
-        type: "ui",
       };
       events.push(updateEvent);
-
       /*
       observer.l("ui-breadcrumb-update", (opts: { events: AnkhEvent[] }) => {
         opts.events.forEach((event: AnkhEvent) => {

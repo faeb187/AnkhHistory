@@ -1,7 +1,4 @@
-/**
- * UI html
- */
-import { $$ } from "core";
+import $$ from "twodollars";
 import type { AnkhUiHtmlOptions } from "types/ui.type";
 
 export const html = (() => ({
@@ -17,7 +14,7 @@ export const html = (() => ({
       text,
     } = options;
 
-    const $ui = $$(`<${tag}/>`, {
+    const $ui = $$.create(`<${tag}/>`, {
       id,
       class: `ui-html ui-html-${tag} ${classNames}`,
     });

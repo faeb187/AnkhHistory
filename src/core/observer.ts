@@ -1,34 +1,38 @@
-type ObserverEvents = {
-  [eventName: string]: ObserverEventHandler[];
+export type ObserverEvent = {
+  args?: { [prop: string]: unknown };
+  bind?: {
+    target: HTMLElement | string;
+    type: keyof GlobalEventHandlers;
+  };
+  name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handler?: (...args: any[]) => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ObserverEventHandler = (options: any) => void;
-
 export const observer = (() => {
-  const evs: ObserverEvents = {};
+  let evs: ObserverEvent[] = [];
 
   return {
-    l: (ev: string, cb: ObserverEventHandler) => {
-      evs[ev] = !evs[ev] ? [cb] : evs[ev].concat([cb]);
-      return this;
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    f: (ev: string, args?: any) => {
-      const cbs = evs[ev];
-
-      if (cbs?.length) cbs.forEach((cb) => cb(args));
+    l: (event: ObserverEvent): void => {
+      evs.push(event);
       return this;
     },
 
-    r: (ev?: string) => {
-      // REMOVE ONE event
-      if (ev) return delete evs[ev];
+    f: (eventName: string, dynamicArgs: Record<string, unknown> = {}) => {
+      const matchedEvents = evs.filter(
+        (ev: ObserverEvent) => ev.name === eventName
+      );
+      matchedEvents.forEach((matchedEvent: ObserverEvent) => {
+        const { args = {}, handler } = matchedEvent;
+        handler && handler({ ...args, ...dynamicArgs });
+      });
+      return this;
+    },
 
-      // REMOVE ALL events
-      // ...except the ones with a leading underscore
-      Object.keys(evs).forEach((name) => name[0] !== "_" && delete evs[name]);
-
+    r: (eventName?: string) => {
+      evs = evs.filter((ev: ObserverEvent) =>
+        eventName ? ev.name === eventName : ev.name[0] !== "_"
+      );
       return this;
     },
   };
