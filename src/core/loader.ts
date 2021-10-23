@@ -2,7 +2,7 @@
 // @todo proper types (and not in this file)
 import { twoDollars } from "twodollars";
 
-import { eventer, logger, media, observer, renderer } from "core";
+import { logger, media, observer, renderer } from "core";
 import { camelize } from "utils";
 import { routes } from "app/routes";
 import * as sites from "app/sites";
@@ -21,6 +21,17 @@ import type {
 export const loader = (() => {
   let mapLoaded: Map<string, AnkhUiLoaded>;
   let siteConfigurations: Map<string, AnkhUiOptions[]>;
+
+  const bindDefaults = (
+    events: ObserverEvent[],
+    element: HTMLElement
+  ): ObserverEvent[] =>
+    events.map((event: ObserverEvent) => {
+      if (!event.bind || event.bind.target) return event;
+
+      const bindWithDefault = { type: event.bind.type, target: element };
+      return Object.assign({}, event, bindWithDefault);
+    });
 
   const getNotLoaded = () =>
     new Map<string, AnkhUiNotLoaded>([
@@ -55,7 +66,9 @@ export const loader = (() => {
       if (!$ui) return logger.error(`UI#${ui} didn't return itself`);
 
       // [3] attach events
-      eventer.attach(events.map((event: ObserverEvent) => ({ ...event, $ui })));
+      bindDefaults(events, $ui).forEach((event: ObserverEvent) =>
+        observer.l(event)
+      );
 
       // [4] update loaded state
       mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete(id);
@@ -153,7 +166,9 @@ export const loader = (() => {
     if (!$ui) return logger.error(`UI '${ui}' didn't return itself`, uiOptions);
 
     // [5] attach events
-    eventer.attach(events.map((event: ObserverEvent) => ({ ...event, $ui })));
+    bindDefaults(events, $ui).forEach((event: ObserverEvent) =>
+      observer.l(event)
+    );
 
     // [6] register loaded ui
     mapLoaded.set(id, { $ui, uiOptions, parentId });
