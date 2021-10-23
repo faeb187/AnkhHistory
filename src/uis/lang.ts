@@ -1,4 +1,4 @@
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 
 import { observer, state } from "core";
 import { de, en } from "../app/i18n";
@@ -18,7 +18,8 @@ export const lang = (() => {
 
     observer.f("ui-lang-update", { lang: $a.getAttribute("lang") });
 
-    $aParent && $$.removeClass($$.find(".active", $aParent)[0], "active");
+    $aParent &&
+      twoDollars.removeClass(twoDollars.find(".active", $aParent)[0], "active");
     $a.className = "active";
   };
 
@@ -28,13 +29,13 @@ export const lang = (() => {
   const init = (options: AnkhUiLangOptions) => {
     const { id, style = {} } = options;
     const lang = state.get({ id: "lang" }) || def;
-    const $ui = $$.create("<nav/>", { id, class: "ui-lang" });
+    const $ui = twoDollars.create("<nav/>", { id, class: "ui-lang" });
 
-    style && $$.css($ui, style);
+    style && twoDollars.css($ui, style);
 
     // iterate through language lib
     Object.keys(lib).forEach((k) => {
-      const $a = $$.create("<a/>", {
+      const $a = twoDollars.create("<a/>", {
         rel: "alternate",
         hreflang: k,
         lang: k,
@@ -65,7 +66,7 @@ export const lang = (() => {
     const evaluatedLang = (l || state.get({ id: "lang" }) || def) as Lang;
 
     // update elements
-    $$.find("[data-lang]").forEach((elm: HTMLElement) => {
+    twoDollars.find("[data-lang]").forEach((elm: HTMLElement) => {
       const langKey = elm.getAttribute("data-lang") as string;
       const langLib = lib[evaluatedLang] as Record<string, string>;
       const v = langLib[langKey];
@@ -77,7 +78,7 @@ export const lang = (() => {
       else elm.innerHTML = v;
     });
 
-    $$.find("html")[0].setAttribute("lang", evaluatedLang);
+    twoDollars.find("html")[0].setAttribute("lang", evaluatedLang);
 
     state.set({ id: "lang", state: evaluatedLang });
 

@@ -12,21 +12,21 @@ export list =
         { type, $target } = event
 
         $actBefore = $$(".active", $target)[0]
-        if $actBefore then $$.removeClass $actBefore, "active"
+        if $actBefore then twoDollars.removeClass $actBefore, "active"
 
         pth = location.pathname
         $actLi = $$("[href='#{pth}']", $target)[0].parentNode
-        $$.addClass $actLi, "active"
+        twoDollars.addClass $actLi, "active"
 
         $parentUl = $actLi.parentNode
-        if $$.hasClass $parentUl, "ui-list" then return
-        if $$.hasClass $parentUl.parentNode, "ui-list" then return
+        if twoDollars.hasClass $parentUl, "ui-list" then return
+        if twoDollars.hasClass $parentUl.parentNode, "ui-list" then return
 
-        $parentLi = $$.parent $actLi, "li"
-        $$.addClass $parentLi, "active"
+        $parentLi = twoDollars.parent $actLi, "li"
+        twoDollars.addClass $parentLi, "active"
 
       toggle: (options) ->
-        $$.toggleClass $$("##{options?.args?.toToggle}"), "hidden"
+        twoDollars.toggleClass $$("##{options?.args?.toToggle}"), "hidden"
         return
 
       # @DESC   adds list item to list
@@ -83,7 +83,7 @@ export list =
       $ui.id = id
       $ui.className = "ui-list"
 
-      $$.style $ui, style
+      twoDollars.style $ui, style
 
       items.forEach (item) -> ui.addListItem item, $ul
 

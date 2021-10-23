@@ -16,7 +16,7 @@ export input =
 
         ### @todo there is no $target anymore
         if tag is "input"
-          $$.listen $$(tag, $target), eventType, (event) ->
+          twoDollars.listen $$(tag, $target), eventType, (event) ->
             $element = event.target
             state.set id: uiId, state: [$element.id]: $element.value
         ###
@@ -33,7 +33,7 @@ export input =
           $datalist.innerHTML = ""
 
           try
-            res = await $$.post ankh.networkAdapter, { query }
+            res = await twoDollars.post ankh.networkAdapter, { query }
             res?.data?.partner?.forEach (partner) =>
               text = "#{partner.lastname} #{partner.firstname}"
               $datalist.appendChild $$ "<option/>", innerText: text
@@ -45,7 +45,7 @@ export input =
         { id, events = {}, target: $target } = options
 
         events.keyup?.forEach (searchEvent) ->
-          $$.listen $target, "keyup", ->
+          twoDollars.listen $target, "keyup", ->
             observer.f "_ankh-ui-fire",
               name: searchEvent.name
               target: searchEvent.target
@@ -116,7 +116,7 @@ export input =
             )
 
         if icon
-          $$.addClass $ui, "ui-input-icon"
+          twoDollars.addClass $ui, "ui-input-icon"
           $ui.appendChild $$ "<ion-icon/>", class: "ui-icon", name: icon
 
         if events then ui.setEvents options

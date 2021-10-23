@@ -13,7 +13,7 @@ export nav =
       if !id or !items?.length then return
 
       $ui = $$ "<nav/>", { id, class: "ui-nav" }
-      if attributes then $$.addAttr $ui, attributes
+      if attributes then twoDollars.addAttr $ui, attributes
 
       items.forEach (item) =>
         { lang, path: href } = item
@@ -34,7 +34,7 @@ export nav =
       active = location.pathname.slice(1).split("/")[level]
       $activeNow = $$ "[href*='/#{active}']", $ui
 
-      if $activeBefore then $$.removeClass $activeBefore, "active"
-      $$.addClass $activeNow, "active"
+      if $activeBefore then twoDollars.removeClass $activeBefore, "active"
+      twoDollars.addClass $activeNow, "active"
       return
   )()

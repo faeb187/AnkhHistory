@@ -1,7 +1,7 @@
 #
 # UI sitemap
 #
-import { $$ } from "../core"
+import { twoDollars } from "../core"
 
 export sitemap =
   (->
@@ -28,6 +28,6 @@ export sitemap =
 
           # INIT UI nav with type sitemap
           # (extend options from UI nav)
-          Ui.nav.init $$.extend navC, opt
+          Ui.nav.init twoDollars.extend navC, opt
     )
   )()

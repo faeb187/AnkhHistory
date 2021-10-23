@@ -16,11 +16,11 @@ export context =
         # @RETURN {void}
         contextMenu: (e) ->
           e.preventDefault()
-          $$.css $ui,
+          twoDollars.css $ui,
             left: e.clientX
             top: e.clientY
 
-          $$.addClass $ui, "active"
+          twoDollars.addClass $ui, "active"
 
           return
 
@@ -36,7 +36,7 @@ export context =
       $elm = $$("##{id}")[0]
 
       # LISTEN for right click
-      if $elm then $$.listen $elm, "contextmenu", ui.evs.contextMenu
+      if $elm then twoDollars.listen $elm, "contextmenu", ui.evs.contextMenu
 
       return
 

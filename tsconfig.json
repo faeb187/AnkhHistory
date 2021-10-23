@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "esModuleInterop": true,
-    "lib": ["dom","es6"],
-    "module": "commonjs",
+    "lib": ["dom", "es6"],
+    "module": "es6",
+    "moduleResolution": "node",
     "noEmitOnError": true,
-    "noImplicitAny": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "paths": {
       "app": ["app"],
       "core": ["core"],
@@ -17,10 +17,10 @@
       "utils": ["utils"]
     },
     "removeComments": true,
-    "resolveJsonModule": true,
-    "rootDir": "./src",
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
-    "target": "es6",
+    "target": "es6"
   },
+  "include": ["src"]
 }

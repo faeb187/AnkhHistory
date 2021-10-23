@@ -1,7 +1,7 @@
 #
 # UI slideshow
 #
-import { $$ } from "../core"
+import { twoDollars } from "../core"
 
 export slideshow =
   (->
@@ -58,7 +58,7 @@ export slideshow =
             if pos is maxL then pos = 0
 
             # SLIDE to next image
-            $$.css $ul, marginLeft: pos + "vw"
+            twoDollars.css $ul, marginLeft: pos + "vw"
         ,
           int
         )

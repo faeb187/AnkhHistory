@@ -1,15 +1,13 @@
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 
 import { loader, logger, media, observer } from "core";
 import type { AnkhUiLoaded } from "types/ui.type";
 
 export const renderer = (() => {
-  let $ankh: HTMLElement;
-
   const renderDeferred = ($ui: HTMLElement) => {
-    logger.log($ui.id, $$.find(`#_${$ui.id}`)[0]);
+    logger.log($ui.id, twoDollars.find(`#_${$ui.id}`)[0]);
 
-    const $placeholder = $$.find(`#_${$ui.id}`)[0];
+    const $placeholder = twoDollars.find(`#_${$ui.id}`)[0];
     console.log("id/placeholder:", $ui.id, $placeholder);
 
     // [1] keep eventual children placeholders
@@ -44,8 +42,6 @@ export const renderer = (() => {
   };
 
   const init = () => {
-    $ankh = $$.find("#ankh")[0];
-
     observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
     observer.l({ name: "ankh-viewport", handler: updateVisibility });
   };
@@ -58,10 +54,11 @@ export const renderer = (() => {
 
     mapLoaded.forEach((loadedUi: AnkhUiLoaded) => {
       const { $ui, parentId = "" } = loadedUi;
-      ($$.find(`#${parentId}`, $df)[0] || $df).appendChild($ui);
+      (twoDollars.find(`#${parentId}`, $df)[0] || $df).appendChild($ui);
     });
 
     // @todo only render changes
+    const $ankh = <HTMLDivElement>twoDollars.find("#ankh")[0];
     $ankh.innerHTML = "";
     $ankh.appendChild($df);
 

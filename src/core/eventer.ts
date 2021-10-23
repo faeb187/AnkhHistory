@@ -1,4 +1,4 @@
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 
 import { logger, observer } from "core";
 import type { ObserverEvent } from "core/observer";
@@ -23,7 +23,8 @@ export const eventer = (() => {
 
     if (bind) {
       const { target, type } = bind;
-      const elements = typeof target === "string" ? $$.find(target) : [target];
+      const elements: HTMLElement[] =
+        typeof target === "string" ? twoDollars.find(target) : [target];
 
       elements.forEach((element) => element.addEventListener(type, handler));
       setAttached.add(event);

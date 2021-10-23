@@ -1,6 +1,6 @@
 {
   "name": "ankh",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "modern lightweight and flexible UI/UX framework.",
   "repository": {
     "type": "git",
@@ -52,12 +52,9 @@
     "hotkeys": "^1.0.0",
     "material-colors": "^1.2.6",
     "material-design-icons": "^3.0.1",
-    "twodollars": "^1.0.8"
+    "twodollars": "^1.0.15"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.8",
-    "@babel/preset-env": "^7.14.8",
-    "@babel/preset-typescript": "^7.14.5",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.3",
     "@types/stylus": "^0.48.36",
