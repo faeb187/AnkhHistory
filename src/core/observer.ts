@@ -1,7 +1,7 @@
 export type ObserverEvent = {
   args?: { [prop: string]: unknown };
   bind?: {
-    target: HTMLElement | string;
+    target: HTMLElement;
     type: keyof GlobalEventHandlers;
   };
   name: string;
@@ -14,6 +14,10 @@ export const observer = (() => {
 
   return {
     l: (event: ObserverEvent): void => {
+      event.bind &&
+        event.bind.target.addEventListener(event.bind.type, () =>
+          observer.f(event.name)
+        );
       evs.push(event);
       return this;
     },
