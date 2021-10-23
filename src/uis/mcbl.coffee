@@ -2,7 +2,7 @@
 # UI mcbl
 # @DESC modular content block layout
 #
-import { $$ } from "../core"
+import { twoDollars } from "../core"
 
 export mcbl =
   (->

@@ -1,4 +1,4 @@
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 
 type AnkhUiArticle = {
   lang: string; // id to paragraph text or programming lang
@@ -23,42 +23,42 @@ export const article = (() => ({
   init: (opt: AnkhUiArticleOptions) => {
     let $elm;
     const { target, title, items } = opt;
-    const $ui = $$.create("<article/>", { class: "ui-article" });
+    const $ui = twoDollars.create("<article/>", { class: "ui-article" });
 
     // ADD article title
-    const $title = $$.create("<h2/>", { "data-lang": title });
+    const $title = twoDollars.create("<h2/>", { "data-lang": title });
     $ui.appendChild($title);
 
     // ADD article items
     items.forEach((itm) => {
       // code block
       if (itm.code) {
-        const $pre = $$.create("<pre/>");
-        const $code = $$.create("<code/>", { class: itm.lang });
+        const $pre = twoDollars.create("<pre/>");
+        const $code = twoDollars.create("<code/>", { class: itm.lang });
         $code.innerHTML = itm.code;
         $pre.appendChild($code);
-        $elm = $$.create("<p/>").appendChild($pre);
+        $elm = twoDollars.create("<p/>").appendChild($pre);
       }
       // normal paragraph
-      else $elm = $$.create("<p/>", { "data-lang": itm.lang });
+      else $elm = twoDollars.create("<p/>", { "data-lang": itm.lang });
 
       $ui.appendChild($elm);
     });
 
     // article footer required?
     if (opt.author || opt.createdAt) {
-      const $footer = $$.create("<footer/>");
+      const $footer = twoDollars.create("<footer/>");
 
       // add article author
       if (opt.author) {
-        const $address = $$.create("<address/>");
+        const $address = twoDollars.create("<address/>");
         $address.innerText = `by ${opt.author.username}`;
         $footer.appendChild($address);
       }
 
       // add article creation date
       if (opt.createdAt) {
-        const $time = $$.create("<time/>", {
+        const $time = twoDollars.create("<time/>", {
           // datetime: opt.createdAt,
           pubdate: "pubdate",
         });

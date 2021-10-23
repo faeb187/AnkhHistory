@@ -1,7 +1,7 @@
 #
 # UI fab
 #
-import { $$ } from "../core"
+import { twoDollars } from "../core"
 
 export fab =
   (->

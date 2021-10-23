@@ -27,7 +27,7 @@ export icon =
 
       $ui = $$ "<ion-icon/>", name: icon
 
-      $$.style $ui, style
+      twoDollars.style $ui, style
 
       $ui.id = id
       $ui.className = "ui-icon"

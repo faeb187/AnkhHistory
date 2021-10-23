@@ -27,7 +27,7 @@ export table =
         if col.svg then $th.setAttribute "data-svg", true
         if col.date then $th.setAttribute "data-date", true
         if col.currency then $th.setAttribute "data-currency", col.currency
-        if col.right then $$.addClass $th, "right"
+        if col.right then twoDollars.addClass $th, "right"
         if col.width then $th.setAttribute "data-width", col.width
         $th
 
@@ -57,13 +57,13 @@ export table =
               $td.setAttribute "data-currency", col.currency
             $td.innerText = v
 
-          if col.right then $$.addClass $td, "right"
+          if col.right then twoDollars.addClass $td, "right"
           $tr.appendChild $td
         $tr
 
-      $$.append $ths, $theadTr
+      twoDollars.append $ths, $theadTr
       $thead.appendChild $theadTr
-      $$.append $trs, $tbody
+      twoDollars.append $trs, $tbody
       $ui.appendChild $thead
       $ui.appendChild $tbody
       $ui

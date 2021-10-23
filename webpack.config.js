@@ -4,11 +4,12 @@ const rucksack = require("rucksack-css");
 const rupture = require("rupture");
 
 module.exports = {
-  devtool: "inline-source-map",
+  devtool: "source-map",
   entry: "./src/app.ts",
   mode: "development",
   optimization: {
     minimize: false,
+    // sideEffects: false
   },
   resolve: {
     alias: {

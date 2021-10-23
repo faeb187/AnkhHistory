@@ -1,4 +1,4 @@
-import $$ from "twodollars"
+import { twoDollars } from "twodollars"
 
 type MapMarker = {
   color: string;
@@ -32,8 +32,8 @@ export const map = (()=>{
             "https://maps.googleapis.com/maps/api/js?key=AIzaSyCgbKN00AITyqutT6eyYM_Gf0F55r4JDLU&callback=initMap"
 
           const getScript = (source, callback) => {
-            const script = $$.create("<script/>", {async: 1});
-            const prior = $$.create("script")[0];
+            const script = twoDollars.create("<script/>", {async: 1});
+            const prior = twoDollars.create("script")[0];
             prior.parentNode.insertBefore(script, prior);
 
             script.onload = script.onreadystatechange = (_, isAbort) => {
@@ -64,8 +64,8 @@ export const map = (()=>{
 
           const markers = "";
 
-          const $ui = $$.create("<div/>", {class: "ui-map"});
-          const $map = $$.create("<div/>",{class: "map"});
+          const $ui = twoDollars.create("<div/>", {class: "ui-map"});
+          const $map = twoDollars.create("<div/>",{class: "map"});
 
           // ADD markers
           if(markers)
@@ -118,8 +118,8 @@ export const map = (()=>{
             $map.addEventListener("mouseout", mouseOut);
 
           mouseOut = (e) ->
-            $$.destroy $map, "mousewheel", mouseWheel
-            $$.destroy $map, "mouseout", mouseOut
+            twoDollars.destroy $map, "mousewheel", mouseWheel
+            twoDollars.destroy $map, "mouseout", mouseOut
 
           mouseWheel = (e) ->
             e.preventDefault()
@@ -149,7 +149,7 @@ export const map = (()=>{
               markers +
               "&sensor=false"
 
-          $$.listen $map, "mouseover", mouseOver
+          twoDollars.listen $map, "mouseover", mouseOver
 
           return
     )

@@ -9,7 +9,7 @@ export slider =
       events:
         toggle: (opt) ->
           { side = "left", $target } = opt
-          $$.toggleClass $$("#front"), "from-#{side}"
+          twoDollars.toggleClass $$("#front"), "from-#{side}"
 
     # @DESC   create a new slider
     # @PARAM  id      MAN {string}  UI id

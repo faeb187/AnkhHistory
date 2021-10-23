@@ -1,6 +1,6 @@
 // @todo (uis as AnkhUiIndex) only once at top (somehow)
 // @todo proper types (and not in this file)
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 
 import { eventer, logger, media, observer, renderer } from "core";
 import { camelize } from "utils";
@@ -141,7 +141,7 @@ export const loader = (() => {
       // ...skip loading, set placeholder
       return mapLoaded.set(updatedId, {
         uiOptions,
-        $ui: $$.create("<div/>", { id: updatedId, "data-fx": "out" }),
+        $ui: twoDollars.create("<div/>", { id: updatedId, "data-fx": "out" }),
         parentId: updatedParentId,
       });
     }
@@ -176,8 +176,7 @@ export const loader = (() => {
     logger.log("siteUis", siteUis);
 
     // [2] navigate to current site
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    $$.history.go(currentPath, currentPath.split("/").pop()!); // @todo check this again (!)
+    twoDollars.history.go(currentPath, currentPath);
 
     // [3] prepare/load the ui's
     siteUis.forEach((ui: AnkhUiOptions) => initUi(ui));

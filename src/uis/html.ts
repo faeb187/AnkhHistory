@@ -1,4 +1,4 @@
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 import type { AnkhUiHtmlOptions } from "types/ui.type";
 
 export const html = (() => ({
@@ -14,13 +14,13 @@ export const html = (() => ({
       text,
     } = options;
 
-    const $ui = $$.create(`<${tag}/>`, {
+    const $ui = twoDollars.create(`<${tag}/>`, {
       id,
       class: `ui-html ui-html-${tag} ${classNames}`,
     });
 
-    $$.css($ui, style);
-    $$.addAttr($ui, attributes);
+    twoDollars.css($ui, style);
+    twoDollars.addAttr($ui, attributes);
 
     // @todo handle images in new Ui?
     if (src) {

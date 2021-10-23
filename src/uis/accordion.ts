@@ -1,4 +1,4 @@
-import $$ from "twodollars";
+import { twoDollars } from "twodollars";
 
 type AnkhUiAccordionOptions = {
   id: string;
@@ -8,7 +8,7 @@ type AnkhUiAccordionOptions = {
 export const accordion = (() => ({
   init: (options: AnkhUiAccordionOptions) => {
     const { id, $target } = options;
-    const $ui = $$.create("<section/>", { class: "ui-accordion" });
+    const $ui = twoDollars.create("<section/>", { class: "ui-accordion" });
 
     // @todo
     console.log(id, $target);

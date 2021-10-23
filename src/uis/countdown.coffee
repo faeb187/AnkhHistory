@@ -39,7 +39,7 @@ export countdown =
           $ui = ui.$tpl.cloneNode()
           $ui.id = id
           int = +time - +new Date()
-          if styl then $$.css $ui, styl
+          if styl then twoDollars.css $ui, styl
 
           # DISPLAY countdown
           setInterval ui.update, 1000
