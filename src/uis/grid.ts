@@ -10,13 +10,13 @@ export const grid = (() => {
         element = "div",
         id,
         inline = false,
-        style = {},
+        style,
       } = options;
 
       const cn = `ui-grid${inline ? "-inline" : ""} ${className}`;
       const $ui = twoDollars.create(`<${element}/>`, { id, class: cn });
 
-      twoDollars.css($ui, style);
+      style && twoDollars.css($ui, style);
       twoDollars.addAttr($ui, attributes);
 
       return $ui;
