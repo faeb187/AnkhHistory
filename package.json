@@ -52,7 +52,7 @@
     "hotkeys": "^1.0.0",
     "material-colors": "^1.2.6",
     "material-design-icons": "^3.0.1",
-    "twodollars": "^1.0.15"
+    "twodollars": "^1.0.16"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

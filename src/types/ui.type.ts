@@ -31,11 +31,11 @@ type AnkhUiLoaded = AnkhUiNotLoaded & { $ui: HTMLElement };
 
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
-  attributes: KeyValue;
-  className: string;
-  element: keyof HTMLElementTagNameMap;
-  inline: boolean;
-  style: KeyValue;
+  attributes?: KeyValue;
+  className?: string;
+  element?: keyof HTMLElementTagNameMap;
+  inline?: boolean;
+  style?: KeyValue;
 };
 
 // UI: html

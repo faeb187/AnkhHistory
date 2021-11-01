@@ -4,13 +4,13 @@ import type { AnkhUiHtmlOptions } from "types/ui.type";
 export const html = (() => ({
   init: (options: AnkhUiHtmlOptions) => {
     const {
-      attributes = {},
+      attributes,
       classNames = "",
       id,
       lang,
       src,
       tag = "div",
-      style = {},
+      style,
       text,
     } = options;
 
@@ -19,8 +19,8 @@ export const html = (() => ({
       class: `ui-html ui-html-${tag} ${classNames}`,
     });
 
-    twoDollars.css($ui, style);
-    twoDollars.addAttr($ui, attributes);
+    style && twoDollars.css($ui, style);
+    attributes && twoDollars.addAttr($ui, attributes);
 
     // @todo handle images in new Ui?
     if (src) {
