@@ -7,7 +7,12 @@ type AnkhUiModules = { [prop: string]: AnkhUi };
 type AnkhUi = {
   init: (
     // @todo create a options map then use keyof
-    options: AnkhUiOptions | AnkhUiGridOptions | AnkhUiHtmlOptions
+    options:
+      | AnkhUiOptions
+      | AnkhUiArticleOptions
+      | AnkhUiGridOptions
+      | AnkhUiHtmlOptions
+      | AnkhUiLangOptions
   ) => HTMLElement;
 };
 
@@ -29,6 +34,25 @@ type AnkhUiNotLoaded = {
 
 type AnkhUiLoaded = AnkhUiNotLoaded & { $ui: HTMLElement };
 
+// UI: article
+type AnkhUiArticleParagraph = {
+  lang: string; // id to paragraph text or programming lang
+  code?: string; // code block with syntax highlighting
+};
+
+type AnkhUiArticleAuthor = {
+  email?: string;
+  username: string;
+  website?: string;
+};
+
+type AnkhUiArticleOptions = AnkhUiOptions & {
+  author?: AnkhUiArticleAuthor;
+  createdAt?: Date;
+  paragraphs: AnkhUiArticleParagraph[];
+  title: string;
+};
+
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
   attributes?: KeyValue;
@@ -48,12 +72,20 @@ type AnkhUiHtmlOptions = AnkhUiOptions & {
   tag: string;
 };
 
+// UI: lang
+type AnkhUiLangOptions = AnkhUiOptions & {
+  style?: Record<string, string>;
+};
+
 export {
   AnkhUiModules,
   AnkhUi,
   AnkhUiLoaded,
   AnkhUiNotLoaded,
   AnkhUiOptions,
+  //
+  AnkhUiArticleOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
+  AnkhUiLangOptions,
 };

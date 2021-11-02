@@ -1,7 +1,7 @@
 import { twoDollars } from "twodollars";
-import type { AnkhUiGridOptions } from "types/ui.type";
+import type { AnkhUi, AnkhUiGridOptions } from "types/ui.type";
 
-export const grid = (() => {
+export const grid: AnkhUi = (() => {
   return {
     init: (options: AnkhUiGridOptions) => {
       const {
