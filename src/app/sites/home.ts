@@ -1,8 +1,18 @@
-import type { AnkhUiGridOptions, AnkhUiHtmlOptions } from "types/ui.type";
+import type {
+  AnkhUiArticleOptions,
+  AnkhUiGridOptions,
+  AnkhUiHtmlOptions,
+  AnkhUiLangOptions,
+} from "types/ui.type";
 
 const centeredText = { "text-align": "center" };
 
-export const home: Array<AnkhUiGridOptions | AnkhUiHtmlOptions> = [
+export const home: Array<
+  | AnkhUiArticleOptions
+  | AnkhUiGridOptions
+  | AnkhUiHtmlOptions
+  | AnkhUiLangOptions
+> = [
   {
     id: "grid-main",
     ui: "grid",
@@ -17,11 +27,18 @@ export const home: Array<AnkhUiGridOptions | AnkhUiHtmlOptions> = [
   { id: "grid-main-3", ui: "grid", parentId: "grid-main" },
   { id: "grid-main-4", ui: "grid", parentId: "grid-main" },
   {
-    id: "div-1",
-    text: "1",
-    ui: "html",
+    author: {
+      username: "altruism",
+    },
+    createdAt: new Date(),
+    id: "grid-main-1-article",
+    paragraphs: [
+      { lang: "article-1-p-1" },
+      { code: "console.log('yes');", lang: "typescript" },
+    ],
     parentId: "grid-main-1",
-    style: centeredText,
+    title: "article-1-title",
+    ui: "article",
   },
   {
     id: "div-2",
@@ -43,5 +60,9 @@ export const home: Array<AnkhUiGridOptions | AnkhUiHtmlOptions> = [
     ui: "html",
     parentId: "grid-main-4",
     style: centeredText,
+  },
+  {
+    id: "lang",
+    ui: "lang",
   },
 ];

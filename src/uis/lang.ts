@@ -3,13 +3,11 @@ import { twoDollars } from "twodollars";
 import { observer, state } from "core";
 import { de, en } from "../app/i18n";
 
+import type { AnkhUi, AnkhUiLangOptions } from "types/ui.type";
+
 type Lang = "de" | "en";
 
-type AnkhUiLangOptions = {
-  id: string;
-  style: Record<string, string>;
-};
-export const lang = (() => {
+export const lang: AnkhUi = (() => {
   const changeLang = (event: MouseEvent) => {
     event.preventDefault();
 

@@ -1,8 +1,8 @@
 import { twoDollars } from "twodollars";
 import type { AnkhUiHtmlOptions } from "types/ui.type";
 
-export const html = (() => ({
-  init: (options: AnkhUiHtmlOptions) => {
+export const html = (() => {
+  const init = (options: AnkhUiHtmlOptions) => {
     const {
       attributes,
       classNames = "",
@@ -30,5 +30,6 @@ export const html = (() => ({
     else if (text) $ui.innerText = text;
 
     return $ui;
-  },
-}))();
+  };
+  return { init };
+})();
