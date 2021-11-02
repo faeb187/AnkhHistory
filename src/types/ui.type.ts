@@ -11,6 +11,7 @@ type AnkhUi = {
     options:
       | AnkhUiOptions
       | AnkhUiArticleOptions
+      | AnkhUiButtonOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
@@ -48,11 +49,21 @@ type AnkhUiArticleAuthor = {
   website?: string;
 };
 
+// UI: article
 type AnkhUiArticleOptions = AnkhUiOptions & {
   author?: AnkhUiArticleAuthor;
   createdAt?: Date;
   paragraphs: AnkhUiArticleParagraph[];
   title: string;
+};
+
+// UI: button
+type AnkhUiButtonOptions = AnkhUiOptions & {
+  classNames?: string;
+  id: string;
+  lang: string;
+  icon?: string; // ion name
+  events?: ObserverEvent[];
 };
 
 // UI: grid
@@ -93,6 +104,7 @@ export {
   AnkhUiOptions,
   //
   AnkhUiArticleOptions,
+  AnkhUiButtonOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
