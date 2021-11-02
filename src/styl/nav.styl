@@ -1,4 +1,4 @@
-#navMobile
+#nav-mobile
   li
     pdg 1rem
 
@@ -8,28 +8,16 @@
   > ul > li > a
     fw $fw-bold
 
-#navMain
-#navPartner
-  dsp inline-grid
-  grid-template-columns repeat(24, 1fr)
-  grid-column 1/25
-  grid-row 3
-  
+#nav-main
   a
-    align-self center
+    bc $black
+    brd 1px #555 solid
+    c $white
+    dsp block
     fs $fs-big
     fw $fw-thin
+    pdg 1rem 0
     ws nowrap
-
-    &:first-child
-      grid-column-start 2
-
-    &:not(:last-child)
-      mrgr 2*$mrg
 
     &.active
       fw $fw-bold
-
-#navPartner
-  bc $grey-04
-  grid-row 4/6
