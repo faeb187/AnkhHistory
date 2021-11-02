@@ -1,5 +1,6 @@
 import type { AnkhMediaOptions } from "types/media.type";
 import type { KeyValue } from "types/basic.type";
+import type { AnkhRoute } from "types/route.type";
 import type { ObserverEvent } from "core/observer";
 
 type AnkhUiModules = { [prop: string]: AnkhUi };
@@ -13,6 +14,7 @@ type AnkhUi = {
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
+      | AnkhUiNavOptions
   ) => HTMLElement;
 };
 
@@ -74,7 +76,13 @@ type AnkhUiHtmlOptions = AnkhUiOptions & {
 
 // UI: lang
 type AnkhUiLangOptions = AnkhUiOptions & {
-  style?: Record<string, string>;
+  style?: KeyValue;
+};
+
+// UI: nav
+type AnkhUiNavOptions = AnkhUiOptions & {
+  items: AnkhRoute[];
+  attributes?: KeyValue;
 };
 
 export {
@@ -88,4 +96,5 @@ export {
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
+  AnkhUiNavOptions,
 };
