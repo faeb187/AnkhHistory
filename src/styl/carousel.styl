@@ -1,10 +1,7 @@
-/**
- *  UICAROUSEL STYL
- *  @AUTHOR faeb187
- */
 .ui-carousel
-  mrg 3em auto 3em
-  h   200px
+  mrg auto
+  w 400px
+  h 140px
   pos relative
   psp 1000px
 
@@ -15,10 +12,19 @@
     trfs  preserve-3d
 
     .ui-carousel-item
-      bc pink
-      mrg 0
+      bc rgba(blue, .5)
       dsp block
-      pos absolute 10px auto auto 10px
-      w   186px
-      h   176px
-      brd 2px solid #000
+      lft 10px
+      mrg 0
+      pos absolute auto
+      w   400px
+      h   120px
+
+      &:nth-child(2)
+        bc rgba(green, .5)
+      &:nth-child(3)
+        bc rgba(yellow, .5)
+      &:nth-child(4)
+        bc rgba(red, .5)
+      &:nth-child(5)
+        bc rgba(brown, .5)

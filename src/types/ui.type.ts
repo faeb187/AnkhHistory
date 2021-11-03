@@ -12,6 +12,7 @@ type AnkhUi = {
       | AnkhUiOptions
       | AnkhUiArticleOptions
       | AnkhUiButtonOptions
+      | AnkhUiCarouselOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
@@ -66,6 +67,10 @@ type AnkhUiButtonOptions = AnkhUiOptions & {
   events?: ObserverEvent[];
 };
 
+// UI: carousel
+type AnkhUiCarouselItem = { text?: string; title?: string };
+type AnkhUiCarouselOptions = AnkhUiOptions & { items: AnkhUiCarouselItem[] };
+
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
   attributes?: KeyValue;
@@ -105,6 +110,7 @@ export {
   //
   AnkhUiArticleOptions,
   AnkhUiButtonOptions,
+  AnkhUiCarouselOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
