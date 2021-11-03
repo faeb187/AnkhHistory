@@ -4,6 +4,7 @@ import { routes } from "../routes";
 import type {
   AnkhUiArticleOptions,
   AnkhUiButtonOptions,
+  AnkhUiCarouselOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
@@ -15,6 +16,7 @@ const boxStyle = { background: "#eaeaea" };
 export const uis: Array<
   | AnkhUiArticleOptions
   | AnkhUiButtonOptions
+  | AnkhUiCarouselOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
   | AnkhUiLangOptions
@@ -25,7 +27,6 @@ export const uis: Array<
     ui: "grid",
     style: {
       "grid-row-gap": "1em",
-      "grid-template-rows": "repeat(4,1fr)",
     },
   },
   {
@@ -47,6 +48,11 @@ export const uis: Array<
   },
   {
     id: "grid-main-4",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
+    id: "grid-main-5",
     ui: "grid",
     parentId: "grid-main",
   },
@@ -78,8 +84,20 @@ export const uis: Array<
     parentId: "grid-main-3",
   },
   {
-    id: "lang",
+    id: "carousel",
+    items: [
+      { title: "Bild 01" },
+      { title: "Bild 02" },
+      { title: "Bild 03" },
+      { title: "Bild 04" },
+      { title: "Bild 05" },
+    ],
     parentId: "grid-main-4",
+    ui: "carousel",
+  },
+  {
+    id: "lang",
+    parentId: "grid-main-5",
     ui: "lang",
   },
 ];
