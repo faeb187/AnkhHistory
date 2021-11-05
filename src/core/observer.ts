@@ -1,5 +1,14 @@
+import { AnyObject } from "types/basic.type";
+
+type Observer = {
+  l: (event: ObserverEvent) => Observer;
+  f: (eventName: string, dynamicArgs?: AnyObject) => Observer;
+  r: (eventName?: string) => Observer;
+  p: () => Observer;
+};
+
 export type ObserverEvent = {
-  args?: { [prop: string]: unknown };
+  args?: AnyObject;
   bind?: {
     target: HTMLElement;
     type: keyof GlobalEventHandlers;
@@ -9,35 +18,38 @@ export type ObserverEvent = {
   handler?: (...args: any[]) => void;
 };
 
-export const observer = (() => {
-  let evs: ObserverEvent[] = [];
+let evs: ObserverEvent[] = [];
 
-  return {
-    l: (event: ObserverEvent): void => {
-      event.bind &&
-        event.bind.target.addEventListener(event.bind.type, () =>
-          observer.f(event.name)
-        );
-      evs.push(event);
-      return this;
-    },
-
-    f: (eventName: string, dynamicArgs: Record<string, unknown> = {}) => {
-      const matchedEvents = evs.filter(
-        (ev: ObserverEvent) => ev.name === eventName
+export const observer: Observer = {
+  l: (event: ObserverEvent): Observer => {
+    event.bind &&
+      event.bind.target.addEventListener(event.bind.type, () =>
+        observer.f(event.name)
       );
-      matchedEvents.forEach((matchedEvent: ObserverEvent) => {
-        const { args = {}, handler } = matchedEvent;
-        handler && handler({ ...args, ...dynamicArgs });
-      });
-      return this;
-    },
+    evs.push(event);
+    return observer;
+  },
 
-    r: (eventName?: string) => {
-      evs = evs.filter((ev: ObserverEvent) =>
-        eventName ? ev.name === eventName : ev.name[0] !== "_"
-      );
-      return this;
-    },
-  };
-})();
+  f: (eventName: string, dynamicArgs: AnyObject = {}): Observer => {
+    const matchedEvents = evs.filter(
+      (ev: ObserverEvent) => ev.name === eventName
+    );
+    matchedEvents.forEach((matchedEvent: ObserverEvent) => {
+      const { args = {}, handler } = matchedEvent;
+      handler && handler({ ...args, ...dynamicArgs });
+    });
+    return observer;
+  },
+
+  r: (eventName?: string): Observer => {
+    evs = evs.filter((ev: ObserverEvent) =>
+      eventName ? ev.name === eventName : ev.name[0] !== "_"
+    );
+    return observer;
+  },
+
+  p: (): Observer => {
+    console.log(evs.length, evs);
+    return observer;
+  },
+};

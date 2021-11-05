@@ -64,6 +64,11 @@ export const uis: Array<
     parentId: "grid-main",
   },
   {
+    id: "grid-main-7",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
     id: "nav-main",
     items: routes,
     parentId: "grid-main-1",
@@ -122,8 +127,14 @@ export const uis: Array<
     ui: "chart",
   },
   {
-    id: "lang",
+    id: "html",
+    ui: "html",
     parentId: "grid-main-6",
+    text: "UI html (I'm a div)",
+  },
+  {
+    id: "lang",
+    parentId: "grid-main-7",
     ui: "lang",
   },
 ];
