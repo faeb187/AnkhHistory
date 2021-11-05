@@ -2,6 +2,7 @@ import type { AnkhMediaOptions } from "types/media.type";
 import type { KeyValue } from "types/basic.type";
 import type { AnkhRoute } from "types/route.type";
 import type { ObserverEvent } from "core/observer";
+import { ChartConfiguration } from "chart.js";
 
 type AnkhUiModules = { [prop: string]: AnkhUi };
 
@@ -13,6 +14,7 @@ type AnkhUi = {
       | AnkhUiArticleOptions
       | AnkhUiButtonOptions
       | AnkhUiCarouselOptions
+      | AnkhUiChartOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
@@ -71,6 +73,11 @@ type AnkhUiButtonOptions = AnkhUiOptions & {
 type AnkhUiCarouselItem = { text?: string; title?: string };
 type AnkhUiCarouselOptions = AnkhUiOptions & { items: AnkhUiCarouselItem[] };
 
+// UI: chart
+type AnkhUiChartOptions = AnkhUiOptions & {
+  chartJs?: ChartConfiguration;
+};
+
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
   attributes?: KeyValue;
@@ -111,6 +118,7 @@ export {
   AnkhUiArticleOptions,
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,
+  AnkhUiChartOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
