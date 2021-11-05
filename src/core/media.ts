@@ -1,4 +1,5 @@
 import { observer } from "core";
+import { debounce } from "utils/basic.util";
 
 import type { AnkhMediaOptions } from "types/media.type";
 
@@ -29,6 +30,7 @@ export const media = (() => {
     const viewportBefore = viewport;
 
     viewport = getViewportName(vpW);
+
     if (viewport !== viewportBefore) observer.f("ankh-viewport", { viewport });
   };
 
@@ -44,11 +46,8 @@ export const media = (() => {
       return true;
     },
     init: () => {
-      const resizeTimeout = setTimeout(onResizeDone, 200);
-      const handleResize = () => {
-        clearTimeout(resizeTimeout);
-      };
-      window.addEventListener("resize", handleResize);
+      window.addEventListener("resize", debounce(onResizeDone));
+      onResizeDone();
     },
   };
 })();

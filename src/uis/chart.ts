@@ -7,7 +7,7 @@ import {
 } from "chart.js";
 import { twoDollars as $$ } from "twodollars";
 
-// import { observer } from "core";
+import { observer } from "core";
 
 import type { AnkhUiChartOptions } from "types/ui.type";
 
@@ -15,11 +15,6 @@ export const chart = (() => {
   const ctx = (<HTMLCanvasElement>$$.create("<canvas/>")).getContext(
     "2d"
   ) as CanvasRenderingContext2D;
-
-  /*observer.l({
-    name: "ankh-viewport",
-    handler: (x) => console.log("Viewport changed:", x),
-  });*/
 
   return {
     init: (options: AnkhUiChartOptions) => {
@@ -33,6 +28,10 @@ export const chart = (() => {
         const $chart = new Chart(ctx, chartJs).canvas;
         $ui.appendChild($chart);
       }
+      observer.l({
+        name: "ankh-viewport",
+        handler: (x) => console.log("Viewport changed:", x),
+      });
       return $ui;
     },
   };
