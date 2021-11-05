@@ -5,6 +5,7 @@ import type {
   AnkhUiArticleOptions,
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,
+  AnkhUiChartOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
@@ -17,6 +18,7 @@ export const uis: Array<
   | AnkhUiArticleOptions
   | AnkhUiButtonOptions
   | AnkhUiCarouselOptions
+  | AnkhUiChartOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
   | AnkhUiLangOptions
@@ -53,6 +55,11 @@ export const uis: Array<
   },
   {
     id: "grid-main-5",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
+    id: "grid-main-6",
     ui: "grid",
     parentId: "grid-main",
   },
@@ -96,8 +103,27 @@ export const uis: Array<
     ui: "carousel",
   },
   {
-    id: "lang",
+    chartJs: {
+      data: {
+        datasets: [
+          { data: [4634, 4545, 4527, 4505, 4478], label: "Schweizer Berge" },
+        ],
+        labels: ["dufourspitze", "dom", "liskamm", "weisshorn", "matterhorn"],
+      },
+      options: {
+        scales: {
+          y: { min: 4400 },
+        },
+      },
+      type: "bar",
+    },
+    id: "chart",
     parentId: "grid-main-5",
+    ui: "chart",
+  },
+  {
+    id: "lang",
+    parentId: "grid-main-6",
     ui: "lang",
   },
 ];
