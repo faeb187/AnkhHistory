@@ -1,6 +1,5 @@
 import type { AnkhMediaOptions } from "types/media.type";
 import type { KeyValue } from "types/basic.type";
-import type { AnkhRoute } from "types/route.type";
 import type { ObserverEvent } from "core/observer";
 import { ChartConfiguration } from "chart.js";
 
@@ -15,6 +14,7 @@ type AnkhUi = {
       | AnkhUiButtonOptions
       | AnkhUiCarouselOptions
       | AnkhUiChartOptions
+      | AnkhUiContextOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
@@ -24,6 +24,7 @@ type AnkhUi = {
 
 // @todo extract AnkhUiOptionsCommon
 type AnkhUiOptions = {
+  attributes?: KeyValue;
   events?: ObserverEvent[];
   id: string;
   media?: AnkhMediaOptions;
@@ -52,7 +53,6 @@ type AnkhUiArticleAuthor = {
   website?: string;
 };
 
-// UI: article
 type AnkhUiArticleOptions = AnkhUiOptions & {
   author?: AnkhUiArticleAuthor;
   createdAt?: Date;
@@ -78,9 +78,17 @@ type AnkhUiChartOptions = AnkhUiOptions & {
   chartJs?: ChartConfiguration;
 };
 
+// UI: context
+type AnkhUiContextMenu = {
+  events: ObserverEvent[];
+  items: AnkhUiNavItem[];
+};
+type AnkhUiContextOptions = AnkhUiOptions & {
+  menus: AnkhUiContextMenu[];
+};
+
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
-  attributes?: KeyValue;
   className?: string;
   element?: keyof HTMLElementTagNameMap;
   inline?: boolean;
@@ -89,7 +97,6 @@ type AnkhUiGridOptions = AnkhUiOptions & {
 
 // UI: html
 type AnkhUiHtmlOptions = AnkhUiOptions & {
-  attributes: KeyValue;
   classNames: string;
   lang: string;
   src?: string; // path to image
@@ -103,9 +110,16 @@ type AnkhUiLangOptions = AnkhUiOptions & {
 };
 
 // UI: nav
-type AnkhUiNavOptions = AnkhUiOptions & {
-  items: AnkhRoute[];
+type AnkhUiNavItem = {
   attributes?: KeyValue;
+  events?: ObserverEvent[];
+  lang: string;
+  path?: string;
+  items?: AnkhUiNavItem[];
+};
+
+type AnkhUiNavOptions = AnkhUiOptions & {
+  items: AnkhUiNavItem[];
 };
 
 export {
@@ -119,6 +133,7 @@ export {
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,
   AnkhUiChartOptions,
+  AnkhUiContextOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,

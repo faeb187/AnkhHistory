@@ -4,4 +4,8 @@ export const en = {
   clickMe: "Click me!",
   home: "Home",
   uis: "UI's",
+
+  first: "first",
+  second: "second",
+  third: "third",
 };
