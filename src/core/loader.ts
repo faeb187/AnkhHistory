@@ -43,8 +43,6 @@ export const loader = (() => {
 
     const name = camelize(path.slice(1));
     const conf = (sites as AnkhSite)[name];
-    console.log("sites", sites);
-    console.log("conf", conf);
 
     if (conf) siteConfigurations.set(path, conf);
     else if (!subRoutes.length)

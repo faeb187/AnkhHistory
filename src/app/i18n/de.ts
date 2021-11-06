@@ -4,4 +4,8 @@ export const de = {
   clickMe: "Klick mich!",
   home: "Startseite",
   uis: "UI's",
+
+  first: "erster",
+  second: "zweiter",
+  third: "dritter",
 };

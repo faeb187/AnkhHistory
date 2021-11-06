@@ -1,3 +1,4 @@
+import { twoDollars as $$ } from "twodollars";
 import { AnyObject } from "types/basic.type";
 
 type Observer = {
@@ -10,8 +11,8 @@ type Observer = {
 export type ObserverEvent = {
   args?: AnyObject;
   bind?: {
-    target: HTMLElement;
-    type: keyof GlobalEventHandlers;
+    target: HTMLElement | string;
+    type: string;
   };
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,11 +23,19 @@ let evs: ObserverEvent[] = [];
 
 export const observer: Observer = {
   l: (event: ObserverEvent): Observer => {
-    event.bind &&
-      event.bind.target.addEventListener(event.bind.type, () =>
-        observer.f(event.name)
-      );
+    const { args, bind, name } = event;
+
+    if (bind) {
+      const { target, type } = bind;
+      const $target = typeof target === "string" ? $$.find(target)[0] : target;
+
+      $target.addEventListener(type, (event: Event) => {
+        console.log("fire args:", { ...args, event });
+        observer.f(name, { ...args, event });
+      });
+    }
     evs.push(event);
+
     return observer;
   },
 

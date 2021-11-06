@@ -24,10 +24,10 @@ renderer.init();
 init(location.pathname);
 
 // [3] listen for site requests
-
 observer.l({
   name: "core-site-load",
   handler: (event: SiteLoadEvent) => {
+    console.info("siteLoadEvent:", event);
     const { $ui } = event;
     const href = $ui.getAttribute("href");
 

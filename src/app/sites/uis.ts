@@ -6,6 +6,7 @@ import type {
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,
   AnkhUiChartOptions,
+  AnkhUiContextOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
@@ -19,6 +20,7 @@ export const uis: Array<
   | AnkhUiButtonOptions
   | AnkhUiCarouselOptions
   | AnkhUiChartOptions
+  | AnkhUiContextOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
   | AnkhUiLangOptions
@@ -69,8 +71,16 @@ export const uis: Array<
     parentId: "grid-main",
   },
   {
+    id: "grid-main-8",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
     id: "nav-main",
-    items: routes,
+    items: routes.map((route) => ({
+      ...route,
+      attributes: { href: route.path, "data-lang": route.lang },
+    })),
     parentId: "grid-main-1",
     ui: "nav",
   },
@@ -133,8 +143,24 @@ export const uis: Array<
     text: "UI html (I'm a div)",
   },
   {
+    attributes: { "data-for": "html" },
+    id: "nav-context",
+    menus: [
+      {
+        events: [
+          {
+            bind: { target: "#html", type: "contextmenu" },
+            name: "ui-context-show",
+          },
+        ],
+        items: [{ lang: "first" }, { lang: "second" }, { lang: "third" }],
+      },
+    ],
+    ui: "context",
+  },
+  {
     id: "lang",
-    parentId: "grid-main-7",
+    parentId: "grid-main-8",
     ui: "lang",
   },
 ];
