@@ -15,6 +15,7 @@ type AnkhUi = {
       | AnkhUiCarouselOptions
       | AnkhUiChartOptions
       | AnkhUiContextOptions
+      | AnkhUiCountdownOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
@@ -22,7 +23,6 @@ type AnkhUi = {
   ) => HTMLElement;
 };
 
-// @todo extract AnkhUiOptionsCommon
 type AnkhUiOptions = {
   attributes?: KeyValue;
   events?: ObserverEvent[];
@@ -87,6 +87,11 @@ type AnkhUiContextOptions = AnkhUiOptions & {
   menus: AnkhUiContextMenu[];
 };
 
+// UI: countdown
+type AnkhUiCountdownOptions = AnkhUiOptions & {
+  to: Date;
+};
+
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
   className?: string;
@@ -134,6 +139,7 @@ export {
   AnkhUiCarouselOptions,
   AnkhUiChartOptions,
   AnkhUiContextOptions,
+  AnkhUiCountdownOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
