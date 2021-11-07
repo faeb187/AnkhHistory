@@ -76,6 +76,11 @@ export const uis: Array<
     parentId: "grid-main",
   },
   {
+    id: "grid-main-9",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
     id: "nav-main",
     items: routes.map((route) => ({
       ...route,
@@ -160,7 +165,7 @@ export const uis: Array<
   },
   {
     id: "lang",
-    parentId: "grid-main-8",
+    parentId: "grid-main-9",
     ui: "lang",
   },
 ];
