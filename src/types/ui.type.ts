@@ -19,6 +19,7 @@ type AnkhUi = {
       | AnkhUiDetailsOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
+      | AnkhUiIconOptions
       | AnkhUiLangOptions
       | AnkhUiNavOptions
   ) => HTMLElement;
@@ -117,6 +118,13 @@ type AnkhUiHtmlOptions = AnkhUiOptions & {
   tag: string;
 };
 
+// UI: icon (ion)
+type AnkhUiIconVariant = "filled" | "outline" | "sharp";
+type AnkhUiIconOptions = AnkhUiOptions & {
+  icon: string;
+  variant?: AnkhUiIconVariant;
+};
+
 // UI: lang
 type AnkhUiLangOptions = AnkhUiOptions & {
   style?: KeyValue;
@@ -151,6 +159,7 @@ export {
   AnkhUiDetailsOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
+  AnkhUiIconOptions,
   AnkhUiLangOptions,
   AnkhUiNavOptions,
 };

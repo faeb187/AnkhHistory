@@ -7,6 +7,7 @@ import { countdown } from "./countdown";
 import { details } from "./details";
 import { grid } from "./grid";
 import { html } from "./html";
+import { icon } from "./icon";
 import { lang } from "./lang";
 import { nav } from "./nav";
 
@@ -20,6 +21,7 @@ export {
   details,
   grid,
   html,
+  icon,
   lang,
   nav,
 };

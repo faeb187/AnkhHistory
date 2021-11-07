@@ -7,6 +7,7 @@ import type {
   AnkhUiDetailsOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
+  AnkhUiIconOptions,
   AnkhUiLangOptions,
   AnkhUiNavOptions,
 } from "types/ui.type";
@@ -17,6 +18,7 @@ export const home: Array<
   | AnkhUiDetailsOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
+  | AnkhUiIconOptions
   | AnkhUiLangOptions
   | AnkhUiNavOptions
 > = [
@@ -48,6 +50,11 @@ export const home: Array<
     parentId: "home-grid-main",
   },
   {
+    id: "home-grid-main-5",
+    ui: "grid",
+    parentId: "home-grid-main",
+  },
+  {
     id: "nav-main",
     items: routes,
     ui: "nav",
@@ -68,8 +75,15 @@ export const home: Array<
     ui: "details",
   },
   {
-    id: "lang",
+    id: "ion-icon",
+    icon: "terminal",
+    variant: "sharp",
     parentId: "home-grid-main-4",
+    ui: "icon",
+  },
+  {
+    id: "lang",
+    parentId: "home-grid-main-5",
     ui: "lang",
   },
 ];
