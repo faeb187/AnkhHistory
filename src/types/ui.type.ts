@@ -125,6 +125,11 @@ type AnkhUiIconOptions = AnkhUiOptions & {
   variant?: AnkhUiIconVariant;
 };
 
+// UI: iframe
+type AnkhUiIFrameOptions = AnkhUiOptions & {
+  src: string;
+};
+
 // UI: lang
 type AnkhUiLangOptions = AnkhUiOptions & {
   style?: KeyValue;
@@ -160,6 +165,7 @@ export {
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiIconOptions,
+  AnkhUiIFrameOptions,
   AnkhUiLangOptions,
   AnkhUiNavOptions,
 };

@@ -9,6 +9,7 @@ import type {
   AnkhUiContextOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
+  AnkhUiIFrameOptions,
   AnkhUiLangOptions,
   AnkhUiNavOptions,
 } from "types/ui.type";
@@ -23,6 +24,7 @@ export const uis: Array<
   | AnkhUiContextOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
+  | AnkhUiIFrameOptions
   | AnkhUiLangOptions
   | AnkhUiNavOptions
 > = [
@@ -77,6 +79,11 @@ export const uis: Array<
   },
   {
     id: "grid-main-9",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
+    id: "grid-main-10",
     ui: "grid",
     parentId: "grid-main",
   },
@@ -163,9 +170,15 @@ export const uis: Array<
     ],
     ui: "context",
   },
+  /*{
+    id: "iframe-twodollars",
+    src: "https://onecommunityglobal.org",
+    parentId: "grid-main-9",
+    ui: "iframe",
+  },*/
   {
     id: "lang",
-    parentId: "grid-main-9",
+    parentId: "grid-main-10",
     ui: "lang",
   },
 ];
