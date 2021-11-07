@@ -16,6 +16,7 @@ type AnkhUi = {
       | AnkhUiChartOptions
       | AnkhUiContextOptions
       | AnkhUiCountdownOptions
+      | AnkhUiDetailsOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiLangOptions
@@ -92,6 +93,13 @@ type AnkhUiCountdownOptions = AnkhUiOptions & {
   to: Date;
 };
 
+// UI: details
+type AnkhUiDetailsOptions = AnkhUiOptions & {
+  open?: boolean;
+  p: { lang: string };
+  summary: { lang: string };
+};
+
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
   className?: string;
@@ -140,6 +148,7 @@ export {
   AnkhUiChartOptions,
   AnkhUiContextOptions,
   AnkhUiCountdownOptions,
+  AnkhUiDetailsOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,

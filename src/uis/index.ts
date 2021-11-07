@@ -4,6 +4,7 @@ import { carousel } from "./carousel";
 import { chart } from "./chart";
 import { context } from "./context";
 import { countdown } from "./countdown";
+import { details } from "./details";
 import { grid } from "./grid";
 import { html } from "./html";
 import { lang } from "./lang";
@@ -16,6 +17,7 @@ export {
   chart,
   context,
   countdown,
+  details,
   grid,
   html,
   lang,
