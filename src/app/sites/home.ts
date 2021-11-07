@@ -4,6 +4,7 @@ import { routes } from "../routes";
 import type {
   AnkhUiArticleOptions,
   AnkhUiCountdownOptions,
+  AnkhUiDetailsOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiLangOptions,
@@ -13,6 +14,7 @@ import type {
 export const home: Array<
   | AnkhUiArticleOptions
   | AnkhUiCountdownOptions
+  | AnkhUiDetailsOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
   | AnkhUiLangOptions
@@ -36,6 +38,11 @@ export const home: Array<
     parentId: "home-grid-main",
   },
   {
+    id: "home-grid-main-3",
+    ui: "grid",
+    parentId: "home-grid-main",
+  },
+  {
     id: "home-grid-main-4",
     ui: "grid",
     parentId: "home-grid-main",
@@ -51,6 +58,14 @@ export const home: Array<
     to: new Date(+new Date() + 7000),
     parentId: "home-grid-main-2",
     ui: "countdown",
+  },
+  {
+    id: "details",
+    // open: true,
+    p: { lang: "txt-p" },
+    parentId: "home-grid-main-3",
+    summary: { lang: "txt-summary" },
+    ui: "details",
   },
   {
     id: "lang",

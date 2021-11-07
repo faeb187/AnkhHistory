@@ -8,4 +8,7 @@ export const de = {
   first: "erster",
   second: "zweiter",
   third: "dritter",
+
+  "txt-p": "Hier finden wir weitere Informationen.",
+  "txt-summary": "Dies ist ein perfekter summary Text.",
 };
