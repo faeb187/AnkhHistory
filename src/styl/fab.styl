@@ -1,0 +1,32 @@
+.ui-fab
+  pos fixed
+  btm ($icon-h + 4px)
+  rgt ($icon-w + 10px)
+  w   $icon-w
+
+  .ui-button
+    brad 50%
+    
+    &:hover + .ui-list
+      o   1
+      vis 1
+
+  .ui-list
+    pos absolute
+    w 200px
+    
+    btm ($icon-h + 4px)
+    rgt ($icon-w + 10px)
+    
+    o 0
+    vis 0
+    tra .2s
+
+    // @todo extends from list style
+    li
+      bc $white
+      brdb 1px md-grey-200 solid
+      pdg $pdg
+
+      &:last-child
+        brdb none

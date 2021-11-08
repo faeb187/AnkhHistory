@@ -5,6 +5,7 @@ import { chart } from "./chart";
 import { context } from "./context";
 import { countdown } from "./countdown";
 import { details } from "./details";
+import { fab } from "./fab";
 import { grid } from "./grid";
 import { html } from "./html";
 import { icon } from "./icon";
@@ -21,6 +22,7 @@ export {
   context,
   countdown,
   details,
+  fab,
   grid,
   html,
   icon,

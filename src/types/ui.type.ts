@@ -17,6 +17,7 @@ type AnkhUi = {
       | AnkhUiContextOptions
       | AnkhUiCountdownOptions
       | AnkhUiDetailsOptions
+      | AnkhUiFabOptions
       | AnkhUiGridOptions
       | AnkhUiHtmlOptions
       | AnkhUiIconOptions
@@ -67,7 +68,7 @@ type AnkhUiArticleOptions = AnkhUiOptions & {
 type AnkhUiButtonOptions = AnkhUiOptions & {
   classNames?: string;
   id: string;
-  lang: string;
+  lang?: string;
   icon?: string; // ion name
   events?: ObserverEvent[];
 };
@@ -100,6 +101,12 @@ type AnkhUiDetailsOptions = AnkhUiOptions & {
   open?: boolean;
   p: { lang: string };
   summary: { lang: string };
+};
+
+// UI: fab
+type AnkhUiFabOptions = AnkhUiOptions & {
+  items: AnkhUiListItem[];
+  toggle: AnkhUiButtonOptions;
 };
 
 // UI: grid
@@ -177,6 +184,7 @@ export {
   AnkhUiContextOptions,
   AnkhUiCountdownOptions,
   AnkhUiDetailsOptions,
+  AnkhUiFabOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiIconOptions,
