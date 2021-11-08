@@ -13,6 +13,9 @@ export const en = {
   "i-am-a-package": "I'm a package",
   "i-am-a-terminal": "I'm a terminal",
 
+  kitten: "Cat",
+  "txt-kitten": "mew mew mew",
+
   "txt-p": "Here we can find some more information.",
   "txt-summary": "This is a perfect summary text.",
 };
