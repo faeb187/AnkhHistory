@@ -7,6 +7,7 @@ import type {
   AnkhUiCarouselOptions,
   AnkhUiChartOptions,
   AnkhUiContextOptions,
+  AnkhUiFabOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
   AnkhUiIFrameOptions,
@@ -23,6 +24,7 @@ export const uis: Array<
   | AnkhUiCarouselOptions
   | AnkhUiChartOptions
   | AnkhUiContextOptions
+  | AnkhUiFabOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
   | AnkhUiIFrameOptions
@@ -197,5 +199,20 @@ export const uis: Array<
     id: "lang",
     parentId: "grid-main-11",
     ui: "lang",
+  },
+  {
+    id: "fab",
+    items: [
+      { icon: "terminal", id: "list-item-1", lang: "i-am-a-terminal" },
+      { icon: "cube", id: "list-item-2", lang: "i-am-a-package" },
+      { icon: "diamond", id: "list-item-3", lang: "i-am-a-diamond" },
+    ],
+    toggle: {
+      icon: "add",
+      id: "fab-toggle",
+      ui: "button",
+      classNames: "primary",
+    },
+    ui: "fab",
   },
 ];
