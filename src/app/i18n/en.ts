@@ -9,6 +9,10 @@ export const en = {
   second: "second",
   third: "third",
 
+  "i-am-a-diamond": "I'm a diamond",
+  "i-am-a-package": "I'm a package",
+  "i-am-a-terminal": "I'm a terminal",
+
   "txt-p": "Here we can find some more information.",
   "txt-summary": "This is a perfect summary text.",
 };

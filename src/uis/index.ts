@@ -10,6 +10,7 @@ import { html } from "./html";
 import { icon } from "./icon";
 import { iframe } from "./iframe";
 import { lang } from "./lang";
+import { list } from "./list";
 import { nav } from "./nav";
 
 export {
@@ -25,5 +26,6 @@ export {
   icon,
   iframe,
   lang,
+  list,
   nav,
 };

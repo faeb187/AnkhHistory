@@ -9,6 +9,10 @@ export const de = {
   second: "zweiter",
   third: "dritter",
 
+  "i-am-a-diamond": "Ich bin ein Diamant",
+  "i-am-a-package": "Ich bin ein Paket",
+  "i-am-a-terminal": "Ich bin ein Terminal",
+
   "txt-p": "Hier finden wir weitere Informationen.",
   "txt-summary": "Dies ist ein perfekter summary Text.",
 };

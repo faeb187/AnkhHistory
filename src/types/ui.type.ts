@@ -21,6 +21,7 @@ type AnkhUi = {
       | AnkhUiHtmlOptions
       | AnkhUiIconOptions
       | AnkhUiLangOptions
+      | AnkhUiListOptions
       | AnkhUiNavOptions
   ) => HTMLElement;
 };
@@ -135,6 +136,20 @@ type AnkhUiLangOptions = AnkhUiOptions & {
   style?: KeyValue;
 };
 
+// UI: list
+type AnkhUiListItem = {
+  attributes?: KeyValue;
+  icon?: string;
+  id: string;
+  items?: AnkhUiListItem[];
+  lang: string;
+};
+
+type AnkhUiListOptions = AnkhUiOptions & {
+  items: AnkhUiListItem[];
+  ordered?: boolean;
+};
+
 // UI: nav
 type AnkhUiNavItem = {
   attributes?: KeyValue;
@@ -167,5 +182,7 @@ export {
   AnkhUiIconOptions,
   AnkhUiIFrameOptions,
   AnkhUiLangOptions,
+  AnkhUiListItem,
+  AnkhUiListOptions,
   AnkhUiNavOptions,
 };

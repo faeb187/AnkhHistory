@@ -11,6 +11,7 @@ import type {
   AnkhUiHtmlOptions,
   AnkhUiIFrameOptions,
   AnkhUiLangOptions,
+  AnkhUiListOptions,
   AnkhUiNavOptions,
 } from "types/ui.type";
 
@@ -26,6 +27,7 @@ export const uis: Array<
   | AnkhUiHtmlOptions
   | AnkhUiIFrameOptions
   | AnkhUiLangOptions
+  | AnkhUiListOptions
   | AnkhUiNavOptions
 > = [
   {
@@ -84,6 +86,11 @@ export const uis: Array<
   },
   {
     id: "grid-main-10",
+    ui: "grid",
+    parentId: "grid-main",
+  },
+  {
+    id: "grid-main-11",
     ui: "grid",
     parentId: "grid-main",
   },
@@ -177,8 +184,18 @@ export const uis: Array<
     ui: "iframe",
   },*/
   {
-    id: "lang",
+    id: "list",
+    items: [
+      { icon: "terminal", id: "list-item-1", lang: "i-am-a-terminal" },
+      { icon: "cube", id: "list-item-2", lang: "i-am-a-package" },
+      { icon: "diamond", id: "list-item-3", lang: "i-am-a-diamond" },
+    ],
     parentId: "grid-main-10",
+    ui: "list",
+  },
+  {
+    id: "lang",
+    parentId: "grid-main-11",
     ui: "lang",
   },
 ];
