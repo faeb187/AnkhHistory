@@ -12,6 +12,7 @@ import { icon } from "./icon";
 import { iframe } from "./iframe";
 import { lang } from "./lang";
 import { list } from "./list";
+import { slideshow } from "./slideshow";
 import { nav } from "./nav";
 
 export {
@@ -29,5 +30,6 @@ export {
   iframe,
   lang,
   list,
+  slideshow,
   nav,
 };

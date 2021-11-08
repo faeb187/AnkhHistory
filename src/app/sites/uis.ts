@@ -13,6 +13,7 @@ import type {
   AnkhUiIFrameOptions,
   AnkhUiLangOptions,
   AnkhUiListOptions,
+  AnkhUiSlideshowOptions,
   AnkhUiNavOptions,
 } from "types/ui.type";
 
@@ -30,6 +31,7 @@ export const uis: Array<
   | AnkhUiIFrameOptions
   | AnkhUiLangOptions
   | AnkhUiListOptions
+  | AnkhUiSlideshowOptions
   | AnkhUiNavOptions
 > = [
   {
@@ -196,8 +198,20 @@ export const uis: Array<
     ui: "list",
   },
   {
+    id: "slideshow",
+    items: [
+      ...[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => ({
+        alt: "Kitten",
+        src: "https://placekitten.com/100/150",
+        text: "txt-kitten",
+        title: "kitten",
+      })),
+    ],
+    ui: "slideshow",
+  },
+  {
     id: "lang",
-    parentId: "grid-main-11",
+    parentId: "grid-main-12",
     ui: "lang",
   },
   {

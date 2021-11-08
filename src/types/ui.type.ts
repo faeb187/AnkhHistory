@@ -23,6 +23,7 @@ type AnkhUi = {
       | AnkhUiIconOptions
       | AnkhUiLangOptions
       | AnkhUiListOptions
+      | AnkhUiSlideshowOptions
       | AnkhUiNavOptions
   ) => HTMLElement;
 };
@@ -157,6 +158,19 @@ type AnkhUiListOptions = AnkhUiOptions & {
   ordered?: boolean;
 };
 
+// UI: slideshow
+type AnkhUiSlideshowItem = {
+  alt: string;
+  src: string;
+  text?: string;
+  title?: string;
+};
+
+type AnkhUiSlideshowOptions = AnkhUiOptions & {
+  interval: number;
+  items: AnkhUiSlideshowItem[];
+};
+
 // UI: nav
 type AnkhUiNavItem = {
   attributes?: KeyValue;
@@ -192,5 +206,7 @@ export {
   AnkhUiLangOptions,
   AnkhUiListItem,
   AnkhUiListOptions,
+  AnkhUiSlideshowItem,
+  AnkhUiSlideshowOptions,
   AnkhUiNavOptions,
 };
