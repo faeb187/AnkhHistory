@@ -1,4 +1,3 @@
-export const lang = {
-  id: "lang",
-  ui: "lang",
-};
+const lang = { id: "lang", ui: "lang" };
+
+export { lang };

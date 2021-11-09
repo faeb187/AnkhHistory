@@ -1,20 +1,5 @@
-const color = { primary: "#c03" };
+const footer = { id: "footer", tag: "footer", ui: "html" };
+const header = { id: "header", tag: "header", ui: "html" };
+const main = { id: "main", tag: "main", ui: "html" };
 
-export const htmlRedTop = {
-  id: "redTop",
-  ui: "html",
-  style: {
-    background: color.primary,
-    gridColumn: "2 / 24",
-  },
-};
-
-export const htmlRedBtm = {
-  id: "redBtm",
-  ui: "html",
-  style: {
-    background: color.primary,
-    gridColumn: "2 / 24",
-    gridRow: "-1 / -2",
-  },
-};
+export { footer, header, main };
