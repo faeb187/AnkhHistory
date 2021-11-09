@@ -1,3 +1,4 @@
+import { accordion } from "./accordion";
 import { article } from "./article";
 import { button } from "./button";
 import { carousel } from "./carousel";
@@ -16,6 +17,7 @@ import { slideshow } from "./slideshow";
 import { nav } from "./nav";
 
 export {
+  accordion,
   article,
   button,
   carousel,

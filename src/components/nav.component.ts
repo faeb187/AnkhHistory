@@ -1,20 +1,8 @@
-const common = {
-  ui: "nav",
-  events: { click: [{ name: "core-site-load", args: { selector: "a" } }] },
-};
+const navMain = { id: "navMain", parentId: "header", ui: "nav" };
 
-export const navMain = {
-  ...common,
-  id: "navMain",
-  attributes: { "aria-label": "Main" },
-  items: [
-    {
-      lang: "partner",
-      path: "/partner",
-    },
-  ],
-};
+export { navMain };
 
+/*
 export const navPartner = {
   ...common,
   id: "navPartner",
@@ -33,3 +21,4 @@ export const navPartner = {
     },
   ],
 };
+*/

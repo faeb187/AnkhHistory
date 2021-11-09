@@ -5,26 +5,28 @@ import { ChartConfiguration } from "chart.js";
 
 type AnkhUiModules = { [prop: string]: AnkhUi };
 
+type AnkhUiOptionMap =
+  | AnkhUiAccordionOptions
+  | AnkhUiArticleOptions
+  | AnkhUiButtonOptions
+  | AnkhUiCarouselOptions
+  | AnkhUiChartOptions
+  | AnkhUiContextOptions
+  | AnkhUiCountdownOptions
+  | AnkhUiDetailsOptions
+  | AnkhUiFabOptions
+  | AnkhUiGridOptions
+  | AnkhUiHtmlOptions
+  | AnkhUiIconOptions
+  | AnkhUiLangOptions
+  | AnkhUiListOptions
+  | AnkhUiSlideshowOptions
+  | AnkhUiNavOptions;
+
 type AnkhUi = {
   init: (
     // @todo create a options map then use keyof
-    options:
-      | AnkhUiOptions
-      | AnkhUiArticleOptions
-      | AnkhUiButtonOptions
-      | AnkhUiCarouselOptions
-      | AnkhUiChartOptions
-      | AnkhUiContextOptions
-      | AnkhUiCountdownOptions
-      | AnkhUiDetailsOptions
-      | AnkhUiFabOptions
-      | AnkhUiGridOptions
-      | AnkhUiHtmlOptions
-      | AnkhUiIconOptions
-      | AnkhUiLangOptions
-      | AnkhUiListOptions
-      | AnkhUiSlideshowOptions
-      | AnkhUiNavOptions
+    options: AnkhUiOptionMap
   ) => HTMLElement;
 };
 
@@ -45,6 +47,11 @@ type AnkhUiNotLoaded = {
 };
 
 type AnkhUiLoaded = AnkhUiNotLoaded & { $ui: HTMLElement };
+
+// UI: accordion
+type AnkhUiAccordionOptions = AnkhUiOptions & {
+  items: AnkhUiDetailsItem[];
+};
 
 // UI: article
 type AnkhUiArticleParagraph = {
@@ -98,11 +105,14 @@ type AnkhUiCountdownOptions = AnkhUiOptions & {
 };
 
 // UI: details
-type AnkhUiDetailsOptions = AnkhUiOptions & {
+type AnkhUiDetailsItem = {
+  id?: string;
   open?: boolean;
   p: { lang: string };
   summary: { lang: string };
 };
+
+type AnkhUiDetailsOptions = AnkhUiOptions & AnkhUiDetailsItem;
 
 // UI: fab
 type AnkhUiFabOptions = AnkhUiOptions & {
@@ -185,12 +195,14 @@ type AnkhUiNavOptions = AnkhUiOptions & {
 };
 
 export {
-  AnkhUiModules,
   AnkhUi,
   AnkhUiLoaded,
+  AnkhUiModules,
   AnkhUiNotLoaded,
+  AnkhUiOptionMap,
   AnkhUiOptions,
   //
+  AnkhUiAccordionOptions,
   AnkhUiArticleOptions,
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,

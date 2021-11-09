@@ -14,6 +14,7 @@ module.exports = {
   resolve: {
     alias: {
       app: path.resolve(__dirname, "src/app"),
+      components: path.resolve(__dirname, "src/components"),
       core: path.resolve(__dirname, "src/core"),
       styl: path.resolve(__dirname, "src/styl"),
       types: path.resolve(__dirname, "src/types"),
