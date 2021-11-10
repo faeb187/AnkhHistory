@@ -107,8 +107,8 @@ type AnkhUiCountdownOptions = AnkhUiOptions & {
 // UI: details
 type AnkhUiDetailsItem = {
   id?: string;
+  items: string[];
   open?: boolean;
-  p: { lang: string };
   summary: { lang: string };
 };
 

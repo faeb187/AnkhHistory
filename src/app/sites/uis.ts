@@ -25,14 +25,11 @@ export const uis: AnkhUiOptionMap[] = [
   copy(main),
   {
     id: "accordion",
-    items: [
-      { p: { lang: "first" }, summary: { lang: "first" } },
-      { p: { lang: "second" }, summary: { lang: "second" } },
-      { p: { lang: "third" }, summary: { lang: "third" } },
-    ],
+    items: [{ items: ["htmlTest"], summary: { lang: "first" } }],
     parentId: "main",
     ui: "accordion",
   },
+  { id: "htmlJustATest", lang: "first", ui: "html", parentId: "htmlTest" },
 
   // footer
   copy(footer),
