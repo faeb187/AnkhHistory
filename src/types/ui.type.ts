@@ -22,6 +22,7 @@ type AnkhUiOptionMap =
   | AnkhUiListOptions
   | AnkhUiSlideshowOptions
   | AnkhUiNavOptions
+  | AnkhUiProcessOptions
   | AnkhUiSitemapOptions;
 
 type AnkhUi = {
@@ -30,7 +31,6 @@ type AnkhUi = {
     options: AnkhUiOptionMap
   ) => HTMLElement;
 };
-
 type AnkhUiOptions = {
   attributes?: KeyValue;
   events?: ObserverEvent[];
@@ -40,39 +40,33 @@ type AnkhUiOptions = {
   text?: string;
   ui: string;
 };
-
 type AnkhUiNotLoaded = {
   parentId?: string;
   uiOptions: AnkhUiOptions;
   updatedParentId?: string;
 };
-
 type AnkhUiLoaded = AnkhUiNotLoaded & { $ui: HTMLElement };
 
 // UI: accordion
 type AnkhUiAccordionOptions = AnkhUiOptions & {
   items: AnkhUiDetailsItem[];
 };
-
 // UI: article
 type AnkhUiArticleParagraph = {
   lang: string; // id to paragraph text or programming lang
   code?: string; // code block with syntax highlighting
 };
-
 type AnkhUiArticleAuthor = {
   email?: string;
   username: string;
   website?: string;
 };
-
 type AnkhUiArticleOptions = AnkhUiOptions & {
   author?: AnkhUiArticleAuthor;
   createdAt?: Date;
   paragraphs: AnkhUiArticleParagraph[];
   title: string;
 };
-
 // UI: button
 type AnkhUiButtonOptions = AnkhUiOptions & {
   classNames?: string;
@@ -81,16 +75,13 @@ type AnkhUiButtonOptions = AnkhUiOptions & {
   icon?: string; // ion name
   events?: ObserverEvent[];
 };
-
 // UI: carousel
 type AnkhUiCarouselItem = { text?: string; title?: string };
 type AnkhUiCarouselOptions = AnkhUiOptions & { items: AnkhUiCarouselItem[] };
-
 // UI: chart
 type AnkhUiChartOptions = AnkhUiOptions & {
   chartJs?: ChartConfiguration;
 };
-
 // UI: context
 type AnkhUiContextMenu = {
   events: ObserverEvent[];
@@ -99,12 +90,10 @@ type AnkhUiContextMenu = {
 type AnkhUiContextOptions = AnkhUiOptions & {
   menus: AnkhUiContextMenu[];
 };
-
 // UI: countdown
 type AnkhUiCountdownOptions = AnkhUiOptions & {
   to: Date;
 };
-
 // UI: details
 type AnkhUiDetailsItem = {
   id?: string;
@@ -112,15 +101,12 @@ type AnkhUiDetailsItem = {
   open?: boolean;
   summary: { lang: string };
 };
-
 type AnkhUiDetailsOptions = AnkhUiOptions & AnkhUiDetailsItem;
-
 // UI: fab
 type AnkhUiFabOptions = AnkhUiOptions & {
   items: AnkhUiListItem[];
   toggle: AnkhUiButtonOptions;
 };
-
 // UI: grid
 type AnkhUiGridOptions = AnkhUiOptions & {
   className?: string;
@@ -128,7 +114,6 @@ type AnkhUiGridOptions = AnkhUiOptions & {
   inline?: boolean;
   style?: KeyValue;
 };
-
 // UI: html
 type AnkhUiHtmlOptions = AnkhUiOptions & {
   classNames: string;
@@ -137,24 +122,20 @@ type AnkhUiHtmlOptions = AnkhUiOptions & {
   style?: KeyValue;
   tag: string;
 };
-
 // UI: icon (ion)
 type AnkhUiIconVariant = "filled" | "outline" | "sharp";
 type AnkhUiIconOptions = AnkhUiOptions & {
   icon: string;
   variant?: AnkhUiIconVariant;
 };
-
 // UI: iframe
 type AnkhUiIFrameOptions = AnkhUiOptions & {
   src: string;
 };
-
 // UI: lang
 type AnkhUiLangOptions = AnkhUiOptions & {
   style?: KeyValue;
 };
-
 // UI: list
 type AnkhUiListItem = {
   attributes?: KeyValue;
@@ -163,25 +144,10 @@ type AnkhUiListItem = {
   items?: AnkhUiListItem[];
   lang: string;
 };
-
 type AnkhUiListOptions = AnkhUiOptions & {
   items: AnkhUiListItem[];
   ordered?: boolean;
 };
-
-// UI: slideshow
-type AnkhUiSlideshowItem = {
-  alt: string;
-  src: string;
-  text?: string;
-  title?: string;
-};
-
-type AnkhUiSlideshowOptions = AnkhUiOptions & {
-  interval: number;
-  items: AnkhUiSlideshowItem[];
-};
-
 // UI: nav
 type AnkhUiNavItem = {
   attributes?: KeyValue;
@@ -190,13 +156,30 @@ type AnkhUiNavItem = {
   path?: string;
   items?: AnkhUiNavItem[];
 };
-
 type AnkhUiNavOptions = AnkhUiOptions & {
   items: AnkhUiNavItem[];
 };
-
+// UI: process
+type AnkhUiProcessStep = {
+  path: string;
+};
+type AnkhUiProcessOptions = AnkhUiOptions & {
+  gateway?: boolean;
+  steps: AnkhUiProcessStep[];
+};
 // UI: sitemap
 type AnkhUiSitemapOptions = AnkhUiOptions;
+// UI: slideshow
+type AnkhUiSlideshowItem = {
+  alt: string;
+  src: string;
+  text?: string;
+  title?: string;
+};
+type AnkhUiSlideshowOptions = AnkhUiOptions & {
+  interval: number;
+  items: AnkhUiSlideshowItem[];
+};
 
 export {
   AnkhUi,
@@ -222,6 +205,8 @@ export {
   AnkhUiLangOptions,
   AnkhUiListItem,
   AnkhUiListOptions,
+  AnkhUiProcessOptions,
+  AnkhUiProcessStep,
   AnkhUiSlideshowItem,
   AnkhUiSlideshowOptions,
   AnkhUiNavOptions,
