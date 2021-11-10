@@ -21,7 +21,8 @@ type AnkhUiOptionMap =
   | AnkhUiLangOptions
   | AnkhUiListOptions
   | AnkhUiSlideshowOptions
-  | AnkhUiNavOptions;
+  | AnkhUiNavOptions
+  | AnkhUiSitemapOptions;
 
 type AnkhUi = {
   init: (
@@ -194,6 +195,9 @@ type AnkhUiNavOptions = AnkhUiOptions & {
   items: AnkhUiNavItem[];
 };
 
+// UI: sitemap
+type AnkhUiSitemapOptions = AnkhUiOptions;
+
 export {
   AnkhUi,
   AnkhUiLoaded,
@@ -221,4 +225,5 @@ export {
   AnkhUiSlideshowItem,
   AnkhUiSlideshowOptions,
   AnkhUiNavOptions,
+  AnkhUiSitemapOptions,
 };
