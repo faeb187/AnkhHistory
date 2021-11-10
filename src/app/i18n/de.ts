@@ -1,21 +1,22 @@
 export const de = {
   "article-1-title": "UI Artikel",
   "article-1-p-1": "Ich bin ein kurzer Paragraph Text.",
-  clickMe: "Klick mich!",
+  birthday: "Geburtstag",
+  email: "eMail",
+  favoriteColor: "Lieblingsfarbe",
+  favoriteNumber: "Lieblingszahl",
+  firstName: "Vorname",
   home: "Startseite",
-  uis: "UI's",
-
-  first: "erster",
-  second: "zweiter",
-  third: "dritter",
-
+  input: "Input",
   "i-am-a-diamond": "Ich bin ein Diamant",
   "i-am-a-package": "Ich bin ein Paket",
   "i-am-a-terminal": "Ich bin ein Terminal",
-
+  name: "Name",
   kitten: "Katze",
+  phoneNumber: "Telefon-Nr.",
+  submit: "Absenden",
   "txt-kitten": "miau miau miau",
-
   "txt-p": "Hier finden wir weitere Informationen.",
   "txt-summary": "Dies ist ein perfekter summary Text.",
+  uis: "UI's",
 };

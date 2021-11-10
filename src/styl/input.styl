@@ -1,22 +1,27 @@
 .ui-input
 .ui-select
-  brd 1px $grey-03 solid
-  fxd row
-  fxai center
+  brdb 1px md-grey-300 solid
   mrgb ($mrg/2)
-  pos relative
+
+  &:last-child
+    brdb none
 
   input
   select
     bsiz content-box
     out none
     pdg $pdg
+    pos relative
     w 22rem
 
     &::-webkit-calendar-picker-indicator
       dsp none
+  
+  input[type='submit']
+    w auto
 
   label
+    dsp inline-block
     w 8rem
 
   .ui-icon
@@ -25,3 +30,7 @@
 
   &.ui-input-icon
     pdgr $pdg
+
+// input is wrapped when icon inside
+.ui-input-wrapper
+  dsp inline-block

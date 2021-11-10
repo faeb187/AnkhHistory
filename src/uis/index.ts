@@ -11,6 +11,7 @@ import { grid } from "./grid";
 import { html } from "./html";
 import { icon } from "./icon";
 import { iframe } from "./iframe";
+import { input } from "./input";
 import { lang } from "./lang";
 import { list } from "./list";
 import { slideshow } from "./slideshow";
@@ -30,6 +31,7 @@ export {
   html,
   icon,
   iframe,
+  input,
   lang,
   list,
   slideshow,

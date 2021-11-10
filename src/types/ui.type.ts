@@ -1,5 +1,5 @@
 import type { AnkhMediaOptions } from "types/media.type";
-import type { KeyValue } from "types/basic.type";
+import type { AnyObject, KeyValue } from "types/basic.type";
 import type { ObserverEvent } from "core/observer";
 import { ChartConfiguration } from "chart.js";
 
@@ -17,6 +17,7 @@ type AnkhUiOptionMap =
   | AnkhUiFabOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
+  | AnkhUiInputOptions
   | AnkhUiIconOptions
   | AnkhUiLangOptions
   | AnkhUiListOptions
@@ -128,6 +129,21 @@ type AnkhUiIconOptions = AnkhUiOptions & {
   icon: string;
   variant?: AnkhUiIconVariant;
 };
+// UI: input
+type AnkhUiInputItem = {
+  value: string;
+};
+type AnkhUiInputOptions = AnkhUiOptions & {
+  attributes: AnyObject;
+  disabled?: boolean;
+  icon?: string;
+  items?: AnkhUiInputItem[];
+  label?: string;
+  lang?: string;
+  placeholder?: string;
+  required?: boolean;
+  type?: string;
+};
 // UI: iframe
 type AnkhUiIFrameOptions = AnkhUiOptions & {
   src: string;
@@ -202,6 +218,7 @@ export {
   AnkhUiHtmlOptions,
   AnkhUiIconOptions,
   AnkhUiIFrameOptions,
+  AnkhUiInputOptions,
   AnkhUiLangOptions,
   AnkhUiListItem,
   AnkhUiListOptions,

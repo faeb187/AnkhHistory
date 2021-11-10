@@ -1,4 +1,6 @@
-type State = string | Record<string, unknown>;
+import { AnyObject } from "types/basic.type";
+
+type State = string | AnyObject;
 
 export const state = (() => {
   const prefix = location.host + "-";

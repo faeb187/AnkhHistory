@@ -1,8 +1,9 @@
-import { twoDollars } from "twodollars";
+import { twoDollars as $$ } from "twodollars";
 
 import { observer, state } from "core";
 import { de, en } from "../app/i18n";
 
+import type { KeyValue } from "types/basic.type";
 import type { AnkhUi, AnkhUiLangOptions } from "types/ui.type";
 
 type Lang = "de" | "en";
@@ -16,29 +17,26 @@ export const lang: AnkhUi = (() => {
 
     observer.f("ui-lang-update", { lang: $a.getAttribute("lang") });
 
-    $aParent &&
-      twoDollars.removeClass(twoDollars.find(".active", $aParent)[0], "active");
+    $aParent && $$.removeClass($$.find(".active", $aParent)[0], "active");
     $a.className = "active";
   };
-
   const def = "de";
   const lib = { de, en };
 
   const init = (options: AnkhUiLangOptions) => {
     const { id, style = {} } = options;
     const lang = state.get({ id: "lang" }) || def;
-    const $ui = twoDollars.create("<nav/>", { id, class: "ui-lang" });
+    const $ui = $$.create("<nav/>", { id, class: "ui-lang" });
 
-    style && twoDollars.css($ui, style);
+    style && $$.css($ui, style);
 
     // iterate through language lib
     Object.keys(lib).forEach((k) => {
-      const $a = twoDollars.create("<a/>", {
+      const $a = $$.create("<a/>", {
         rel: "alternate",
         hreflang: k,
         lang: k,
       });
-
       $a.innerText = k;
 
       if (k === lang) $a.className = "active";
@@ -53,9 +51,7 @@ export const lang: AnkhUi = (() => {
     return $ui;
   };
 
-  type AnkhUiLangUpdateOptions = { lang: string };
-
-  const update = (options: AnkhUiLangUpdateOptions) => {
+  const update = (options: { lang: string }) => {
     const { lang: l = "" } = options;
 
     // language by priority
@@ -64,19 +60,22 @@ export const lang: AnkhUi = (() => {
     const evaluatedLang = (l || state.get({ id: "lang" }) || def) as Lang;
 
     // update elements
-    twoDollars.find("[data-lang]").forEach((elm: HTMLElement) => {
+    $$.find("[data-lang]").forEach((elm: HTMLElement) => {
       const langKey = elm.getAttribute("data-lang") as string;
-      const langLib = lib[evaluatedLang] as Record<string, string>;
+      const langLib = lib[evaluatedLang] as KeyValue;
       const v = langLib[langKey];
 
       if (elm.getAttribute("data-lang-rendered"))
         elm.setAttribute("data-lang-rendered", v);
       else if (elm.tagName === "IMG") elm.setAttribute("alt", v);
-      else if (elm.tagName === "INPUT") elm.setAttribute("placeholder", v);
+      else if (elm.tagName === "INPUT")
+        elm.getAttribute("type") === "submit"
+          ? ((<HTMLInputElement>elm).value = v)
+          : elm.setAttribute("placeholder", v);
       else elm.innerHTML = v;
     });
 
-    twoDollars.find("html")[0].setAttribute("lang", evaluatedLang);
+    $$.find("html")[0].setAttribute("lang", evaluatedLang);
 
     state.set({ id: "lang", state: evaluatedLang });
 
