@@ -10,7 +10,7 @@ export const details = (() => ({
   init: (options: AnkhUiDetailsOptions) => {
     const {
       id,
-      p: { lang: pLang },
+      items,
       open = false,
       summary: { lang: summaryLang },
     } = options;
@@ -20,10 +20,9 @@ export const details = (() => ({
 
     const $ui = $$.create("<details/>", attributes);
     const $summary = $$.create("<summary/>", { "data-lang": summaryLang });
-    const $p = $$.create("<p/>", { "data-lang": pLang });
 
     $ui.appendChild($summary);
-    $ui.appendChild($p);
+    items.forEach((id: string) => $ui.append($$.create("<div/>", { id })));
 
     return $ui;
   },
