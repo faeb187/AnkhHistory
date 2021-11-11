@@ -10,7 +10,7 @@ type SiteLoadEvent = {
 
 const init = (path: string) => {
   loader.loadSite(path);
-  return renderer.render();
+  renderer.render();
 };
 
 logger.title("ANKHORAGE");

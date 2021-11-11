@@ -1,6 +1,20 @@
-const navMain = { id: "navMain", parentId: "header", ui: "nav" };
+import { AnkhMediaViewport } from "types/media.type";
 
-export { navMain };
+const navMain = {
+  id: "navMain",
+  media: { min: AnkhMediaViewport.L },
+  parentId: "header",
+  ui: "nav",
+};
+
+const navMainMobile = {
+  id: "navMainMobile",
+  media: { max: AnkhMediaViewport.L },
+  parentId: "ui-slider-back-sliderMain",
+  ui: "nav",
+};
+
+export { navMain, navMainMobile };
 
 /*
 export const navPartner = {

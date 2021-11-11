@@ -14,8 +14,9 @@ import { iframe } from "./iframe";
 import { input } from "./input";
 import { lang } from "./lang";
 import { list } from "./list";
-import { slideshow } from "./slideshow";
 import { nav } from "./nav";
+import { slider } from "./slider";
+import { slideshow } from "./slideshow";
 
 export {
   accordion,
@@ -34,6 +35,7 @@ export {
   input,
   lang,
   list,
-  slideshow,
   nav,
+  slider,
+  slideshow,
 };

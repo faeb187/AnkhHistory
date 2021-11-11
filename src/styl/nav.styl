@@ -1,23 +1,31 @@
-#nav-mobile
-  li
-    pdg 1rem
-
-  a
-    fs $fs-big
-
-  > ul > li > a
-    fw $fw-bold
-
-#navMain
-  a
+.ui-nav
+  +above('l')
     bc $black
-    brd 1px #555 solid
-    c $white
+
+  a
     dsp block
+
+    bc md-grey-100
+    c $black
+    
     fs $fs-big
     fw $fw-thin
-    pdg 1rem 0
     ws nowrap
+    
+    brdb 1px md-grey-300 solid
+    pdg $pdg 2*$pdg
 
     &.active
+      bc md-grey-800
       fw $fw-bold
+
+    +above('l')
+      dsp inline-block
+
+      bc $black
+      c $white
+
+// custom styles
+#navMainMobile
+  a.active
+    c md-white
