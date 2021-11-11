@@ -1,5 +1,5 @@
 export const de = {
-  "article-1-title": "UI Artikel",
+  article: "Article",
   "article-1-p-1": "Ich bin ein kurzer Paragraph Text.",
   birthday: "Geburtstag",
   email: "eMail",
@@ -12,6 +12,7 @@ export const de = {
   "i-am-a-package": "Ich bin ein Paket",
   "i-am-a-terminal": "Ich bin ein Terminal",
   name: "Name",
+  nav: "Nav",
   kitten: "Katze",
   phoneNumber: "Telefon-Nr.",
   submit: "Absenden",

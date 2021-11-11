@@ -1,10 +1,22 @@
 import { copy } from "utils";
 import { routes } from "app/routes";
+import { observer } from "core";
 
 import { footer, header, main } from "components/html.component";
 import { lang } from "components/lang.component";
-import { navMain } from "components/nav.component";
+import {
+  inputBirthday,
+  inputColor,
+  inputEmail,
+  inputFirstName,
+  inputName,
+  inputSubmit,
+  inputTel,
+} from "components/input.component";
+import { navMain, navMainMobile } from "components/nav.component";
+import { sliderMain } from "components/slider.component";
 
+import { AnkhMediaViewport } from "types/media.type";
 import type { AnkhUiOptionMap } from "types/ui.type";
 
 // @todo redundant (home)
@@ -12,128 +24,94 @@ const navRoutes = routes.map((route) => ({
   ...route,
   attributes: { href: route.path, "data-lang": route.lang },
 }));
-// @todo redundant (home)
+
+const uisArticle = {
+  author: { username: "altruism" },
+  createdAt: new Date(),
+  id: "articleUis",
+  paragraphs: [
+    { lang: "article-1-p-1" },
+    { code: "console.log('yes');", lang: "typescript" },
+  ],
+  parentId: "article",
+  title: "article",
+  ui: "article",
+};
 const uisNavMain = { ...copy(navMain), items: copy(navRoutes) };
+const uisNavMainMobile = { ...copy(navMainMobile), items: copy(navRoutes) };
 
-// @todo redundant layout (home)
+const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
+  console.log("firing Toggle:", args);
+  observer.f("_ui-slider-toggle", { ...args });
+};
+const buttonSliderToggle = {
+  events: [
+    {
+      bind: { target: "#buttonSliderToggle", type: "click" },
+      name: "ui-button-slider-toggle",
+      handler: buttonSliderToggleHandler,
+    },
+  ],
+  icon: "reorder-three",
+  id: "buttonSliderToggle",
+  media: { max: AnkhMediaViewport.L },
+  parentId: "header",
+  ui: "button",
+};
+const buttonSliderToggleX = {
+  events: [
+    {
+      bind: { target: "#buttonSliderToggleX", type: "click" },
+      handler: buttonSliderToggleHandler,
+      name: "ui-button-slider-toggle-x",
+    },
+  ],
+  id: "buttonSliderToggleX",
+  icon: "close",
+  media: { max: AnkhMediaViewport.L },
+  parentId: "ui-slider-back-sliderMain",
+  ui: "button",
+};
+
 export const uis: AnkhUiOptionMap[] = [
-  // header
-  copy(header),
-  { ...copy(uisNavMain), parentId: "header" },
+  copy(sliderMain),
 
-  // main
+  // sliderMain back
+  buttonSliderToggleX,
+  copy(uisNavMainMobile),
+
+  // sliderMain front
+  copy(header),
+  copy(uisNavMain),
+  // copy(buttonSliderToggle),
+  buttonSliderToggle,
   copy(main),
   {
     id: "accordion",
-    items: [{ items: ["input"], open: true, summary: { lang: "input" } }],
+    items: [
+      { items: ["article"], summary: { lang: "article" } },
+      { items: ["input"], summary: { lang: "input" } },
+      { items: ["nav"], summary: { lang: "nav" } },
+    ],
     parentId: "main",
     ui: "accordion",
   },
-  {
-    attributes: { name: "inputName", placeholder: "name" },
-    icon: "person",
-    id: "inputName",
-    label: "name",
-    lang: "name",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: { name: "inputFirstName", placeholder: "firstName" },
-    icon: "person",
-    id: "inputFirstName",
-    label: "firstName",
-    lang: "firstName",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: { name: "inputEmail", placeholder: "email", type: "email" },
-    icon: "mail",
-    id: "inputEmail",
-    label: "email",
-    lang: "email",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: { name: "inputDate", placeholder: "birthday", type: "date" },
-    icon: "calendar",
-    id: "inputBirthday",
-    label: "birthday",
-    lang: "birthday",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: { name: "inputTel", placeholder: "phoneNumber", type: "tel" },
-    icon: "call",
-    id: "inputTel",
-    label: "phoneNumber",
-    lang: "phoneNumber",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: {
-      name: "inputColor",
-      placeholder: "favoriteColor",
-      type: "color",
-    },
-    icon: "eyedrop",
-    id: "inputColor",
-    label: "favoriteColor",
-    lang: "favoriteColor",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: { name: "inputNumber", type: "number" },
-    icon: "happy",
-    id: "inputNumber",
-    label: "favoriteNumber",
-    lang: "favoriteNumber",
-    ui: "input",
-    parentId: "input",
-  },
-  {
-    attributes: { type: "submit" },
-    id: "inputSubmit",
-    lang: "submit",
-    ui: "input",
-    parentId: "input",
-  },
+  copy(inputName),
+  copy(inputFirstName),
+  copy(inputEmail),
+  copy(inputBirthday),
+  copy(inputTel),
+  copy(inputColor),
+  copy(inputSubmit),
 
-  // footer
+  copy(uisArticle),
+
   copy(footer),
   { ...copy(lang), parentId: "footer" },
 ];
 
 // @test some UI configs
 /*
-const uiArticle = {
-  author: {
-    username: "altruism",
-  },
-  createdAt: new Date(),
-  id: "grid-main-1-article",
-  paragraphs: [
-    { lang: "article-1-p-1" },
-    { code: "console.log('yes');", lang: "typescript" },
-  ],
-  parentId: "grid-main-2",
-  title: "article-1-title",
-  ui: "article",
-};
-
-const uiButton = {
-    classNames: "primary",
-    id: "button-1",
-    lang: "clickMe",
-    ui: "button",
-    parentId: "grid-main-3",
-  },
-  
 const uiCarousel = {
     id: "carousel",
     items: [

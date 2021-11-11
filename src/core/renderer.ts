@@ -22,12 +22,9 @@ export const renderer = (() => {
     // [3] notify subscribers (e.g. lang update)
     observer.f("core-renderer-rendered");
   };
-
   const updateVisibility = () => {
-    loader.getAllLoaded().forEach((loadedUi: AnkhUiLoaded, id: string) => {
-      // ignore placeholders
-      if (id.startsWith("_")) return;
-
+    logger.title("[renderer::updateVisibility]");
+    loader.getAllLoaded().forEach((loadedUi: AnkhUiLoaded) => {
       const {
         $ui,
         uiOptions: { media: m },
@@ -40,7 +37,6 @@ export const renderer = (() => {
       }
     });
   };
-
   const init = () => {
     observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
     observer.l({ name: "ankh-viewport", handler: updateVisibility });

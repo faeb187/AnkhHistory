@@ -1,4 +1,5 @@
 // @todo implement a performance optimized copy method
+// @todo support type Date (atm converted to string)
 export const copy = <T>(x: T): T => <T>JSON.parse(JSON.stringify(x));
 
 export const debounce = (

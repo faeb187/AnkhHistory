@@ -1,34 +1,44 @@
-#back
-  fxai  center
-  h     100vh
-  pos   absolute
-  w     100vw
-
-#front
-  fxai  center
-  tra   all .1s ease-in
-  trf   translate3d(0, 0, 0)
-  ovrx  hidden
-
-  &.from-left
-    flr grayscale(.5)
-    trf translate3d(100vw, 0, 0)
-
-  &.from-right
-    trf translate3d(-100vw, 0, 0)
-
-  &.from-top
-    trf translate3d(0, 100%, 0)
-
-  &.from-bottom
-    trf translate3d(0, -100%, 0)
-
-
-// BeKB
-#back
-#front
-  bc md-white
-
 .ui-slider
-  w 90vw
-  brdt 8px $color-01 solid
+  pos relative
+
+  .ui-slider-back
+    pos   absolute
+    h     100vh
+    w     100vw
+
+  .ui-slider-front
+    tra   all .1s ease-in
+    trf   translate3d(0, 0, 0)
+    ovrx  hidden
+
+    &.from-left
+      flr grayscale(.5)
+      trf translate3d(100vw, 0, 0)
+
+    &.from-right
+      trf translate3d(-100vw, 0, 0)
+
+    &.from-top
+      trf translate3d(0, 100%, 0)
+
+    &.from-bottom
+      trf translate3d(0, -100%, 0)
+
+#ui-slider-front-sliderMain
+  dsp grid
+  gta "header" "main" "footer"
+  gtc 1fr
+  gtr auto 1fr auto
+  rg $mrg
+
+#sliderMain
+#ui-slider-back-sliderMain
+#ui-slider-front-sliderMain
+  h 100%
+
+// custom app style
+#ui-slider-back-sliderMain
+  bc md-grey-200
+
+#ui-slider-front-sliderMain
+  bc md-white

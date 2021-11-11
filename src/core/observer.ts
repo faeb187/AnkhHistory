@@ -4,7 +4,7 @@ import { AnyObject } from "types/basic.type";
 type Observer = {
   l: (event: ObserverEvent) => Observer;
   f: (eventName: string, dynamicArgs?: AnyObject) => Observer;
-  r: (eventName?: string) => Observer;
+  r: (event?: ObserverEvent) => Observer;
   p: () => Observer;
 };
 
@@ -50,10 +50,22 @@ export const observer: Observer = {
     return observer;
   },
 
-  r: (eventName?: string): Observer => {
-    evs = evs.filter((ev: ObserverEvent) =>
-      eventName ? ev.name === eventName : ev.name[0] !== "_"
-    );
+  // @info event names startingn with '_' are protected
+  // @info no param means remove all (except protected ones)
+  r: (event?: ObserverEvent): Observer => {
+    if (!event) {
+      evs = evs.filter((ev: ObserverEvent) => ev.name[0] === "_");
+      return observer;
+    }
+    const { bind, name, handler } = event;
+
+    if (bind && handler) {
+      const { target, type } = bind;
+      const $target = typeof target === "string" ? $$.find(target)[0] : target;
+      (<EventTarget>$target).removeEventListener(type, handler);
+    }
+    evs = evs.filter((ev: ObserverEvent) => ev.name !== name);
+    observer.p();
     return observer;
   },
 

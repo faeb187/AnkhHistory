@@ -1,7 +1,8 @@
 // @todo (uis as AnkhUiIndex) only once at top (somehow)
 // @todo proper types (and not in this file)
-import { twoDollars } from "twodollars";
+import { twoDollars as $$ } from "twodollars";
 
+// @todo import renderer??? use observer.f()
 import { logger, media, observer, renderer } from "core";
 import { camelize } from "utils";
 import { routes } from "app/routes";
@@ -9,8 +10,8 @@ import * as sites from "app/sites";
 import * as uis from "uis";
 
 import type { ObserverEvent } from "core/observer";
-import type { AnkhSite } from "types/site.type";
 import type { AnkhRoute } from "types/route.type";
+import type { AnkhSite } from "types/site.type";
 import type {
   AnkhUiModules,
   AnkhUiLoaded,
@@ -22,22 +23,10 @@ export const loader = (() => {
   let mapLoaded: Map<string, AnkhUiLoaded>;
   let siteConfigurations: Map<string, AnkhUiOptions[]>;
 
-  const bindDefaults = (
-    events: ObserverEvent[],
-    element: HTMLElement
-  ): ObserverEvent[] =>
-    events.map((event: ObserverEvent) => {
-      if (!event.bind || event.bind.target) return event;
-
-      const bindWithDefault = { type: event.bind.type, target: element };
-      return Object.assign({}, event, bindWithDefault);
-    });
-
   const getNotLoaded = () =>
     new Map<string, AnkhUiNotLoaded>([
       ...Array.from(mapLoaded).filter(([k]) => k.startsWith("_")),
     ]);
-
   const setRoute = (route: AnkhRoute) => {
     const { path, routes: subRoutes = [] } = route;
 
@@ -50,11 +39,12 @@ export const loader = (() => {
 
     subRoutes.forEach((subRoute: AnkhRoute) => setRoute(subRoute));
   };
-
   const updateDeferred = () => {
     getNotLoaded().forEach((notLoadedUi: AnkhUiNotLoaded, id: string) => {
-      const { uiOptions } = notLoadedUi;
-      const { events = [], media: m, ui } = uiOptions;
+      const {
+        uiOptions,
+        uiOptions: { media: m, ui },
+      } = notLoadedUi;
 
       // [1] is the UI now in the viewport?
       if (!m || !media.isInViewport(m)) return;
@@ -63,20 +53,18 @@ export const loader = (() => {
       const $ui = (uis as AnkhUiModules)[ui].init(uiOptions);
       if (!$ui) return logger.error(`UI#${ui} didn't return itself`);
 
-      // [3] attach events
-      bindDefaults(events, $ui).forEach((event: ObserverEvent) =>
-        observer.l(event)
-      );
+      // [3] register for event update (after rendering)
+      observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
 
       // [4] update loaded state
       mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete(id);
 
       // [5] delegate rendering
       // @todo setTimeout needed because direct DOM rendering (collect all and then render at once)
-      setTimeout(() => renderer.renderDeferred($ui));
+      // @todo needed? setTimeout(() => renderer.renderDeferred($ui));
+      renderer.renderDeferred($ui);
     });
   };
-
   const getRoutesByPath = (path: string) => {
     let routesByPath: AnkhRoute[] = [];
 
@@ -90,7 +78,6 @@ export const loader = (() => {
     subSearch(routes);
     return routesByPath;
   };
-
   const getCurrentPath = (path: string): string => {
     if (siteConfigurations.get(path)) return path;
 
@@ -111,9 +98,8 @@ export const loader = (() => {
     subSearch(currentRoutes[0]);
     return foundPath;
   };
-
   const initUi = (uiOptions: AnkhUiOptions) => {
-    const { events = [], id, ui, media: m, parentId = "ankh" } = uiOptions;
+    const { id, media: m, parentId = "ankh", ui } = uiOptions;
 
     // [1] identification & classification
     if (!id || !ui)
@@ -138,9 +124,6 @@ export const loader = (() => {
       const updatedId = `_${id}`;
       const updatedParentId = `${(hasDeferredParent && "_") || ""}${parentId}`;
 
-      if (id === "navToggleX")
-        console.log("navToggleX:", updatedId, updatedParentId);
-
       // mapLoaded.set(updatedId, { uiOptions, updatedParentId });
       logger.log(
         `%cdeferred %c ${id} (parent: ${updatedParentId}`,
@@ -152,7 +135,7 @@ export const loader = (() => {
       // ...skip loading, set placeholder
       return mapLoaded.set(updatedId, {
         uiOptions,
-        $ui: twoDollars.create("<div/>", { id: updatedId, "data-fx": "out" }),
+        $ui: $$.create("<div/>", { id: updatedId, "data-fx": "out" }),
         parentId: updatedParentId,
       });
     }
@@ -163,12 +146,7 @@ export const loader = (() => {
     // [4][NOK] loading error
     if (!$ui) return logger.error(`UI '${ui}' didn't return itself`, uiOptions);
 
-    // [5] attach events
-    bindDefaults(events, $ui).forEach((event: ObserverEvent) =>
-      observer.l(event)
-    );
-
-    // [6] register loaded ui
+    // [5] register loaded ui
     mapLoaded.set(id, { $ui, uiOptions, parentId });
     logger.info(
       `%cloaded %c #${id} (parent: ${parentId}`,
@@ -176,7 +154,6 @@ export const loader = (() => {
       "color: #fff"
     );
   };
-
   const loadSite = (path: string) => {
     logger.groupCollapsed("Loader:loadSite");
 
@@ -189,18 +166,19 @@ export const loader = (() => {
     logger.log("siteUis", siteUis);
 
     // [2] navigate to current site
-    twoDollars.history.go(currentPath, currentPath);
+    $$.history.go(currentPath, currentPath);
 
     // [3] prepare/load the ui's
     siteUis.forEach((ui: AnkhUiOptions) => initUi(ui));
+
+    // [4] register for event upddae (after rendering)
+    observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
 
     logger.log("mapLoaded", mapLoaded);
     logger.log("siteConfigurations", siteConfigurations);
     logger.groupEnd();
   };
-
   const getAllLoaded = () => mapLoaded;
-
   const init = () => {
     logger.groupCollapsed("Loader:init");
 
@@ -216,6 +194,16 @@ export const loader = (() => {
     observer.l({ name: "ankh-viewport", handler: updateDeferred });
 
     logger.groupEnd();
+  };
+  const updateEvents = () => {
+    getAllLoaded().forEach((loadedUi) => {
+      if (loadedUi.$ui.id.startsWith("_"))
+        return logger.warn("[updateEvents] skipped:", loadedUi.$ui.id);
+      const {
+        uiOptions: { events },
+      } = loadedUi;
+      events?.forEach((event: ObserverEvent) => observer.r(event).l(event));
+    });
   };
 
   return { getAllLoaded, loadSite, init };

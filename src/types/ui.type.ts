@@ -21,10 +21,11 @@ type AnkhUiOptionMap =
   | AnkhUiIconOptions
   | AnkhUiLangOptions
   | AnkhUiListOptions
-  | AnkhUiSlideshowOptions
   | AnkhUiNavOptions
   | AnkhUiProcessOptions
-  | AnkhUiSitemapOptions;
+  | AnkhUiSitemapOptions
+  | AnkhUiSliderOptions
+  | AnkhUiSlideshowOptions;
 
 type AnkhUi = {
   init: (
@@ -185,6 +186,8 @@ type AnkhUiProcessOptions = AnkhUiOptions & {
 };
 // UI: sitemap
 type AnkhUiSitemapOptions = AnkhUiOptions;
+// UI: slider
+type AnkhUiSliderOptions = AnkhUiOptions;
 // UI: slideshow
 type AnkhUiSlideshowItem = {
   alt: string;
@@ -222,10 +225,11 @@ export {
   AnkhUiLangOptions,
   AnkhUiListItem,
   AnkhUiListOptions,
+  AnkhUiNavOptions,
   AnkhUiProcessOptions,
   AnkhUiProcessStep,
   AnkhUiSlideshowItem,
   AnkhUiSlideshowOptions,
-  AnkhUiNavOptions,
+  AnkhUiSliderOptions,
   AnkhUiSitemapOptions,
 };
