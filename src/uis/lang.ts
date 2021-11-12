@@ -4,11 +4,11 @@ import { observer, state } from "core";
 import { de, en } from "../app/i18n";
 
 import type { KeyValue } from "types/basic.type";
-import type { AnkhUi, AnkhUiLangOptions } from "types/ui.type";
+import type { AnkhUiLangOptions } from "types/ui.type";
 
 type Lang = "de" | "en";
 
-export const lang: AnkhUi = (() => {
+export const lang = (() => {
   const changeLang = (event: MouseEvent) => {
     event.preventDefault();
 

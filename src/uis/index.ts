@@ -14,6 +14,7 @@ import { iframe } from "./iframe";
 import { input } from "./input";
 import { lang } from "./lang";
 import { list } from "./list";
+import { map } from "./map";
 import { nav } from "./nav";
 import { slider } from "./slider";
 import { slideshow } from "./slideshow";
@@ -36,6 +37,7 @@ export {
   input,
   lang,
   list,
+  map,
   nav,
   slider,
   slideshow,

@@ -21,6 +21,7 @@ type AnkhUiOptionMap =
   | AnkhUiIconOptions
   | AnkhUiLangOptions
   | AnkhUiListOptions
+  | AnkhUiMapOptions
   | AnkhUiNavOptions
   | AnkhUiProcessOptions
   | AnkhUiSitemapOptions
@@ -166,6 +167,22 @@ type AnkhUiListOptions = AnkhUiOptions & {
   items: AnkhUiListItem[];
   ordered?: boolean;
 };
+// UI: map
+type AnkhUiMapMarker = {
+  color: string;
+  icon: string;
+  location: string;
+  shadow: boolean;
+  size: string;
+};
+type AnkhUiMapOptions = {
+  center?: string;
+  id: string;
+  height: number;
+  markers: AnkhUiMapMarker[];
+  width: number;
+  zoom: number; // zoom level (0-22)
+};
 // UI: nav
 type AnkhUiNavItem = {
   attributes?: KeyValue;
@@ -242,6 +259,7 @@ export {
   AnkhUiLangOptions,
   AnkhUiListItem,
   AnkhUiListOptions,
+  AnkhUiMapOptions,
   AnkhUiNavOptions,
   AnkhUiProcessOptions,
   AnkhUiProcessStep,
