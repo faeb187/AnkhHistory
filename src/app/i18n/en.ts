@@ -12,6 +12,7 @@ export const en = {
   "i-am-a-package": "I'm a package",
   "i-am-a-terminal": "I'm a terminal",
   kitten: "Cat",
+  map: "Map",
   name: "Name",
   nav: "Nav",
   phoneNumber: "Phone number",

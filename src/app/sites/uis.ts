@@ -89,8 +89,9 @@ export const uis: AnkhUiOptionMap[] = [
     items: [
       { items: ["article"], summary: { lang: "article" } },
       { items: ["input"], summary: { lang: "input" } },
+      { items: ["map"], open: true, summary: { lang: "map" } },
       { items: ["nav"], summary: { lang: "nav" } },
-      { items: ["table"], open: true, summary: { lang: "table" } },
+      { items: ["table"], summary: { lang: "table" } },
     ],
     parentId: "main",
     ui: "accordion",
@@ -104,6 +105,11 @@ export const uis: AnkhUiOptionMap[] = [
   copy(inputTel),
   copy(inputColor),
   copy(inputSubmit),
+
+  {
+    id: "mapUi",
+    ui: "map",
+  },
 
   {
     cols: [{ lang: "name" }, { lang: "firstName" }, { lang: "email" }],
