@@ -1,9 +1,16 @@
-import { html } from "uis/html";
+import { html } from "../html";
+import type { AnyObject } from "../../types/basic.type";
 
 describe("UI html", () => {
-  const options = { ui: "html", id: "id" };
-  it("should", () => {
+  const options = { ui: "html", id: "htmlTestId" };
+
+  it("should init ", () => {
     const $ui = html.init(options);
-    expect(typeof $ui).toBe(HTMLElement);
+    const isHTMLElement = (element: HTMLElement) =>
+      element instanceof HTMLElement;
+
+    expect(() => isHTMLElement($ui)).not.toThrow();
+    expect(isHTMLElement($ui)).toBe(true);
+    expect($ui.id).toBe("htmlTestId");
   });
 });
