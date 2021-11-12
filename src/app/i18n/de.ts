@@ -16,6 +16,7 @@ export const de = {
   kitten: "Katze",
   phoneNumber: "Telefon-Nr.",
   submit: "Absenden",
+  table: "Table",
   "txt-kitten": "miau miau miau",
   "txt-p": "Hier finden wir weitere Informationen.",
   "txt-summary": "Dies ist ein perfekter summary Text.",

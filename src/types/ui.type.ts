@@ -25,7 +25,8 @@ type AnkhUiOptionMap =
   | AnkhUiProcessOptions
   | AnkhUiSitemapOptions
   | AnkhUiSliderOptions
-  | AnkhUiSlideshowOptions;
+  | AnkhUiSlideshowOptions
+  | AnkhUiTableOptions;
 
 type AnkhUi = {
   init: (
@@ -199,6 +200,22 @@ type AnkhUiSlideshowOptions = AnkhUiOptions & {
   interval: number;
   items: AnkhUiSlideshowItem[];
 };
+// UI: table
+type AnkhUiTableColumn = {
+  currency?: string;
+  date?: boolean;
+  lang?: string;
+  right?: boolean;
+  svg?: string;
+  width?: string;
+};
+type AnkhUiTableRow = {
+  [key: string]: string;
+};
+type AnkhUiTableOptions = AnkhUiOptions & {
+  cols: AnkhUiTableColumn[];
+  data: AnkhUiTableRow[];
+};
 
 export {
   AnkhUi,
@@ -232,4 +249,7 @@ export {
   AnkhUiSlideshowOptions,
   AnkhUiSliderOptions,
   AnkhUiSitemapOptions,
+  AnkhUiTableColumn,
+  AnkhUiTableOptions,
+  AnkhUiTableRow,
 };

@@ -8,7 +8,6 @@ export const slider = (() => {
     events: {
       toggle: (args: { event: MouseEvent; side: string }) => {
         const { side = "left" } = args;
-        console.log(">>>>>><toggle:", args);
 
         // @todo dynamic 'sliderMain'
         $$.toggleClass(

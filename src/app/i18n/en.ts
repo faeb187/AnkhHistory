@@ -16,6 +16,7 @@ export const en = {
   nav: "Nav",
   phoneNumber: "Phone number",
   submit: "Submit",
+  table: "Table",
   "txt-kitten": "mew mew mew",
   "txt-p": "Here we can find some more information.",
   "txt-summary": "This is a perfect summary text.",
