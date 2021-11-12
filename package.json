@@ -18,18 +18,12 @@
   ],
   "author": "faeb187",
   "license": "MIT",
-  "test": "jest --verbose --forceExit --coverage --detectOpenHandles --passWithNoTests",
-  "jest": {
-    "preset": "ts-jest",
-    "modulePathIgnorePatterns": [
-      "dist"
-    ]
-  },
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "gql": "node ../graphql-server.js",
     "lint": "eslint . --ext .ts",
     "start": "./start.sh",
+    "test": "jest",
     "watch": "npm-watch"
   },
   "watch": {
@@ -59,16 +53,19 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
+    "@types/jsdom": "^16.2.13",
     "@types/node": "^16.4.3",
     "@types/stylus": "^0.48.36",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "css-loader": "^6.2.0",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^25.2.4",
     "graphql-tag": "^2.12.5",
     "http-server": "^13.0.2",
     "jest": "^27.0.6",
+    "jsdom": "^18.0.1",
     "npm-watch": "^0.10.0",
     "poststylus": "^1.0.1",
     "prettier": "github:helixbass/prettier#prettier-v2.1.0-dev.100-gitpkg",
@@ -78,6 +75,7 @@
     "stylus-native-loader": "^1.4.5",
     "ts-jest": "^27.0.4",
     "ts-loader": "^9.2.4",
+    "ts-node": "^10.4.0",
     "tslint": "^6.1.3",
     "tslint-config-airbnb": "^5.11.2",
     "tslint-config-prettier": "^1.18.0",

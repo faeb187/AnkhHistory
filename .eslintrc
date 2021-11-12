@@ -1,19 +1,18 @@
 {
-	"overrides": [
-		{
-		"files": ["*.ts"],
-		"parserOptions":{
-			"project": ["./tsconfig.json"]
-		}
-	}],
-	"parser": "@typescript-eslint/parser",
-	"plugins": [
-		"@typescript-eslint"
-	],
-	"extends": [
-		"eslint:recommended",
-		"plugin:@typescript-eslint/eslint-recommended",
-		"plugin:@typescript-eslint/recommended",
-		"plugin:@typescript-eslint/recommended-requiring-type-checking"
-	]
+  "overrides": [
+    {
+      "files": ["*.ts"]
+      /*"parserOptions": {
+        "project": ["./tsconfig.json"]
+      }*/
+    }
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["jest", "@typescript-eslint"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ]
 }
