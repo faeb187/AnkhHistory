@@ -1,29 +1,26 @@
-/**
- * UI html
- */
-import { $$ } from "core";
+import { twoDollars } from "twodollars";
 import type { AnkhUiHtmlOptions } from "types/ui.type";
 
-export const html = (() => ({
-  init: (options: AnkhUiHtmlOptions) => {
+export const html = (() => {
+  const init = (options: AnkhUiHtmlOptions) => {
     const {
-      attributes = {},
+      attributes,
       classNames = "",
       id,
       lang,
       src,
       tag = "div",
-      style = {},
+      style,
       text,
     } = options;
 
-    const $ui = $$(`<${tag}/>`, {
+    const $ui = twoDollars.create(`<${tag}/>`, {
       id,
       class: `ui-html ui-html-${tag} ${classNames}`,
     });
 
-    $$.css($ui, style);
-    $$.addAttr($ui, attributes);
+    style && twoDollars.css($ui, style);
+    attributes && twoDollars.addAttr($ui, attributes);
 
     // @todo handle images in new Ui?
     if (src) {
@@ -33,5 +30,6 @@ export const html = (() => ({
     else if (text) $ui.innerText = text;
 
     return $ui;
-  },
-}))();
+  };
+  return { init };
+})();

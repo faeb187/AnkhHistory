@@ -1,4 +1,4 @@
-import { $$ } from "core";
+import { twoDollars } from "twodollars";
 import type { AnkhUiGridOptions } from "types/ui.type";
 
 export const grid = (() => {
@@ -10,14 +10,14 @@ export const grid = (() => {
         element = "div",
         id,
         inline = false,
-        style = {},
+        style,
       } = options;
 
       const cn = `ui-grid${inline ? "-inline" : ""} ${className}`;
-      const $ui = $$(`<${element}/>`, { id, class: cn });
+      const $ui = twoDollars.create(`<${element}/>`, { id, class: cn });
 
-      $$.css($ui, style);
-      $$.addAttr($ui, attributes);
+      style && twoDollars.css($ui, style);
+      twoDollars.addAttr($ui, attributes);
 
       return $ui;
     },

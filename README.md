@@ -6,6 +6,9 @@
 # install package
 npm i
 
+# run tests
+npm test
+
 # deploy app
 npm start
 
@@ -16,11 +19,8 @@ npm run watch
 ## ToDo
 
 - set document.title
-- typescript migration
-- jest coverage 100%
 - doctor package
 - ui-update-lang per UI
-- remove gulp (stylus-loader?)
-- ensure multi-tenancy capability
+- jest coverage 100%
+- ensure multi-tenancy capabilityf
 - camunda test (ui-process)
-- keycloak integration

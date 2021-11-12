@@ -1,11 +1,16 @@
 // @todo no direct access between CORE modules (handle it here)
 
 // import { ankh } from "./app/ankh";
+import "styl/main";
 import { loader, logger, media, renderer, observer } from "core";
+
+type SiteLoadEvent = {
+  $ui: HTMLElement;
+};
 
 const init = (path: string) => {
   loader.loadSite(path);
-  return renderer.render();
+  renderer.render();
 };
 
 logger.title("ANKHORAGE");
@@ -19,11 +24,15 @@ renderer.init();
 init(location.pathname);
 
 // [3] listen for site requests
-type Opts = { event: { target: HTMLElement } };
-observer.l("core-site-load", (options: Opts) => {
-  const href = options.event.target.getAttribute("href");
+observer.l({
+  name: "core-site-load",
+  handler: (event: SiteLoadEvent) => {
+    console.info("siteLoadEvent:", event);
+    const { $ui } = event;
+    const href = $ui.getAttribute("href");
 
-  return href
-    ? init(href)
-    : logger.error("core-site-load called without 'href'");
+    return href
+      ? init(href)
+      : logger.error("core-site-load called without 'href'");
+  },
 });

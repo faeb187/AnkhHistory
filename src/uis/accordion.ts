@@ -1,20 +1,19 @@
-/**
- * UI accordion
- */
-import { $$ } from "core";
+import { twoDollars as $$ } from "twodollars";
+import { v4 as uuidv4 } from "uuid";
 
-type AnkhUiAccordionOptions = {
-  id: string;
-  $target: HTMLElement;
-};
+import { details } from "uis";
+
+import type { AnkhUiAccordionOptions } from "types/ui.type";
 
 export const accordion = (() => ({
   init: (options: AnkhUiAccordionOptions) => {
-    const { id, $target } = options;
-    const $ui = $$("<section/>", { class: "ui-accordion" });
+    const { id, items } = options;
+    const $ui = $$.create("<section/>", { id, class: "ui-accordion" });
 
-    // @todo
-    console.log(id, $target);
+    items.forEach((item) => {
+      console.log("item:", item);
+      $ui.appendChild(details.init({ id: uuidv4(), ui: "details", ...item }));
+    });
 
     return $ui;
   },

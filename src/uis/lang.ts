@@ -1,21 +1,18 @@
-import { $$, observer, state } from "core";
+import { twoDollars as $$ } from "twodollars";
+
+import { observer, state } from "core";
 import { de, en } from "../app/i18n";
 
-import type { ClickEvent, KeyValue } from "types/basic.type";
+import type { KeyValue } from "types/basic.type";
+import type { AnkhUiLangOptions } from "types/ui.type";
 
 type Lang = "de" | "en";
 
-type AnkhUiLangOptions = {
-  id: string;
-  style: KeyValue;
-};
-type AnkhUiLangUpdateOptions = { lang: string };
-
 export const lang = (() => {
-  const changeLang = (event: ClickEvent) => {
+  const changeLang = (event: MouseEvent) => {
     event.preventDefault();
 
-    const { target: $a } = event;
+    const $a = event.target as HTMLElement;
     const $aParent = $a.parentNode as HTMLElement;
 
     observer.f("ui-lang-update", { lang: $a.getAttribute("lang") });
@@ -23,40 +20,38 @@ export const lang = (() => {
     $aParent && $$.removeClass($$.find(".active", $aParent)[0], "active");
     $a.className = "active";
   };
-
   const def = "de";
   const lib = { de, en };
 
   const init = (options: AnkhUiLangOptions) => {
     const { id, style = {} } = options;
     const lang = state.get({ id: "lang" }) || def;
-    const $ui = $$("<nav/>", { id, class: "ui-lang" });
+    const $ui = $$.create("<nav/>", { id, class: "ui-lang" });
 
     style && $$.css($ui, style);
 
     // iterate through language lib
     Object.keys(lib).forEach((k) => {
-      const $a = $$("<a/>", {
+      const $a = $$.create("<a/>", {
         rel: "alternate",
         hreflang: k,
         lang: k,
       });
-
       $a.innerText = k;
 
       if (k === lang) $a.className = "active";
 
-      $$.listen({ target: $a, type: "click", handler: changeLang });
+      $a.addEventListener("click", changeLang);
       $ui.appendChild($a);
     });
 
-    observer.l("ui-lang-update", update);
-    observer.l("core-renderer-rendered", update);
+    observer.l({ name: "ui-lang-update", handler: update });
+    observer.l({ name: "core-renderer-rendered", handler: update });
 
     return $ui;
   };
 
-  const update = (options: AnkhUiLangUpdateOptions) => {
+  const update = (options: { lang: string }) => {
     const { lang: l = "" } = options;
 
     // language by priority
@@ -73,7 +68,10 @@ export const lang = (() => {
       if (elm.getAttribute("data-lang-rendered"))
         elm.setAttribute("data-lang-rendered", v);
       else if (elm.tagName === "IMG") elm.setAttribute("alt", v);
-      else if (elm.tagName === "INPUT") elm.setAttribute("placeholder", v);
+      else if (elm.tagName === "INPUT")
+        elm.getAttribute("type") === "submit"
+          ? ((<HTMLInputElement>elm).value = v)
+          : elm.setAttribute("placeholder", v);
       else elm.innerHTML = v;
     });
 
@@ -81,7 +79,7 @@ export const lang = (() => {
 
     state.set({ id: "lang", state: evaluatedLang });
 
-    observer.l("core-renderer-rendered", update);
+    observer.l({ name: "core-renderer-rendered", handler: update });
     observer.f("ui-lang-updated");
   };
 

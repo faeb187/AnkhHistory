@@ -1,14 +1,11 @@
-/**
- * UI breadcrumb
- */
-import { $$ } from "core";
-import { AnkhEvent } from "types/event.type";
+import { twoDollars } from "twodollars";
+import type { ObserverEvent } from "core/observer";
 
 type AnkhUiBreadcrumb = { lang?: string };
 
 type AnkhUiBreadcrumbOptions = {
   active: number;
-  events: AnkhEvent[];
+  events: ObserverEvent[];
   id: string;
   items: AnkhUiBreadcrumb[];
   numbered: boolean;
@@ -25,16 +22,16 @@ export const breadcrumb = (() => {
   const ui = {
     update: (options: AnkhUiBreadcrumbUpdateOptions) => {
       const { active = 0, target } = options;
-      const $items = $$.find("a", target);
-      const $active = $$.find(".active", target)[0];
+      const $items = twoDollars.find("a", target);
+      const $active = twoDollars.find(".active", target)[0];
 
-      if ($active) $$.removeClass($active, "active");
-      $$.addClass($items[active], "active");
+      if ($active) twoDollars.removeClass($active, "active");
+      twoDollars.addClass($items[active], "active");
     },
 
     getItem: (item: AnkhUiBreadcrumb) => {
       const { lang } = item;
-      const $item = $$("<a/>");
+      const $item = twoDollars.create("<a/>");
 
       if (lang) $item.setAttribute("data-lang", lang);
       return $item;
@@ -52,20 +49,21 @@ export const breadcrumb = (() => {
         readonly,
       } = options;
 
-      const $ui = $$("<nav/>", { id: id, class: "ui-breadcrumb" });
+      const $ui = twoDollars.create("<nav/>", {
+        id: id,
+        class: "ui-breadcrumb",
+      });
 
-      if (numbered) $$.addClass($ui, "numbered");
-      if (readonly) $$.addClass($ui, "readonly");
+      if (numbered) twoDollars.addClass($ui, "numbered");
+      if (readonly) twoDollars.addClass($ui, "readonly");
 
       items.forEach((item) => $ui.appendChild(ui.getItem(item)));
 
-      const updateEvent = {
+      const updateEvent: ObserverEvent = {
+        args: { id },
         name: "ui-breadcrumb-update",
-        target: id,
-        type: "ui",
       };
       events.push(updateEvent);
-
       /*
       observer.l("ui-breadcrumb-update", (opts: { events: AnkhEvent[] }) => {
         opts.events.forEach((event: AnkhEvent) => {

@@ -2,12 +2,8 @@
 .DS_Store
 node_modules
 
-# ankh
-gulpfile.js
-dist
-
 # jest
 coverage
 
-# tmp
-_assets
+# ANKH
+dist

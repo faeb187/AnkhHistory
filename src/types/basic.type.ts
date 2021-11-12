@@ -1,7 +1,6 @@
-type ClickEvent = Event & {
-  target: HTMLElement;
-};
+type AnyObject = Record<string, unknown>;
+type EmptyObject = Record<string, never>;
+type KeyValue = Record<string, string>;
+type Position = { x: number; y: number };
 
-type KeyValue = { [key: string]: string };
-
-export { ClickEvent, KeyValue };
+export { AnyObject, EmptyObject, KeyValue, Position };

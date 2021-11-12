@@ -1,15 +1,12 @@
 .ui-details
   summary
-    fxd row
-    pdg $pdg
+    bc md-blue-100
+    brdb 1px solid md-blue-50
+    curs pointer
+    pdg $pdg 2*$pdg
 
+    // remove the native caret
+    lst none
+    mrk
     &:-webkit-details-marker
       dsp none
-
-// BeKB
-.ui-details
-  mrgb $mrg
-
-  summary
-    bc $grey-04
-    pdg $pdg

@@ -1,14 +1,10 @@
 .ui-button
-  bc $grey-04
   c $black
   curs pointer
-  fxai center
-  pdg $pdg
   fs $fs-big
-  w 8rem
   
-  &:hover
-    bc darken($grey-04, $hoverDarkenAmount)
+  /*&:hover
+    bc darken(md-white, $hoverDarkenAmount)*/
 
   &.primary
     bc $color-01
@@ -18,11 +14,8 @@
       bc darken($color-01, $hoverDarkenAmount)
 
 .ui-button-group
-  fxd row
-  fxjc flex-end
-  mrgt $mrg
-  pdgt $pdg
   brdt 1px $color-01 solid
 
-  button:not(:last-child)
-    mrgr ($mrg / 2)
+#buttonSliderToggle
+#buttonSliderToggleX
+  mrg $mrg

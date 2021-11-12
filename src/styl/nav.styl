@@ -1,35 +1,31 @@
-#navMobile
-  li
-    pdg 1rem
+.ui-nav
+  +above('l')
+    bc $black
 
   a
-    fs $fs-big
+    dsp block
 
-  > ul > li > a
-    fw $fw-bold
-
-#navMain
-#navPartner
-  dsp inline-grid
-  grid-template-columns repeat(24, 1fr)
-  grid-column 1/25
-  grid-row 3
-  
-  a
-    align-self center
+    bc md-grey-100
+    c $black
+    
     fs $fs-big
     fw $fw-thin
     ws nowrap
-
-    &:first-child
-      grid-column-start 2
-
-    &:not(:last-child)
-      mrgr 2*$mrg
+    
+    brdb 1px md-grey-300 solid
+    pdg $pdg 2*$pdg
 
     &.active
+      bc md-grey-800
       fw $fw-bold
 
-#navPartner
-  bc $grey-04
-  grid-row 4/6
+    +above('l')
+      dsp inline-block
+
+      bc $black
+      c $white
+
+// custom styles
+#navMainMobile
+  a.active
+    c md-white

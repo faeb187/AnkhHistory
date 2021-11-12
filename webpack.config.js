@@ -1,23 +1,27 @@
 const path = require("path");
-// import poststyl from "poststylus";
-// import rucksack from "rucksack-css";
-// import rupture from "rupture";
+const poststyl = require("poststylus");
+const rucksack = require("rucksack-css");
+const rupture = require("rupture");
 
 module.exports = {
-  devtool: "inline-source-map",
+  devtool: "source-map",
   entry: "./src/app.ts",
   mode: "development",
   optimization: {
     minimize: false,
+    // sideEffects: false
   },
   resolve: {
     alias: {
+      app: path.resolve(__dirname, "src/app"),
+      components: path.resolve(__dirname, "src/components"),
       core: path.resolve(__dirname, "src/core"),
+      styl: path.resolve(__dirname, "src/styl"),
       types: path.resolve(__dirname, "src/types"),
       uis: path.resolve(__dirname, "src/uis"),
       utils: path.resolve(__dirname, "src/utils"),
     },
-    extensions: [".ts"],
+    extensions: [".styl", ".ts"],
   },
   module: {
     rules: [
@@ -32,25 +36,26 @@ module.exports = {
         include: path.resolve(__dirname, "src"),
         loader: "graphql-tag/loader",
       },*/
-      /*{
+      {
         test: /\.styl$/,
         use: [
-          {loader:'style-loader'},
-          {loader:'css-loader'},
+          "style-loader",
+          "css-loader",
           {
-            loader: 'stylus-loader',
+            loader: "stylus-native-loader",
             options: {
-              stylusOptions: {
-                compress: true,
-                use: [
-                  rupture({scale: "0 400px 600px 800px 1050px 1800px"}),
-                  poststyl([rucksack({autoprefixer: true})])
-                ]
-              }
-            }
-          }
-        ]
-      },*/
+              define: {
+                /* @todo ANKH stylus variables/function */
+              },
+              include: path.join(__dirname, "src/styl"),
+              use: [
+                rupture({ scale: "0 400px 600px 800px 1050px 1800px" }),
+                poststyl([rucksack({ autoprefixer: true })]),
+              ],
+            },
+          },
+        ],
+      },
     ],
   },
 };

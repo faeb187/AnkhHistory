@@ -3,6 +3,13 @@ type AnkhMediaOptions = {
   min?: AnkhMediaViewport;
 };
 
-type AnkhMediaViewport = "xs" | "s" | "m" | "l" | "xl" | "hd";
+enum AnkhMediaViewport {
+  XS = "xs",
+  S = "s",
+  M = "m",
+  L = "l",
+  XL = "xl",
+  HD = "hd",
+}
 
 export { AnkhMediaOptions, AnkhMediaViewport };

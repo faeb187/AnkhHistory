@@ -1,13 +1,13 @@
-import { $$, loader, logger, media, observer } from "core";
+import { twoDollars } from "twodollars";
+
+import { loader, logger, media, observer } from "core";
 import type { AnkhUiLoaded } from "types/ui.type";
 
 export const renderer = (() => {
-  let $ankh: HTMLElement;
-
   const renderDeferred = ($ui: HTMLElement) => {
-    logger.log($ui.id, $$.find(`#_${$ui.id}`)[0]);
+    logger.log($ui.id, twoDollars.find(`#_${$ui.id}`)[0]);
 
-    const $placeholder = $$.find(`#_${$ui.id}`)[0];
+    const $placeholder = twoDollars.find(`#_${$ui.id}`)[0];
     console.log("id/placeholder:", $ui.id, $placeholder);
 
     // [1] keep eventual children placeholders
@@ -22,12 +22,9 @@ export const renderer = (() => {
     // [3] notify subscribers (e.g. lang update)
     observer.f("core-renderer-rendered");
   };
-
   const updateVisibility = () => {
-    loader.getAllLoaded().forEach((loadedUi: AnkhUiLoaded, id: string) => {
-      // ignore placeholders
-      if (id.startsWith("_")) return;
-
+    logger.title("[renderer::updateVisibility]");
+    loader.getAllLoaded().forEach((loadedUi: AnkhUiLoaded) => {
       const {
         $ui,
         uiOptions: { media: m },
@@ -40,12 +37,9 @@ export const renderer = (() => {
       }
     });
   };
-
   const init = () => {
-    $ankh = $$.find("#ankh")[0];
-
-    observer.l("core-loader-ui-ready", renderDeferred);
-    observer.l("ankh-viewport", updateVisibility);
+    observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
+    observer.l({ name: "ankh-viewport", handler: updateVisibility });
   };
 
   const render = () => {
@@ -56,10 +50,11 @@ export const renderer = (() => {
 
     mapLoaded.forEach((loadedUi: AnkhUiLoaded) => {
       const { $ui, parentId = "" } = loadedUi;
-      ($$.find(`#${parentId}`, $df)[0] || $df).appendChild($ui);
+      (twoDollars.find(`#${parentId}`, $df)[0] || $df).appendChild($ui);
     });
 
     // @todo only render changes
+    const $ankh = <HTMLDivElement>twoDollars.find("#ankh")[0];
     $ankh.innerHTML = "";
     $ankh.appendChild($df);
 
