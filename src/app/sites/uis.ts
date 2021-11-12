@@ -72,6 +72,13 @@ const buttonSliderToggleX = {
   ui: "button",
 };
 
+const countdownUi = {
+  id: "countdownUi",
+  to: new Date(+new Date() + 7000),
+  parentId: "countdown",
+  ui: "countdown",
+};
+
 export const uis: AnkhUiOptionMap[] = [
   copy(sliderMain),
 
@@ -88,8 +95,9 @@ export const uis: AnkhUiOptionMap[] = [
     id: "accordion",
     items: [
       { items: ["article"], summary: { lang: "article" } },
+      { items: ["countdown"], open: true, summary: { lang: "countdown" } },
       { items: ["input"], summary: { lang: "input" } },
-      { items: ["map"], open: true, summary: { lang: "map" } },
+      { items: ["map"], summary: { lang: "map" } },
       { items: ["nav"], summary: { lang: "nav" } },
       { items: ["table"], summary: { lang: "table" } },
     ],
@@ -97,6 +105,7 @@ export const uis: AnkhUiOptionMap[] = [
     ui: "accordion",
   },
   copy(uisArticle),
+  countdownUi,
 
   copy(inputName),
   copy(inputFirstName),
@@ -223,12 +232,6 @@ const uiFab = {
       classNames: "primary",
     },
     ui: "fab",
-  },
-  {
-    id: "countdown",
-    to: new Date(+new Date() + 7000),
-    parentId: "home-grid-main-2",
-    ui: "countdown",
   },
   {
     id: "ion-icon",

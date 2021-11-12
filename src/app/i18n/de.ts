@@ -2,6 +2,7 @@ export const de = {
   article: "Article",
   "article-1-p-1": "Ich bin ein kurzer Paragraph Text.",
   birthday: "Geburtstag",
+  countdown: "Countdown",
   email: "eMail",
   favoriteColor: "Lieblingsfarbe",
   favoriteNumber: "Lieblingszahl",
