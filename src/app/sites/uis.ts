@@ -19,7 +19,6 @@ import { sliderMain } from "components/slider.component";
 import { AnkhMediaViewport } from "types/media.type";
 import type { AnkhUiOptionMap } from "types/ui.type";
 
-// @todo redundant (home)
 const navRoutes = routes.map((route) => ({
   ...route,
   attributes: { href: route.path, "data-lang": route.lang },
@@ -37,11 +36,11 @@ const uisArticle = {
   title: "article",
   ui: "article",
 };
+
 const uisNavMain = { ...copy(navMain), items: copy(navRoutes) };
 const uisNavMainMobile = { ...copy(navMainMobile), items: copy(navRoutes) };
 
 const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
-  console.log("firing Toggle:", args);
   observer.f("_ui-slider-toggle", { ...args });
 };
 const buttonSliderToggle = {
@@ -83,7 +82,6 @@ export const uis: AnkhUiOptionMap[] = [
   // sliderMain front
   copy(header),
   copy(uisNavMain),
-  // copy(buttonSliderToggle),
   buttonSliderToggle,
   copy(main),
   {
@@ -92,10 +90,13 @@ export const uis: AnkhUiOptionMap[] = [
       { items: ["article"], summary: { lang: "article" } },
       { items: ["input"], summary: { lang: "input" } },
       { items: ["nav"], summary: { lang: "nav" } },
+      { items: ["table"], open: true, summary: { lang: "table" } },
     ],
     parentId: "main",
     ui: "accordion",
   },
+  copy(uisArticle),
+
   copy(inputName),
   copy(inputFirstName),
   copy(inputEmail),
@@ -104,7 +105,16 @@ export const uis: AnkhUiOptionMap[] = [
   copy(inputColor),
   copy(inputSubmit),
 
-  copy(uisArticle),
+  {
+    cols: [{ lang: "name" }, { lang: "firstName" }, { lang: "email" }],
+    data: [
+      { name: "Gartenmann", firstName: "Fabio", email: "test@tester.com" },
+      { name: "Mustermann", firstName: "Max", email: "max@mustermann.de" },
+    ],
+    id: "tableUis",
+    parentId: "table",
+    ui: "table",
+  },
 
   copy(footer),
   { ...copy(lang), parentId: "footer" },
@@ -213,14 +223,6 @@ const uiFab = {
     to: new Date(+new Date() + 7000),
     parentId: "home-grid-main-2",
     ui: "countdown",
-  },
-  {
-    id: "details",
-    // open: true,
-    p: { lang: "txt-p" },
-    parentId: "home-grid-main-3",
-    summary: { lang: "txt-summary" },
-    ui: "details",
   },
   {
     id: "ion-icon",

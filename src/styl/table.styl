@@ -2,35 +2,64 @@
   tbll fixed
   w 100%
 
+  th
+  td
+    +above('m')
+      ws nowrap
+    
+      &[data-date]
+      &[data-currency]
+      &:last-child
+        pdgr 0
+
   thead
     pos absolute
     lft -9999px
     top -9999px
+    
+    +above('m')
+      dsp table-header-group
+      pos static
 
     th
       fs $fs-small
       ta left
 
+      +above('m')  
+        pdg $pdg 0 ($pdg / 2)
+        pdgr $pdg 
+
   tbody
     dsp block
 
+    +above('m')
+      dsp table-row-group
+
     tr
-      brd 1px $grey-03 solid
       brad 5px
-      dsp flex
-      fxd row
-      fxw wrap
+      brd 1px md-blue-50 solid
+      dsp block
+      
       mrg $mrg auto
       pos relative
       pdg $pdg
-      w 350px
+
+      +above('m')
+        brad none
+        brd none
+        brdt 1px md-blue-50 solid
+        dsp table-row
 
       td
         dsp block
         pos relative
         pdg ($pdg / 2)
-        fx 1 0 100%
-        ta right
+        pdgt $fs
+
+        +above('m')
+          dsp table-cell
+          pdg $pdg 0
+          pdgr $pdg 
 
         &.right
           ta right
@@ -41,100 +70,29 @@
           cnt attr(data-lang-rendered)
           fs $fs-small
           fw $fw-bold
+          top 0
+          
+          +above('m')
+            dsp none
 
         &[data-currency]:before
           cnt attr(data-currency)
           txtt uppercase
           mrgr 3px
 
-        &:last-child
+        /* &:last-child
           pos absolute
           top $mrg
           rgt $mrg
           pdg 0
+        */
 
         img
           w $svg-w
           h $svg-h
 
-+above('m')
-  .ui-table
-    tbody
-      tr
-        mrg auto
-        mrgt $mrg
-        w 550px
-
-        td
-          fx 0 1 50% - $pdg
-          pdgt $pdg * 2
-          ta left
-
-          &:not(:first-child)
-            brdb 1px $grey-03 solid
-
-          &:after
-            btm 25px // todo
-
-          &:first-child
-            pos absolute auto 0 0 auto
-
-
-+above('l')
-  .ui-table
-    th
-    td
-      ws nowrap
-    
-      &[data-date]
-      &[data-currency]
-      &.right
-        ta right
-
-      &:last-child
-        pdgr 0
-
-    thead
-      dsp table-header-group
-      pos static
-
-      th
-        pdg $pdg 0 ($pdg / 2)
-        pdgr $pdg 
-      
-    tbody
-      dsp table-row-group
-
-      tr
-        brd none
-        brad none
-        brdt 1px $grey-03 solid
-        dsp table-row
-
-        td
-          dsp table-cell
-          pdg $pdg 0
-          pdgr $pdg 
-          ta left
-
-          &:after
-            dsp none
-            flt none
-
-          &:first-child
-            pos relative
-            brd none
-
-          img
+          +above('m')
             pos absolute 0
             mrg auto
             w $svg-w
             h $svg-h
-
-          &:last-child
-            pos relative 0
-
-            img
-              lft auto
-              w $svg-w-small
-              h $svg-h-small
