@@ -17,6 +17,7 @@ type AnkhUiOptionMap =
   | AnkhUiFabOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
+  | AnkhUiImageOptions
   | AnkhUiInputOptions
   | AnkhUiIconOptions
   | AnkhUiLangOptions
@@ -132,6 +133,11 @@ type AnkhUiIconVariant = "filled" | "outline" | "sharp";
 type AnkhUiIconOptions = AnkhUiOptions & {
   icon: string;
   variant?: AnkhUiIconVariant;
+};
+// UI: image
+type AnkhUiImageOptions = AnkhUiOptions & {
+  lang: string; // i18n 'alt' attribute
+  attributes: { src: string };
 };
 // UI: input
 type AnkhUiInputItem = {
@@ -255,6 +261,7 @@ export {
   AnkhUiFabOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
+  AnkhUiImageOptions,
   AnkhUiIconOptions,
   AnkhUiIFrameOptions,
   AnkhUiInputOptions,

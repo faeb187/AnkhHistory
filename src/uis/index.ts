@@ -10,6 +10,7 @@ import { fab } from "./fab";
 import { grid } from "./grid";
 import { html } from "./html";
 import { icon } from "./icon";
+import { image } from "./image";
 import { iframe } from "./iframe";
 import { input } from "./input";
 import { lang } from "./lang";
@@ -33,6 +34,7 @@ export {
   grid,
   html,
   icon,
+  image,
   iframe,
   input,
   lang,

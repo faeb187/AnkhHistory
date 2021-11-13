@@ -90,6 +90,7 @@ export const uis: AnkhUiOptionMap[] = [
   header,
   uisNavMain,
   buttonSliderToggle,
+
   main,
   {
     id: "accordion",
@@ -98,6 +99,7 @@ export const uis: AnkhUiOptionMap[] = [
       { items: ["button"], summary: { lang: "button" } },
       { items: ["countdown"], summary: { lang: "countdown" } },
       { items: ["html"], summary: { lang: "html" } },
+      { items: ["image"], summary: { lang: "image" } },
       { items: ["accordionInput"], summary: { lang: "input" } },
       { items: ["map"], summary: { lang: "map" } },
       { items: ["nav"], summary: { lang: "nav" } },
@@ -108,6 +110,14 @@ export const uis: AnkhUiOptionMap[] = [
   },
   uisArticle,
   countdownUi,
+
+  {
+    attributes: { src: "https://placekitten.com/80/165" },
+    id: "imgKitten",
+    lang: "kitten",
+    parentId: "image",
+    ui: "image",
+  },
 
   {
     id: "form",

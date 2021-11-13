@@ -10,6 +10,7 @@ export const de = {
   firstName: "Vorname",
   home: "Startseite",
   html: "HTML",
+  image: "Image",
   input: "Input",
   "i-am-a-diamond": "Ich bin ein Diamant",
   "i-am-a-package": "Ich bin ein Paket",
