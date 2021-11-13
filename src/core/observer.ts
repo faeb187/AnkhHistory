@@ -30,7 +30,6 @@ export const observer: Observer = {
       const $target = typeof target === "string" ? $$.find(target)[0] : target;
 
       $target.addEventListener(type, (event: Event) => {
-        console.log("fire args:", { ...args, event });
         observer.f(name, { ...args, event });
       });
     }
