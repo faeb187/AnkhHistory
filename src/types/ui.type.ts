@@ -250,6 +250,7 @@ export {
   AnkhUiChartOptions,
   AnkhUiContextOptions,
   AnkhUiCountdownOptions,
+  AnkhUiDetailsItem,
   AnkhUiDetailsOptions,
   AnkhUiFabOptions,
   AnkhUiGridOptions,
