@@ -8,7 +8,6 @@ export const renderer = (() => {
     logger.log($ui.id, twoDollars.find(`#_${$ui.id}`)[0]);
 
     const $placeholder = twoDollars.find(`#_${$ui.id}`)[0];
-    console.log("id/placeholder:", $ui.id, $placeholder);
 
     // [1] keep eventual children placeholders
     while ($placeholder.firstChild)

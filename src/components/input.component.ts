@@ -5,7 +5,7 @@ const inputName = {
   label: "name",
   lang: "name",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputFirstName = {
   attributes: { name: "inputFirstName", placeholder: "firstName" },
@@ -14,7 +14,7 @@ const inputFirstName = {
   label: "firstName",
   lang: "firstName",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputEmail = {
   attributes: { name: "inputEmail", placeholder: "email", type: "email" },
@@ -23,7 +23,7 @@ const inputEmail = {
   label: "email",
   lang: "email",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputBirthday = {
   attributes: { name: "inputDate", placeholder: "birthday", type: "date" },
@@ -32,7 +32,7 @@ const inputBirthday = {
   label: "birthday",
   lang: "birthday",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputNumber = {
   attributes: { name: "inputNumber", type: "number" },
@@ -41,7 +41,7 @@ const inputNumber = {
   label: "favoriteNumber",
   lang: "favoriteNumber",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputTel = {
   attributes: { name: "inputTel", placeholder: "phoneNumber", type: "tel" },
@@ -50,7 +50,7 @@ const inputTel = {
   label: "phoneNumber",
   lang: "phoneNumber",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputColor = {
   attributes: {
@@ -58,19 +58,18 @@ const inputColor = {
     placeholder: "favoriteColor",
     type: "color",
   },
-  icon: "eyedrop",
   id: "inputColor",
   label: "favoriteColor",
   lang: "favoriteColor",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 const inputSubmit = {
   attributes: { type: "submit" },
   id: "inputSubmit",
   lang: "submit",
   ui: "input",
-  parentId: "input",
+  parentId: "form",
 };
 
 export {

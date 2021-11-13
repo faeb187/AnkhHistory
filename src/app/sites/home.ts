@@ -19,7 +19,6 @@ const uisNavMain = { ...copy(navMain), items: copy(navRoutes) };
 const uisNavMainMobile = { ...copy(navMainMobile), items: copy(navRoutes) };
 
 const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
-  console.log("firing Toggle:", args);
   observer.f("_ui-slider-toggle", { ...args });
 };
 const buttonSliderToggle = {

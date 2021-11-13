@@ -24,7 +24,6 @@ export const nav = (() => {
     observer.l({
       name: "core-renderer-rendered",
       handler: () => {
-        console.log($$.find(".ui-nav"));
         $$.find(".ui-nav").forEach(($nav) => nav.update($nav));
       },
     });
