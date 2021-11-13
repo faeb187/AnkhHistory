@@ -1,7 +1,8 @@
 import { html } from "uis/html";
+import type { AnkhUiHtmlOptions } from "types/ui.type";
 
 describe("UI html", () => {
-  const options = { id: "htmlTest", ui: "html" };
+  const options: AnkhUiHtmlOptions = { id: "htmlTest", ui: "html" };
 
   it("[init] returns correct HTMLElement", () => {
     const $ui = html.init(options);
