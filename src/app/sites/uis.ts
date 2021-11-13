@@ -87,10 +87,10 @@ export const uis: AnkhUiOptionMap[] = [
   uisNavMainMobile,
 
   // sliderMain front
-  copy(header),
-  copy(uisNavMain),
+  header,
+  uisNavMain,
   buttonSliderToggle,
-  copy(main),
+  main,
   {
     id: "accordion",
     items: [
@@ -98,7 +98,7 @@ export const uis: AnkhUiOptionMap[] = [
       { items: ["button"], summary: { lang: "button" } },
       { items: ["countdown"], summary: { lang: "countdown" } },
       { items: ["html"], summary: { lang: "html" } },
-      { items: ["input"], summary: { lang: "input" } },
+      { items: ["accordionInput"], summary: { lang: "input" } },
       { items: ["map"], summary: { lang: "map" } },
       { items: ["nav"], summary: { lang: "nav" } },
       { items: ["table"], summary: { lang: "table" } },
@@ -109,13 +109,19 @@ export const uis: AnkhUiOptionMap[] = [
   uisArticle,
   countdownUi,
 
-  copy(inputName),
-  copy(inputFirstName),
-  copy(inputEmail),
-  copy(inputBirthday),
-  copy(inputTel),
-  copy(inputColor),
-  copy(inputSubmit),
+  {
+    id: "form",
+    parentId: "accordionInput",
+    tag: "form",
+    ui: "html",
+  },
+  inputName,
+  inputFirstName,
+  inputEmail,
+  inputBirthday,
+  inputTel,
+  inputColor,
+  inputSubmit,
 
   {
     id: "mapUi",
