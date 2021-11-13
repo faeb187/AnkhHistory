@@ -80,11 +80,11 @@ const countdownUi = {
 };
 
 export const uis: AnkhUiOptionMap[] = [
-  copy(sliderMain),
+  sliderMain,
 
   // sliderMain back
   buttonSliderToggleX,
-  copy(uisNavMainMobile),
+  uisNavMainMobile,
 
   // sliderMain front
   copy(header),
@@ -95,7 +95,9 @@ export const uis: AnkhUiOptionMap[] = [
     id: "accordion",
     items: [
       { items: ["article"], summary: { lang: "article" } },
-      { items: ["countdown"], open: true, summary: { lang: "countdown" } },
+      { items: ["button"], summary: { lang: "button" } },
+      { items: ["countdown"], summary: { lang: "countdown" } },
+      { items: ["html"], summary: { lang: "html" } },
       { items: ["input"], summary: { lang: "input" } },
       { items: ["map"], summary: { lang: "map" } },
       { items: ["nav"], summary: { lang: "nav" } },
@@ -104,7 +106,7 @@ export const uis: AnkhUiOptionMap[] = [
     parentId: "main",
     ui: "accordion",
   },
-  copy(uisArticle),
+  uisArticle,
   countdownUi,
 
   copy(inputName),
@@ -117,6 +119,7 @@ export const uis: AnkhUiOptionMap[] = [
 
   {
     id: "mapUi",
+    parentId: "map",
     ui: "map",
   },
 
@@ -131,8 +134,8 @@ export const uis: AnkhUiOptionMap[] = [
     ui: "table",
   },
 
-  copy(footer),
-  { ...copy(lang), parentId: "footer" },
+  footer,
+  { ...lang, parentId: "footer" },
 ];
 
 // @test some UI configs
@@ -172,7 +175,7 @@ const uiChart = {
 
 const uiIFrame = {
     id: "iframe-twodollars",
-    src: "https://onecommunityglobal.org",
+    src: "https://about:blank",
     parentId: "grid-main-9",
     ui: "iframe",
   };
