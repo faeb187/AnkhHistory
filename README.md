@@ -24,3 +24,7 @@ npm run watch
 - jest coverage 100%
 - ensure multi-tenancy capabilityf
 - camunda test (ui-process)
+
+## Some Inspiration
+
+- [tabs](https://inclusive-components.design/tabbed-interfaces/)

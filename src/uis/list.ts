@@ -43,7 +43,7 @@ export const list = (() => {
       let $a, $span;
 
       if (attributes.href) {
-        $a = $$.create("<a/>");
+        $a = $$.create("<a/>", attributes);
         if (iconName) {
           $span = $$.create("<span/>", { "data-lang": lang });
           $a.appendChild($span);
@@ -71,8 +71,9 @@ export const list = (() => {
 
   return {
     init: (options: AnkhUiListOptions) => {
-      const { id, items, ordered = false } = options;
+      const { attributes, id, items, ordered = false } = options;
       const $ui = $$.create(ordered ? "<ol/>" : "<ul/>", {
+        ...attributes,
         id,
         class: "ui-list",
       });

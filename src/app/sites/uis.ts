@@ -1,4 +1,3 @@
-import { copy } from "utils";
 import { routes } from "app/routes";
 import { observer } from "core";
 
@@ -23,7 +22,6 @@ const navRoutes = routes.map((route) => ({
   ...route,
   attributes: { href: route.path, "data-lang": route.lang },
 }));
-
 const uisArticle = {
   author: { username: "altruism" },
   createdAt: new Date(),
@@ -36,9 +34,8 @@ const uisArticle = {
   title: "article",
   ui: "article",
 };
-
-const uisNavMain = { ...copy(navMain), items: copy(navRoutes) };
-const uisNavMainMobile = { ...copy(navMainMobile), items: copy(navRoutes) };
+const uisNavMain = { ...navMain, items: navRoutes };
+const uisNavMainMobile = { ...navMainMobile, items: navRoutes };
 
 const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
   observer.f("_ui-slider-toggle", { ...args });
@@ -71,7 +68,6 @@ const buttonSliderToggleX = {
   parentId: "ui-slider-back-sliderMain",
   ui: "button",
 };
-
 const countdownUi = {
   id: "countdownUi",
   to: new Date(+new Date() + 7000),
@@ -93,7 +89,20 @@ export const uis: AnkhUiOptionMap[] = [
 
   main,
   {
-    id: "accordion",
+    id: "tabs",
+    parentId: "main",
+    tabList: {
+      id: "tabList",
+      items: [
+        { id: "tabList-elements", lang: "elements" },
+        { id: "tabList-compounds", lang: "compounds" },
+      ],
+    },
+    tabPanels: [{ id: "elements" }, { id: "compounds" }],
+    ui: "tabs",
+  },
+  {
+    id: "accordion-elements",
     items: [
       { items: ["article"], summary: { lang: "article" } },
       { items: ["button"], summary: { lang: "button" } },
@@ -105,7 +114,16 @@ export const uis: AnkhUiOptionMap[] = [
       { items: ["nav"], summary: { lang: "nav" } },
       { items: ["table"], summary: { lang: "table" } },
     ],
-    parentId: "main",
+    parentId: "elements",
+    ui: "accordion",
+  },
+  {
+    id: "accordion-compounds",
+    items: [
+      { items: ["compounds-accordion"], summary: { lang: "accordion" } },
+      { items: ["compounds-tabs"], summary: { lang: "tabs" } },
+    ],
+    parentId: "compounds",
     ui: "accordion",
   },
   uisArticle,
