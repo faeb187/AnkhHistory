@@ -28,7 +28,8 @@ type AnkhUiOptionMap =
   | AnkhUiSitemapOptions
   | AnkhUiSliderOptions
   | AnkhUiSlideshowOptions
-  | AnkhUiTableOptions;
+  | AnkhUiTableOptions
+  | AnkhUiTabsOptions;
 
 type AnkhUi = {
   init: (
@@ -169,6 +170,7 @@ type AnkhUiListItem = {
   id: string;
   items?: AnkhUiListItem[];
   lang: string;
+  selected?: boolean;
 };
 type AnkhUiListOptions = AnkhUiOptions & {
   items: AnkhUiListItem[];
@@ -241,6 +243,11 @@ type AnkhUiTableOptions = AnkhUiOptions & {
   data: AnkhUiTableRow[];
 };
 
+type AnkhUiTabsOptions = AnkhUiOptions & {
+  tabList: Omit<AnkhUiListOptions, "ui">;
+  tabPanels: Omit<AnkhUiHtmlOptions, "ui">[];
+};
+
 export {
   AnkhUi,
   AnkhUiLoaded,
@@ -279,4 +286,5 @@ export {
   AnkhUiTableColumn,
   AnkhUiTableOptions,
   AnkhUiTableRow,
+  AnkhUiTabsOptions,
 };

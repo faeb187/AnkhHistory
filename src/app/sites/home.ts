@@ -1,4 +1,3 @@
-import { copy } from "utils";
 import { routes } from "app/routes";
 import { observer } from "core";
 
@@ -15,8 +14,8 @@ const navRoutes = routes.map((route) => ({
   ...route,
   attributes: { href: route.path, "data-lang": route.lang },
 }));
-const uisNavMain = { ...copy(navMain), items: copy(navRoutes) };
-const uisNavMainMobile = { ...copy(navMainMobile), items: copy(navRoutes) };
+const uisNavMain = { ...navMain, items: navRoutes };
+const uisNavMainMobile = { ...navMainMobile, items: navRoutes };
 
 const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
   observer.f("_ui-slider-toggle", { ...args });

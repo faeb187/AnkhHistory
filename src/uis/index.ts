@@ -20,6 +20,7 @@ import { nav } from "./nav";
 import { slider } from "./slider";
 import { slideshow } from "./slideshow";
 import { table } from "./table";
+import { tabs } from "./tabs";
 
 export {
   accordion,
@@ -44,4 +45,5 @@ export {
   slider,
   slideshow,
   table,
+  tabs,
 };

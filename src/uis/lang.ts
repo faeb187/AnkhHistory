@@ -1,3 +1,5 @@
+// @todo investigate if it's ok this UI access all the others
+// ...probably better to fire lang update events
 import { twoDollars as $$ } from "twodollars";
 
 import { observer, state } from "core";
@@ -56,7 +58,7 @@ export const lang = (() => {
 
     // language by priority
     // ( direct change > localStorage > default )
-    // @TODO language by geolocation
+    // @todo language by geolocation
     const evaluatedLang = (l || state.get({ id: "lang" }) || def) as Lang;
 
     // update elements

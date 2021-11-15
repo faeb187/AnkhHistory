@@ -1,4 +1,13 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "emeraldwalk.runonsave": {
+    "commands": [
+      /*{
+        "cmd": "npx pretty-styl -p ${file}",
+        "isAsync": true,
+        "match": "\\.styl$"
+      }*/
+    ]
+  }
 }
