@@ -35,7 +35,7 @@ export const loader = (() => {
 
     if (conf) siteConfigurations.set(path, conf);
     else if (!subRoutes.length)
-      return logger.warn("no config for site:", name, path);
+      return logger.warn("[loader::setRoute] no config for site:", name, path);
 
     subRoutes.forEach((subRoute: AnkhRoute) => setRoute(subRoute));
   };
@@ -51,7 +51,10 @@ export const loader = (() => {
 
       // [2] load it
       const $ui = (uis as AnkhUiModules)[ui].init(uiOptions);
-      if (!$ui) return logger.error(`UI#${ui} didn't return itself`);
+      if (!$ui)
+        return logger.error(
+          `[loader::updateDeferred] UI#${ui} didn't return itself`
+        );
 
       // [3] register for event update (after rendering)
       observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
@@ -101,107 +104,111 @@ export const loader = (() => {
   const initUi = (uiOptions: AnkhUiOptions) => {
     const { id, media: m, parentId = "ankh", ui } = uiOptions;
 
-    // [1] identification & classification
-    if (!id || !ui)
-      return logger.error(`UI 'id:${id}' and 'ui:${ui}' required`);
-
-    // [2] already loaded? ...great
-    const loadedUi = mapLoaded.get(id);
-    if (loadedUi) {
-      logger.log(
-        `%ccached %c #${id} (parent: ${parentId})`,
-        "color: #bfb",
-        "color: #fff"
+    // [1] already loaded? ...great
+    if (mapLoaded.get(id))
+      return logger.info(
+        `[loader::initUi] %ccached #${id} (parent: ${parentId})`,
+        "color: #dbd"
       );
-      return;
-    }
 
-    // [3] do we need to load it?
+    // [2] do we need to load it?
     const hasDeferredParent = !!mapLoaded.get(`_${parentId}`);
     const isVisible = !m || media.isInViewport(m);
 
+    // [2.1] ui or its parent is deferred
+    // ...skip loading, add a placeholder instead
     if (hasDeferredParent || !isVisible) {
-      const updatedId = `_${id}`;
-      const updatedParentId = `${(hasDeferredParent && "_") || ""}${parentId}`;
+      const deferredId = `_${id}`;
+      const deferredParentId = `${(hasDeferredParent && "_") || ""}${parentId}`;
 
       // mapLoaded.set(updatedId, { uiOptions, updatedParentId });
-      logger.log(
-        `%cdeferred %c ${id} (parent: ${updatedParentId}`,
-        "color: #ff0",
-        "color: #fff"
+      logger.info(
+        `[loader::initUi] %cdeferred ${id} (parent: ${deferredParentId}`,
+        "color: #dd8"
       );
 
-      // [3.1] ui or its parent is deferred
-      // ...skip loading, set placeholder
-      return mapLoaded.set(updatedId, {
+      return mapLoaded.set(deferredId, {
         uiOptions,
-        $ui: $$.create("<div/>", { id: updatedId, "data-fx": "out" }),
-        parentId: updatedParentId,
+        $ui: $$.create("<div/>", { id: deferredId, "data-fx": "out" }),
+        parentId: deferredParentId,
       });
     }
 
-    // [4] load it
+    // [3] we need to load it – let's go!
     const $ui = (uis as AnkhUiModules)[ui].init(uiOptions);
 
-    // [4][NOK] loading error
-    if (!$ui) return logger.error(`UI '${ui}' didn't return itself`, uiOptions);
+    // [3.1][ERR] bad UI config – reject
+    if (!$ui)
+      return logger.error(
+        "[loader::initUi]",
+        `UI '${ui}' didn't return itself`,
+        uiOptions
+      );
 
-    // [5] register loaded ui
+    // [4] register loaded ui
     mapLoaded.set(id, { $ui, uiOptions, parentId });
-    logger.info(
-      `%cloaded %c #${id} (parent: ${parentId}`,
-      "color: #0f0",
-      "color: #fff"
+    logger.log(
+      `[loader::initUi] %cloaded #${id} (parent: ${parentId}`,
+      "color: #8d8"
     );
   };
   const loadSite = (path: string) => {
-    logger.groupCollapsed("Loader:loadSite");
+    logger.groupCollapsed("loader::loadSite");
 
     // [1] get site configuration
     const currentPath = getCurrentPath(path);
-    logger.log("currentPath", currentPath);
+    logger.log("[loader::loadSite] currentPath:", currentPath);
 
     const siteUis = siteConfigurations.get(currentPath) || [];
-    if (!siteUis) return logger.error("bad config: no site available");
-    logger.log("siteUis", siteUis);
+    if (!siteUis)
+      return logger.error("[loader::loadSite] bad config: no site available");
+    logger.log("[loader::loadSite] siteUis:", siteUis);
 
     // [2] navigate to current site
     $$.history.go(currentPath, currentPath);
 
     // [3] prepare/load the ui's
+    logger.groupCollapsed("=> loader::initUi");
     siteUis.forEach((ui: AnkhUiOptions) => initUi(ui));
+    logger.groupEnd();
 
     // [4] register for event upddae (after rendering)
     observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
 
-    logger.log("mapLoaded", mapLoaded);
-    logger.log("siteConfigurations", siteConfigurations);
+    logger.log("[loader::loadSite] mapLoaded:", mapLoaded);
+    logger.log("[loader::loadSite] siteConfigurations:", siteConfigurations);
     logger.groupEnd();
   };
   const getAllLoaded = () => mapLoaded;
   const init = () => {
-    logger.groupCollapsed("Loader:init");
-
     // [1] initialize maps
     mapLoaded = new Map();
     siteConfigurations = new Map();
 
     // [2] set app routes
     routes.forEach((route: AnkhRoute) => setRoute(route));
-    logger.log("siteConfigurations", siteConfigurations);
+    logger.log("[loader::init] siteConfigurations:", siteConfigurations);
 
     // [3] update deferred UI's on viewport change
     observer.l({ name: "ankh-viewport", handler: updateDeferred });
-
-    logger.groupEnd();
   };
+  // @todo don't update every UI (overhead)
   const updateEvents = () => {
     getAllLoaded().forEach((loadedUi) => {
       if (loadedUi.$ui.id.startsWith("_"))
-        return logger.warn("[updateEvents] skipped:", loadedUi.$ui.id);
+        return logger.info("[loader::updateEvents] skipped:", loadedUi.$ui.id);
+
       const {
         uiOptions: { events },
       } = loadedUi;
+
+      if (!events) return;
+
+      logger.log(
+        "[loader::updateEvents] UI id: ",
+        loadedUi.uiOptions.id,
+        events
+      );
       events?.forEach((event: ObserverEvent) => observer.r(event).l(event));
     });
   };

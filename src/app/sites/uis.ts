@@ -1,3 +1,5 @@
+// @todo centralize ALL events (why add it here, when bound anyway later)
+
 import { routes } from "app/routes";
 import { observer } from "core";
 
@@ -12,17 +14,22 @@ import {
   inputSubmit,
   inputTel,
 } from "components/input.component";
+import { accordionCompounds, accordionElements } from "./uis/accordion";
 import { navMain, navMainMobile } from "components/nav.component";
 import { sliderMain } from "components/slider.component";
 
 import { AnkhMediaViewport } from "types/media.type";
-import type { AnkhUiOptionMap } from "types/ui.type";
+import type {
+  AnkhUiArticleOptions,
+  AnkhUiOptionMap,
+  AnkhUiOverlayOptions,
+} from "types/ui.type";
 
 const navRoutes = routes.map((route) => ({
   ...route,
   attributes: { href: route.path, "data-lang": route.lang },
 }));
-const uisArticle = {
+const uisArticle: AnkhUiArticleOptions = {
   author: { username: "altruism" },
   createdAt: new Date(),
   id: "articleUis",
@@ -30,15 +37,30 @@ const uisArticle = {
     { lang: "article-1-p-1" },
     { code: "console.log('yes');", lang: "typescript" },
   ],
-  parentId: "article",
+  parentId: "details-elements-article",
   title: "article",
   ui: "article",
 };
 const uisNavMain = { ...navMain, items: navRoutes };
 const uisNavMainMobile = { ...navMainMobile, items: navRoutes };
 
+const buttonOverlayHide = {
+  events: [
+    {
+      bind: { target: "#buttonOverlayHide", type: "click" },
+      name: "ui-button-overlay-hide",
+      handler: (args: { event: MouseEvent }): void => {
+        observer.f("ui-overlay-hide-overlayUis", { ...args, id: "overlayUis" });
+      },
+    },
+  ],
+  icon: "close",
+  id: "buttonOverlayHide",
+  parentId: "ui-overlay-front-overlayUis",
+  ui: "button",
+};
 const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
-  observer.f("_ui-slider-toggle", { ...args });
+  observer.f("_ui-slider-toggle", args);
 };
 const buttonSliderToggle = {
   events: [
@@ -71,8 +93,94 @@ const buttonSliderToggleX = {
 const countdownUi = {
   id: "countdownUi",
   to: new Date(+new Date() + 7000),
-  parentId: "countdown",
+  parentId: "details-elements-countdown",
   ui: "countdown",
+};
+const gallery = {
+  id: "gallery",
+  items: [0, 1, 2, 3, 4, 5, 6, 7, 8].map(() => ({
+    alt: "Kitten",
+    src: "https://source.unsplash.com/random/320x180?graffiti",
+    text: "txt-kitten",
+    title: "kitten",
+  })),
+  parentId: "details-compounds-gallery",
+  ui: "gallery",
+};
+const image = {
+  attributes: { src: "https://placekitten.com/80/165" },
+  id: "imgKitten",
+  lang: "kitten",
+  parentId: "details-elements-image",
+  ui: "image",
+};
+const input = [
+  {
+    id: "form",
+    parentId: "details-elements-input",
+    tag: "form",
+    ui: "html",
+  },
+  inputName,
+  inputFirstName,
+  inputEmail,
+  inputBirthday,
+  inputTel,
+  inputColor,
+  inputSubmit,
+];
+const map = {
+  id: "map",
+  parentId: "details-elements-map",
+  ui: "map",
+};
+const overlay: AnkhUiOverlayOptions = {
+  id: "overlayUis",
+  parentId: "details-elements-overlay",
+  ui: "overlay",
+};
+const slideshow = {
+  id: "slideshow",
+  items: [0, 1, 2, 3].map(() => ({
+    alt: "Kitten",
+    src: "https://source.unsplash.com/random/960x400?nature",
+    text: "txt-kitten",
+    title: "kitten",
+  })),
+  parentId: "details-compounds-slideshow",
+  ui: "slideshow",
+};
+const table = {
+  cols: [{ lang: "name" }, { lang: "firstName" }, { lang: "email" }],
+  data: [
+    { name: "Gartenmann", firstName: "Fabio", email: "test@tester.com" },
+    { name: "Mustermann", firstName: "Max", email: "max@mustermann.de" },
+  ],
+  id: "tableUis",
+  parentId: "details-elements-table",
+  ui: "table",
+};
+const tabs = {
+  events: [
+    {
+      bind: { target: "#details-elements-overlay", type: "click" },
+      name: "ui-details-overlay-show-overlayUis",
+      handler: (args: { event: MouseEvent }): void => {
+        observer.f("ui-overlay-show-overlayUis", { ...args, id: "overlayUis" });
+      },
+    },
+  ],
+  id: "tabs",
+  parentId: "main",
+  tabList: {
+    id: "tabList",
+    items: [
+      { id: "tabList-elements", lang: "elements" },
+      { id: "tabList-compounds", lang: "compounds" },
+    ],
+  },
+  tabPanels: [{ id: "elements" }, { id: "compounds" }],
+  ui: "tabs",
 };
 
 export const uis: AnkhUiOptionMap[] = [
@@ -88,88 +196,24 @@ export const uis: AnkhUiOptionMap[] = [
   buttonSliderToggle,
 
   main,
-  {
-    id: "tabs",
-    parentId: "main",
-    tabList: {
-      id: "tabList",
-      items: [
-        { id: "tabList-elements", lang: "elements" },
-        { id: "tabList-compounds", lang: "compounds" },
-      ],
-    },
-    tabPanels: [{ id: "elements" }, { id: "compounds" }],
-    ui: "tabs",
-  },
-  {
-    id: "accordion-elements",
-    items: [
-      { items: ["article"], summary: { lang: "article" } },
-      { items: ["button"], summary: { lang: "button" } },
-      { items: ["countdown"], summary: { lang: "countdown" } },
-      { items: ["html"], summary: { lang: "html" } },
-      { items: ["image"], summary: { lang: "image" } },
-      { items: ["accordionInput"], summary: { lang: "input" } },
-      { items: ["map"], summary: { lang: "map" } },
-      { items: ["nav"], summary: { lang: "nav" } },
-      { items: ["table"], summary: { lang: "table" } },
-    ],
-    parentId: "elements",
-    ui: "accordion",
-  },
-  {
-    id: "accordion-compounds",
-    items: [
-      { items: ["compounds-accordion"], summary: { lang: "accordion" } },
-      { items: ["compounds-tabs"], summary: { lang: "tabs" } },
-    ],
-    parentId: "compounds",
-    ui: "accordion",
-  },
+  tabs,
+
+  ...accordionElements,
   uisArticle,
   countdownUi,
+  ...input,
 
-  {
-    attributes: { src: "https://placekitten.com/80/165" },
-    id: "imgKitten",
-    lang: "kitten",
-    parentId: "image",
-    ui: "image",
-  },
-
-  {
-    id: "form",
-    parentId: "accordionInput",
-    tag: "form",
-    ui: "html",
-  },
-  inputName,
-  inputFirstName,
-  inputEmail,
-  inputBirthday,
-  inputTel,
-  inputColor,
-  inputSubmit,
-
-  {
-    id: "mapUi",
-    parentId: "map",
-    ui: "map",
-  },
-
-  {
-    cols: [{ lang: "name" }, { lang: "firstName" }, { lang: "email" }],
-    data: [
-      { name: "Gartenmann", firstName: "Fabio", email: "test@tester.com" },
-      { name: "Mustermann", firstName: "Max", email: "max@mustermann.de" },
-    ],
-    id: "tableUis",
-    parentId: "table",
-    ui: "table",
-  },
+  ...accordionCompounds,
+  gallery,
+  image,
+  map,
+  overlay,
+  buttonOverlayHide,
+  slideshow,
+  table,
 
   footer,
-  { ...lang, parentId: "footer" },
+  lang,
 ];
 
 // @test some UI configs
@@ -231,18 +275,6 @@ const uiContext = {
     ui: "context",
   },
   
-const uiSlideshow = {
-    id: "slideshow",
-    items: [
-      ...[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => ({
-        alt: "Kitten",
-        src: "https://placekitten.com/100/150",
-        text: "txt-kitten",
-        title: "kitten",
-      })),
-    ],
-    ui: "slideshow",
-  },
   
 const uiList = {
     id: "list",

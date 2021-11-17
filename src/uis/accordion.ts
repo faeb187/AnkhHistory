@@ -1,10 +1,9 @@
 import { twoDollars as $$ } from "twodollars";
-import { v4 as uuidv4 } from "uuid";
 
-import { logger, observer } from "core";
-import { details } from "uis";
+import { observer } from "core";
+import { times } from "utils/basic.util";
 
-import type { AnkhUiAccordionOptions, AnkhUiDetailsItem } from "types/ui.type";
+import type { AnkhUiAccordionOptions } from "types/ui.type";
 import type { AnyObject } from "types/basic.type";
 
 export const accordion = (() => {
@@ -29,18 +28,20 @@ export const accordion = (() => {
   };
 
   const init = (options: AnkhUiAccordionOptions) => {
-    const { id, items } = options;
+    const { id, targets = 1 } = options;
     const $ui = $$.create("<section/>", { id, class: "ui-accordion" });
 
-    items.forEach((item: AnkhUiDetailsItem) => {
-      const $details = details.init({ id: uuidv4(), ui: "details", ...item });
-
-      observer.l({
-        bind: { target: $details, type: "click" },
-        name: `ui-accordion-details-${$details.id}-click`,
-        handler: ui.events.click,
+    times(targets)((i: number) => {
+      const $details = $$.create("<div/>", {
+        "data-placeholder": "true",
+        id: `${id}-${i}`,
       });
-      $ui.appendChild($details);
+      $ui.prepend($details);
+    });
+
+    observer.l({
+      name: "ui-accordion-details-click",
+      handler: ui.events.click,
     });
 
     return $ui;

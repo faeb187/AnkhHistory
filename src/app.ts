@@ -1,4 +1,5 @@
 // @todo no direct access between CORE modules (handle it here)
+// @todo generate a sequence diagram from comments, e.g. // [SEQ] App->Media:init()
 
 // import { ankh } from "./app/ankh";
 import "styl/main";

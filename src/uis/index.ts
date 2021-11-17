@@ -7,6 +7,7 @@ import { context } from "./context";
 import { countdown } from "./countdown";
 import { details } from "./details";
 import { fab } from "./fab";
+import { gallery } from "./gallery";
 import { grid } from "./grid";
 import { html } from "./html";
 import { icon } from "./icon";
@@ -17,6 +18,7 @@ import { lang } from "./lang";
 import { list } from "./list";
 import { map } from "./map";
 import { nav } from "./nav";
+import { overlay } from "./overlay";
 import { slider } from "./slider";
 import { slideshow } from "./slideshow";
 import { table } from "./table";
@@ -32,6 +34,7 @@ export {
   countdown,
   details,
   fab,
+  gallery,
   grid,
   html,
   icon,
@@ -42,6 +45,7 @@ export {
   list,
   map,
   nav,
+  overlay,
   slider,
   slideshow,
   table,
