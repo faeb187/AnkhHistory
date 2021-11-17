@@ -129,6 +129,14 @@ const input = [
   inputColor,
   inputSubmit,
 ];
+const logo = {
+  attributes: { src: "assets/img/logo.png" },
+  id: "logo",
+  lang: "ankhorage",
+  media: { max: "l" },
+  parentId: "header",
+  ui: "image",
+};
 const map = {
   id: "map",
   parentId: "details-elements-map",
@@ -192,6 +200,7 @@ export const uis: AnkhUiOptionMap[] = [
 
   // sliderMain front
   header,
+  logo,
   uisNavMain,
   buttonSliderToggle,
 
