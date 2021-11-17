@@ -64,7 +64,6 @@ export const observer: Observer = {
       (<EventTarget>$target).removeEventListener(type, handler);
     }
     evs = evs.filter((ev: ObserverEvent) => ev.name !== name);
-    observer.p();
     return observer;
   },
 

@@ -1,0 +1,33 @@
+.ui-gallery
+  pdg $pdg 2*$pdg
+
+  ul
+    dsp grid
+    gtc repeat(1, auto)
+
+    cg 2*$mrg
+    rg 2*$mrg
+
+    +above('s')
+      gtc repeat(2, auto)
+
+    +above('m')
+      gtc repeat(3, auto)
+    
+    +above('l')
+      gtc repeat(4, auto)
+
+    +above('xl')
+      gtc repeat(5,auto)
+
+  li
+    bc md-grey-100
+    brd 1px md-grey-300 solid
+    pdg $pdg
+    brad 2*$mrg
+    btlr $mrg
+    bblr $mrg
+
+  h1
+    fs $fs-big
+    fw $fw-normal

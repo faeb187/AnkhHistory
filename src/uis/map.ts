@@ -5,14 +5,14 @@ export const map = (() => {
   return {
     init: (options: AnkhUiMapOptions) => {
       const {
-        center,
-        height = 300,
+        // center,
+        // height = 300,
         id,
         markers,
-        width = 300,
+        // width = 300,
         zoom = 13,
       } = options;
-      const c = center ? `center=${center.replace(/ /g, "%20")}&` : "?";
+      // const c = center ? `center=${center.replace(/ /g, "%20")}&` : "?";
       const $ui = $$.create("<section/>", { id, class: "ui-map" });
       const $map = $$.create("<div/>", { class: "map" });
 
@@ -50,7 +50,7 @@ export const map = (() => {
           getScript(url, ()=> console.log("loaded"));
           */
 
-      let mrks = "";
+      // let mrks = "";
       markers &&
         markers.forEach((marker) => {
           // MANDATORY marker location
@@ -75,15 +75,17 @@ export const map = (() => {
           // ADD marker location
           m += `%7C${marker.location.replace(/ /g, "%20")}`;
 
-          mrks += m;
+          // mrks += m;
         });
 
+      /* @todo
       const $img = new Image();
       const url = "https://maps.googleapis.com/maps/api/staticmap";
       const src = `${url}${c}zoom=${z}&size=${width}x${height}${mrks}&sensor=false`;
       $img.src = src;
 
       $map.appendChild($img);
+      */
       $ui.appendChild($map);
 
       // ZOOM by scrolling

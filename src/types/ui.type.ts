@@ -15,6 +15,7 @@ type AnkhUiOptionMap =
   | AnkhUiCountdownOptions
   | AnkhUiDetailsOptions
   | AnkhUiFabOptions
+  | AnkhUiGalleryOptions
   | AnkhUiGridOptions
   | AnkhUiHtmlOptions
   | AnkhUiImageOptions
@@ -24,6 +25,7 @@ type AnkhUiOptionMap =
   | AnkhUiListOptions
   | AnkhUiMapOptions
   | AnkhUiNavOptions
+  | AnkhUiOverlayOptions
   | AnkhUiProcessOptions
   | AnkhUiSitemapOptions
   | AnkhUiSliderOptions
@@ -54,7 +56,7 @@ type AnkhUiLoaded = AnkhUiNotLoaded & { $ui: HTMLElement };
 
 // UI: accordion
 type AnkhUiAccordionOptions = AnkhUiOptions & {
-  items: AnkhUiDetailsItem[];
+  targets?: number;
 };
 // UI: article
 type AnkhUiArticleParagraph = {
@@ -100,13 +102,12 @@ type AnkhUiCountdownOptions = AnkhUiOptions & {
   to: Date;
 };
 // UI: details
-type AnkhUiDetailsItem = {
-  id?: string;
-  items: string[];
+type AnkhUiDetailsOptions = AnkhUiOptions & {
+  id: string;
   open?: boolean;
   summary: { lang: string };
+  targets?: number;
 };
-type AnkhUiDetailsOptions = AnkhUiOptions & AnkhUiDetailsItem;
 // UI: fab
 type AnkhUiFabOptions = AnkhUiOptions & {
   items: AnkhUiListItem[];
@@ -159,6 +160,17 @@ type AnkhUiInputOptions = AnkhUiOptions & {
 type AnkhUiIFrameOptions = AnkhUiOptions & {
   src: string;
 };
+// UI: gallery
+type AnkhUiGalleryItem = {
+  alt: string;
+  src: string;
+  text?: string;
+  title?: string;
+};
+type AnkhUiGalleryOptions = AnkhUiOptions & {
+  interval?: number;
+  items: AnkhUiSlideshowItem[];
+};
 // UI: lang
 type AnkhUiLangOptions = AnkhUiOptions & {
   style?: KeyValue;
@@ -203,6 +215,8 @@ type AnkhUiNavItem = {
 type AnkhUiNavOptions = AnkhUiOptions & {
   items: AnkhUiNavItem[];
 };
+// UI: overlay
+type AnkhUiOverlayOptions = AnkhUiOptions;
 // UI: process
 type AnkhUiProcessStep = {
   path: string;
@@ -223,7 +237,7 @@ type AnkhUiSlideshowItem = {
   title?: string;
 };
 type AnkhUiSlideshowOptions = AnkhUiOptions & {
-  interval: number;
+  interval?: number;
   items: AnkhUiSlideshowItem[];
 };
 // UI: table
@@ -263,20 +277,22 @@ export {
   AnkhUiChartOptions,
   AnkhUiContextOptions,
   AnkhUiCountdownOptions,
-  AnkhUiDetailsItem,
   AnkhUiDetailsOptions,
   AnkhUiFabOptions,
+  AnkhUiGalleryItem,
+  AnkhUiGalleryOptions,
   AnkhUiGridOptions,
   AnkhUiHtmlOptions,
-  AnkhUiImageOptions,
   AnkhUiIconOptions,
   AnkhUiIFrameOptions,
+  AnkhUiImageOptions,
   AnkhUiInputOptions,
   AnkhUiLangOptions,
   AnkhUiListItem,
   AnkhUiListOptions,
   AnkhUiMapOptions,
   AnkhUiNavOptions,
+  AnkhUiOverlayOptions,
   AnkhUiProcessOptions,
   AnkhUiProcessStep,
   AnkhUiSlideshowItem,

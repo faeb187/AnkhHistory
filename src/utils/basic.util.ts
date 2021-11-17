@@ -12,3 +12,10 @@ export const debounce = (
     timer = setTimeout(fn, 100, event);
   };
 };
+
+export const times = (x: number) => (f: (i: number) => void): void => {
+  if (x > 0) {
+    f(x);
+    times(x - 1)(f);
+  }
+};

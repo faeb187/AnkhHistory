@@ -20,7 +20,7 @@ export const tabs = (() => {
         event.preventDefault();
 
         const $a = <HTMLAnchorElement>event.target;
-        const st = $a.getAttribute("href")!.slice(1);
+        const st = ($a.getAttribute("href") || "").slice(1);
         const $ui = $$.parent($a, ".ui-tabs");
 
         ui.update(st, $ui);
@@ -81,19 +81,19 @@ export const tabs = (() => {
       });
       const isSelected =
         ui.getSelectedId(id, defaultSelectedId) ===
-        $a.getAttribute("href")!.slice(1);
+        ($a.getAttribute("href") || "").slice(1);
       $$.addAttr($a, {
         role: "tab",
         tabindex: "-1",
         "aria-selected": isSelected.toString(),
       });
-      $$.addAttr($a.parentElement!, { role: "presentation" });
+      $$.addAttr(<HTMLElement>$a.parentElement, { role: "presentation" });
     });
 
     const $tabPanels = tabPanels.map((tabPanel) =>
       html.init({
         attributes: { role: "tabPanel" },
-        id: tabPanel.id!,
+        id: tabPanel.id,
         tag: "section",
         ui: "html",
       })

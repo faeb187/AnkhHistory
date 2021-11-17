@@ -1,4 +1,5 @@
 import { twoDollars as $$ } from "twodollars";
+
 import type {
   AnkhUiSlideshowItem,
   AnkhUiSlideshowOptions,
@@ -6,21 +7,20 @@ import type {
 
 export const slideshow = (() => {
   const ui = {
-    $tpl: $$.create("<section/>", { class: "ui-slideshow" }),
-
-    addImage: (img: AnkhUiSlideshowItem, $ul: HTMLElement) => {
+    addItem: (img: AnkhUiSlideshowItem, $slider: HTMLElement) => {
       const { alt, src, title, text } = img;
-      const $li = $$.create("<li/>");
-      const $img = $$.create("<img/>", {
-        src,
-        "data-href": alt,
-      });
+      const $figure = $$.create("<figure/>");
+      const $img = $$.create("<img/>", { src, "data-href": alt });
+      const $figCaption = $$.create("<figcaption/>");
 
-      title && $li.appendChild($$.create("<h1/>", { "data-lang": title }));
-      text && $li.appendChild($$.create("<p/>", { "data-lang": text }));
+      title &&
+        $figCaption.appendChild($$.create("<h1/>", { "data-lang": title }));
 
-      $li.appendChild($img);
-      $ul.appendChild($li);
+      text && $figCaption.appendChild($$.create("<p/>", { "data-lang": text }));
+
+      $figure.appendChild($img);
+      $figure.appendChild($figCaption);
+      $slider.appendChild($figure);
     },
     slide: (interval: number, $ul: HTMLElement) => {
       const itmC = $$.find("li", $ul).length;
@@ -44,16 +44,14 @@ export const slideshow = (() => {
   return {
     init: (options: AnkhUiSlideshowOptions) => {
       const { id, interval = 8000, items } = options;
-      const $ui = <HTMLElement>ui.$tpl.cloneNode();
-      const $ul = $$.create("<ul/>");
+      const $ui = $$.create("<section/>", { id, class: "ui-slideshow" });
+      const $slider = $$.create("<figure/>");
 
-      $ui.id = id;
+      items.forEach((item) => ui.addItem(item, $slider));
 
-      items.forEach((item) => ui.addImage(item, $ul));
+      ui.slide(interval, $slider);
 
-      $ui.appendChild($ul);
-
-      ui.slide(interval, $ul);
+      $ui.appendChild($slider);
 
       return $ui;
     },
