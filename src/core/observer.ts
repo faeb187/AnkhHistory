@@ -27,11 +27,13 @@ export const observer: Observer = {
 
     if (bind) {
       const { target, type } = bind;
-      const $target = typeof target === "string" ? $$.find(target)[0] : target;
+      const $targets = typeof target === "string" ? $$.find(target) : [target];
 
-      $target.addEventListener(type, (event: Event) => {
-        observer.f(name, { ...args, event });
-      });
+      $targets.forEach(($target) =>
+        $target.addEventListener(type, (event: Event) => {
+          observer.f(name, { ...args, event });
+        })
+      );
     }
     evs.push(event);
 
@@ -44,6 +46,7 @@ export const observer: Observer = {
     );
     matchedEvents.forEach((matchedEvent: ObserverEvent) => {
       const { args = {}, handler } = matchedEvent;
+      console.warn("FIRE:", eventName);
       handler && handler({ ...args, ...dynamicArgs });
     });
     return observer;
@@ -60,8 +63,10 @@ export const observer: Observer = {
 
     if (bind && handler) {
       const { target, type } = bind;
-      const $target = typeof target === "string" ? $$.find(target)[0] : target;
-      (<EventTarget>$target).removeEventListener(type, handler);
+      const $targets = typeof target === "string" ? $$.find(target) : [target];
+      $targets.forEach(($target: EventTarget) =>
+        $target.removeEventListener(type, handler)
+      );
     }
     evs = evs.filter((ev: ObserverEvent) => ev.name !== name);
     return observer;

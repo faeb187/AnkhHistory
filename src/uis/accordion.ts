@@ -1,7 +1,7 @@
 import { twoDollars as $$ } from "twodollars";
 
 import { observer } from "core";
-import { times } from "utils/basic.util";
+// import { times } from "utils/basic.util";
 
 import type { AnkhUiAccordionOptions } from "types/ui.type";
 import type { AnyObject } from "types/basic.type";
@@ -28,16 +28,16 @@ export const accordion = (() => {
   };
 
   const init = (options: AnkhUiAccordionOptions) => {
-    const { id, targets = 1 } = options;
+    const { id } = options;
     const $ui = $$.create("<section/>", { id, class: "ui-accordion" });
 
-    times(targets)((i: number) => {
+    /*times(targets)((i: number) => {
       const $details = $$.create("<div/>", {
-        "data-placeholder": "true",
+        "data-target": parentId || "",
         id: `${id}-${i}`,
       });
       $ui.prepend($details);
-    });
+    });*/
 
     observer.l({
       name: "ui-accordion-details-click",
