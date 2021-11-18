@@ -74,6 +74,7 @@ export const tabs = (() => {
       )[0]?.id || tabPanelIds[0];
 
     $$.find("a", $tabList).forEach(($a: HTMLElement, i: number) => {
+      //remove this
       observer.l({
         bind: { target: $a, type: "click" },
         name: `ui-tabs-list-${tabPanelIds[i]}-click`,
@@ -103,6 +104,8 @@ export const tabs = (() => {
 
     $ui.appendChild($tabList);
     $tabPanels.forEach(($tabPanel) => $ui.appendChild($tabPanel));
+
+    observer.l({ name: "ui-tabs-list-a-click", handler: ui.events.click });
 
     ui.update(selectedId, $ui);
 

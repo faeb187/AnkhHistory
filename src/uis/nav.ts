@@ -2,11 +2,21 @@
  * @todo don't export 'update', only the nav itself can update, provide an event instead
  */
 import { twoDollars as $$ } from "twodollars";
+
 import { observer } from "core";
 
 import type { AnkhUiNavOptions } from "types/ui.type";
 
 export const nav = (() => {
+  const ui = {
+    handleClick: (args: { event: MouseEvent }) => {
+      console.log("clicked", args);
+      const { event } = args;
+      event.preventDefault();
+      observer.f("core-site-load", { $ui: args.event.target });
+    },
+  };
+
   const init = (options: AnkhUiNavOptions) => {
     const { id, items, attributes } = options;
     const $ui = $$.create("<nav/>", { id, class: "ui-nav" });
@@ -21,12 +31,14 @@ export const nav = (() => {
       $ui.appendChild($$.create("<a/>", attributes));
     });
 
-    observer.l({
-      name: "core-renderer-rendered",
-      handler: () => {
-        $$.find(".ui-nav").forEach(($nav) => nav.update($nav));
-      },
-    });
+    observer
+      .l({ name: "ui-nav-a-click", handler: ui.handleClick })
+      .l({
+        name: "core-renderer-rendered",
+        handler: () => {
+          $$.find(".ui-nav").forEach(($nav) => nav.update($nav));
+        },
+      });
     return $ui;
   };
   const update = ($ui: HTMLElement) => {

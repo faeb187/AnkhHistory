@@ -1,8 +1,11 @@
 // @todo centralize ALL events (why add it here, when bound anyway later)
-
-import { routes } from "app/routes";
+import { v4 as uuidv4 } from "uuid";
 import { observer } from "core";
 
+import {
+  buttonSliderToggle,
+  buttonSliderToggleX,
+} from "components/button.component";
 import { footer, header, main } from "components/html.component";
 import { lang } from "components/lang.component";
 import {
@@ -25,10 +28,6 @@ import type {
   AnkhUiOverlayOptions,
 } from "types/ui.type";
 
-const navRoutes = routes.map((route) => ({
-  ...route,
-  attributes: { href: route.path, "data-lang": route.lang },
-}));
 const uisArticle: AnkhUiArticleOptions = {
   author: { username: "altruism" },
   createdAt: new Date(),
@@ -41,9 +40,6 @@ const uisArticle: AnkhUiArticleOptions = {
   title: "article",
   ui: "article",
 };
-const uisNavMain = { ...navMain, items: navRoutes };
-const uisNavMainMobile = { ...navMainMobile, items: navRoutes };
-
 const buttonOverlayHide = {
   events: [
     {
@@ -57,37 +53,6 @@ const buttonOverlayHide = {
   icon: "close",
   id: "buttonOverlayHide",
   parentId: "ui-overlay-front-overlayUis",
-  ui: "button",
-};
-const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
-  observer.f("_ui-slider-toggle", args);
-};
-const buttonSliderToggle = {
-  events: [
-    {
-      bind: { target: "#buttonSliderToggle", type: "click" },
-      name: "ui-button-slider-toggle",
-      handler: buttonSliderToggleHandler,
-    },
-  ],
-  icon: "reorder-three",
-  id: "buttonSliderToggle",
-  media: { max: AnkhMediaViewport.L },
-  parentId: "header",
-  ui: "button",
-};
-const buttonSliderToggleX = {
-  events: [
-    {
-      bind: { target: "#buttonSliderToggleX", type: "click" },
-      handler: buttonSliderToggleHandler,
-      name: "ui-button-slider-toggle-x",
-    },
-  ],
-  id: "buttonSliderToggleX",
-  icon: "close",
-  media: { max: AnkhMediaViewport.L },
-  parentId: "ui-slider-back-sliderMain",
   ui: "button",
 };
 const countdownUi = {
@@ -133,7 +98,7 @@ const logo = {
   attributes: { src: "assets/img/logo.png" },
   id: "logo",
   lang: "ankhorage",
-  media: { max: "l" },
+  media: { max: AnkhMediaViewport.L },
   parentId: "header",
   ui: "image",
 };
@@ -177,6 +142,13 @@ const tabs = {
         observer.f("ui-overlay-show-overlayUis", { ...args, id: "overlayUis" });
       },
     },
+    {
+      bind: { target: "#tabs .ui-list a", type: "click" },
+      name: `ui-tabs-list-tabs-${uuidv4()}-click`,
+      handler: (args: { event: MouseEvent }): void => {
+        observer.f("ui-tabs-list-a-click", args);
+      },
+    },
   ],
   id: "tabs",
   parentId: "main",
@@ -196,12 +168,12 @@ export const uis: AnkhUiOptionMap[] = [
 
   // sliderMain back
   buttonSliderToggleX,
-  uisNavMainMobile,
+  navMainMobile,
 
   // sliderMain front
   header,
   logo,
-  uisNavMain,
+  navMain,
   buttonSliderToggle,
 
   main,

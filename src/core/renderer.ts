@@ -1,7 +1,7 @@
 import { twoDollars as $$ } from "twodollars";
 
 import { loader, logger, media, observer } from "core";
-import type { AnkhUiLoaded } from "types/ui.type";
+import type { AnkhUiLoaded, AnkhUiOptionMap } from "types/ui.type";
 
 export const renderer = (() => {
   const renderDeferred = ($ui: HTMLElement) => {
@@ -27,43 +27,50 @@ export const renderer = (() => {
   const updateVisibility = () => {
     loader.getAllLoaded().forEach((loadedUi: AnkhUiLoaded) => {
       const {
-        $ui,
-        uiOptions: { media: m },
+        uiOptions: { id, media: m },
       } = loadedUi;
 
       if (m) {
-        const before = $ui.getAttribute("data-fx");
+        const $element = $$.find(`#${id}`)[0];
+        if (!$element) return;
+
+        const before = $element.getAttribute("data-fx");
         const after = media.isInViewport(m) ? "in" : "out";
-        if (before !== after) $ui.setAttribute("data-fx", after);
+        if (before !== after) $element.setAttribute("data-fx", after);
       }
     });
   };
   const init = () => {
-    observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
+    // @todo do we want this?
+    // observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
     observer.l({ name: "ankh-viewport", handler: updateVisibility });
   };
 
   const render = () => {
+    const siteConfigurations = <AnkhUiOptionMap[]>(
+      loader.getSiteConfigurations().get(location.pathname)
+    );
     const mapLoaded = loader.getAllLoaded();
-    const $df = document.createDocumentFragment();
-
-    mapLoaded.forEach((loadedUi: AnkhUiLoaded) => {
-      const { $ui, parentId = "" } = loadedUi;
-      const $foundParent = $$.find(`#${parentId}`, $df)[0];
-      const $parent = $foundParent || $df;
-
-      // some UI's have specific in-UI targets
-      // ...which should be replaced to keep our HTML clean
-      // e.g. Accordion has targets (<detail> elements) and they belong directly inside the accordion <section>
-      $foundParent && $foundParent.getAttribute("data-placeholder")
-        ? (<HTMLElement>$parent.parentNode).replaceChild($ui, $parent)
-        : $parent.appendChild($ui);
-    });
-
     // @todo only render changes
+    const $df = document.createDocumentFragment();
+    // const $df = $$.create("<div/>");
     const $ankh = <HTMLDivElement>$$.find("#ankh")[0];
     $ankh.innerHTML = "";
+
+    siteConfigurations.forEach((siteConfiguration) => {
+      const { id } = siteConfiguration;
+      const uiLoaded =
+        <AnkhUiLoaded>mapLoaded.get(id) || mapLoaded.get(`_${id}`);
+      if (!uiLoaded) return;
+
+      const { parentId = "", $ui } = uiLoaded;
+      const $parent = $$.find(`#${parentId}`, $df)[0] || $df;
+      $parent.appendChild($ui.cloneNode(true));
+    });
+
+    // @todo assume this will lose all loaded references (on site load)
     $ankh.appendChild($df);
+    // $ankh.innerHTML = $df.innerHTML; // @todo  this loses the events
 
     observer.f("core-renderer-rendered");
   };

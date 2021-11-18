@@ -39,6 +39,7 @@ export const loader = (() => {
 
     subRoutes.forEach((subRoute: AnkhRoute) => setRoute(subRoute));
   };
+  const getSiteConfigurations = () => siteConfigurations;
   const updateDeferred = () => {
     getNotLoaded().forEach((notLoadedUi: AnkhUiNotLoaded, id: string) => {
       const {
@@ -60,7 +61,9 @@ export const loader = (() => {
       observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
 
       // [4] update loaded state
-      mapLoaded.set(uiOptions.id, { uiOptions, $ui }).delete(id);
+      mapLoaded
+        .set(uiOptions.id, { uiOptions, $ui: <HTMLElement>$ui.cloneNode(true) })
+        .delete(id);
 
       // [5] delegate rendering
       // @todo setTimeout needed because direct DOM rendering (collect all and then render at once)
@@ -68,6 +71,7 @@ export const loader = (() => {
       renderer.renderDeferred($ui);
     });
   };
+  const getAllLoaded = () => mapLoaded;
   const getRoutesByPath = (path: string) => {
     let routesByPath: AnkhRoute[] = [];
 
@@ -101,6 +105,21 @@ export const loader = (() => {
     subSearch(currentRoutes[0]);
     return foundPath;
   };
+  const init = () => {
+    // [1] initialize maps
+    mapLoaded = new Map();
+    siteConfigurations = new Map();
+
+    // [2] set app routes
+    routes.forEach((route: AnkhRoute) => setRoute(route));
+    logger.log("[loader::init] siteConfigurations:", siteConfigurations);
+
+    // [3] update deferred UI's on viewport change
+    observer.l({ name: "ankh-viewport", handler: updateDeferred });
+
+    // [4] register for event update (after rendering)
+    observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
+  };
   const initUi = (uiOptions: AnkhUiOptions) => {
     const { id, media: m, parentId = "ankh", ui } = uiOptions;
 
@@ -121,17 +140,17 @@ export const loader = (() => {
       const deferredId = `_${id}`;
       const deferredParentId = `${(hasDeferredParent && "_") || ""}${parentId}`;
 
-      // mapLoaded.set(updatedId, { uiOptions, updatedParentId });
       logger.info(
         `[loader::initUi] %cdeferred ${id} (parent: ${deferredParentId}`,
         "color: #dd8"
       );
 
-      return mapLoaded.set(deferredId, {
+      mapLoaded.set(deferredId, {
         uiOptions,
         $ui: $$.create("<div/>", { id: deferredId, "data-fx": "out" }),
         parentId: deferredParentId,
       });
+      return;
     }
 
     // [3] we need to load it – let's go!
@@ -146,7 +165,11 @@ export const loader = (() => {
       );
 
     // [4] register loaded ui
-    mapLoaded.set(id, { $ui, uiOptions, parentId });
+    mapLoaded.set(id, {
+      $ui: <HTMLElement>$ui.cloneNode(true), // keep a plain copy (cache)
+      uiOptions,
+      parentId,
+    });
     logger.log(
       `[loader::initUi] %cloaded #${id} (parent: ${parentId}`,
       "color: #8d8"
@@ -154,6 +177,8 @@ export const loader = (() => {
   };
   const loadSite = (path: string) => {
     logger.groupCollapsed("loader::loadSite");
+
+    // observer.r({ name: "core-renderer-rendered" });
 
     // [1] get site configuration
     const currentPath = getCurrentPath(path);
@@ -172,25 +197,9 @@ export const loader = (() => {
     siteUis.forEach((ui: AnkhUiOptions) => initUi(ui));
     logger.groupEnd();
 
-    // [4] register for event upddae (after rendering)
-    observer.l({ handler: updateEvents, name: "core-renderer-rendered" });
-
     logger.log("[loader::loadSite] mapLoaded:", mapLoaded);
     logger.log("[loader::loadSite] siteConfigurations:", siteConfigurations);
     logger.groupEnd();
-  };
-  const getAllLoaded = () => mapLoaded;
-  const init = () => {
-    // [1] initialize maps
-    mapLoaded = new Map();
-    siteConfigurations = new Map();
-
-    // [2] set app routes
-    routes.forEach((route: AnkhRoute) => setRoute(route));
-    logger.log("[loader::init] siteConfigurations:", siteConfigurations);
-
-    // [3] update deferred UI's on viewport change
-    observer.l({ name: "ankh-viewport", handler: updateDeferred });
   };
   // @todo don't update every UI (overhead)
   const updateEvents = () => {
@@ -204,14 +213,12 @@ export const loader = (() => {
 
       if (!events) return;
 
-      logger.log(
-        "[loader::updateEvents] UI id: ",
-        loadedUi.uiOptions.id,
-        events
-      );
-      events?.forEach((event: ObserverEvent) => observer.r(event).l(event));
+      events
+        .filter((event: ObserverEvent) => !event.name.startsWith("_"))
+        .forEach((event: ObserverEvent) => observer.r(event).l(event));
     });
+    observer.p();
   };
 
-  return { getAllLoaded, loadSite, init };
+  return { getAllLoaded, getSiteConfigurations, init, loadSite };
 })();

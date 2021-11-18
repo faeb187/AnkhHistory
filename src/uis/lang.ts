@@ -2,7 +2,7 @@
 // ...probably better to fire lang update events
 import { twoDollars as $$ } from "twodollars";
 
-import { observer, state } from "core";
+import { logger, observer, state } from "core";
 import { de, en } from "../app/i18n";
 
 import type { KeyValue } from "types/basic.type";
@@ -11,7 +11,10 @@ import type { AnkhUiLangOptions } from "types/ui.type";
 type Lang = "de" | "en";
 
 export const lang = (() => {
-  const changeLang = (event: MouseEvent) => {
+  const changeLang = (args: { event: MouseEvent }) => {
+    const { event } = args;
+
+    logger.warn("LANG CHANGE");
     event.preventDefault();
 
     const $a = event.target as HTMLElement;
@@ -43,10 +46,10 @@ export const lang = (() => {
 
       if (k === lang) $a.className = "active";
 
-      $a.addEventListener("click", changeLang);
       $ui.appendChild($a);
     });
 
+    observer.l({ name: "ui-lang-change", handler: changeLang });
     observer.l({ name: "ui-lang-update", handler: update });
     observer.l({ name: "core-renderer-rendered", handler: update });
 
@@ -54,6 +57,7 @@ export const lang = (() => {
   };
 
   const update = (options: { lang: string }) => {
+    console.warn("LANG UPDATE");
     const { lang: l = "" } = options;
 
     // language by priority
@@ -81,7 +85,6 @@ export const lang = (() => {
 
     state.set({ id: "lang", state: evaluatedLang });
 
-    observer.l({ name: "core-renderer-rendered", handler: update });
     observer.f("ui-lang-updated");
   };
 
