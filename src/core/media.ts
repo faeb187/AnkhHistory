@@ -27,11 +27,11 @@ export const media = (() => {
 
   const onResizeDone = () => {
     const vpW = window.innerWidth;
-    const viewportBefore = viewport;
+    // const viewportBefore = viewport;
 
     viewport = getViewportName(vpW);
 
-    if (viewport !== viewportBefore) observer.f("ankh-viewport", { viewport });
+    observer.f("ankh-viewport", { viewport });
   };
 
   return {
@@ -47,7 +47,7 @@ export const media = (() => {
     },
     init: () => {
       window.addEventListener("resize", debounce(onResizeDone));
-      onResizeDone();
+      observer.l({ name: "core-renderer-rendered", handler: onResizeDone });
     },
   };
 })();

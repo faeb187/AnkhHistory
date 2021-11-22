@@ -7,6 +7,7 @@ import { context } from "./context";
 import { countdown } from "./countdown";
 import { details } from "./details";
 import { fab } from "./fab";
+import { flower } from "./flower";
 import { gallery } from "./gallery";
 import { grid } from "./grid";
 import { html } from "./html";
@@ -34,6 +35,7 @@ export {
   countdown,
   details,
   fab,
+  flower,
   gallery,
   grid,
   html,

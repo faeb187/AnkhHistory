@@ -28,7 +28,6 @@ init(location.pathname);
 observer.l({
   name: "core-site-load",
   handler: (event: SiteLoadEvent) => {
-    console.info("siteLoadEvent:", event);
     const { $ui } = event;
     const href = $ui.getAttribute("href");
 

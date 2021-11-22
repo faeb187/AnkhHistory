@@ -1,12 +1,14 @@
-import { twoDollars } from "twodollars";
+import { twoDollars as $$ } from "twodollars";
 import { AnkhUiOptions } from "types/ui.type";
 
 export const calendar = (() => ({
   init: (options: AnkhUiOptions) => {
     const { id } = options;
-    const $ui = twoDollars.create("<[uiRoot]/>", { id, class: "ui-calendar" });
+    const $ui = $$.create("<section/>", { id, class: "ui-calendar" });
 
-    // connect to Google API
+    const $days = $$.create("<div/>", { class: "ui-calendar-day" });
+
+    $ui.appendChild($days);
 
     return $ui;
   },

@@ -8,6 +8,7 @@ import {
 } from "components/button.component";
 import { footer, header, main } from "components/html.component";
 import { lang } from "components/lang.component";
+import { logo } from "components/image.component";
 import {
   inputBirthday,
   inputColor,
@@ -21,7 +22,6 @@ import { accordionCompounds, accordionElements } from "./uis/accordion";
 import { navMain, navMainMobile } from "components/nav.component";
 import { sliderMain } from "components/slider.component";
 
-import { AnkhMediaViewport } from "types/media.type";
 import type {
   AnkhUiArticleOptions,
   AnkhUiOptionMap,
@@ -94,14 +94,6 @@ const input = [
   inputColor,
   inputSubmit,
 ];
-const logo = {
-  attributes: { src: "assets/img/logo.png" },
-  id: "logo",
-  lang: "ankhorage",
-  media: { max: AnkhMediaViewport.L },
-  parentId: "header",
-  ui: "image",
-};
 const map = {
   id: "map",
   parentId: "details-elements-map",
