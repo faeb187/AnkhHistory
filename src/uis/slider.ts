@@ -31,7 +31,7 @@ export const slider = (() => {
       });
       const $ui = $$.create("<div/>", { id, class: "ui-slider" });
 
-      observer.l({ name: "_ui-slider-toggle", handler: ui.events.toggle });
+      observer.l({ name: "ui-slider-toggle", handler: ui.events.toggle });
 
       $ui.appendChild($back);
       $ui.appendChild($front);

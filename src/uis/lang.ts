@@ -2,7 +2,7 @@
 // ...probably better to fire lang update events
 import { twoDollars as $$ } from "twodollars";
 
-import { logger, observer, state } from "core";
+import { observer, state } from "core";
 import { de, en } from "../app/i18n";
 
 import type { KeyValue } from "types/basic.type";
@@ -13,8 +13,6 @@ type Lang = "de" | "en";
 export const lang = (() => {
   const changeLang = (args: { event: MouseEvent }) => {
     const { event } = args;
-
-    logger.warn("LANG CHANGE");
     event.preventDefault();
 
     const $a = event.target as HTMLElement;
@@ -57,7 +55,6 @@ export const lang = (() => {
   };
 
   const update = (options: { lang: string }) => {
-    console.warn("LANG UPDATE");
     const { lang: l = "" } = options;
 
     // language by priority

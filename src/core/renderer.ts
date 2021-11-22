@@ -4,10 +4,48 @@ import { loader, logger, media, observer } from "core";
 import type { AnkhUiLoaded, AnkhUiOptionMap } from "types/ui.type";
 
 export const renderer = (() => {
-  const renderDeferred = ($ui: HTMLElement) => {
-    logger.log("[renderer::renderDeferred]", $ui.id, $$.find(`#_${$ui.id}`)[0]);
+  const init = () => {
+    // @todo do we want this?
+    // observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
+    observer.l({ name: "ankh-viewport", handler: updateVisibility });
+  };
+  const render = () => {
+    const siteConfigurations = <AnkhUiOptionMap[]>(
+      loader.getSiteConfigurations().get(location.pathname)
+    );
+    const mapLoaded = loader.getAllLoaded();
+    // @todo only render changes
+    const $df = document.createDocumentFragment();
+    // const $df = $$.create("<div/>");
+    const $ankh = <HTMLDivElement>$$.find("#ankh")[0];
+    $ankh.innerHTML = "";
 
+    siteConfigurations.forEach((siteConfiguration) => {
+      const { id } = siteConfiguration;
+      const uiLoaded =
+        <AnkhUiLoaded>mapLoaded.get(id) || mapLoaded.get(`_${id}`);
+      if (!uiLoaded) return;
+
+      const {
+        $ui,
+        uiOptions: { parentId },
+      } = uiLoaded;
+
+      const $parent = $$.find(`#${<string>parentId}`, $df)[0] || $df;
+      $parent.appendChild($ui.cloneNode(true));
+    });
+
+    // @todo assume this will lose all loaded references (on site load)
+    $ankh.appendChild($df);
+    // $ankh.innerHTML = $df.innerHTML; // @todo  this loses the events
+
+    observer.f("core-renderer-rendered");
+  };
+  const renderDeferred = ($ui: HTMLElement) => {
     const $placeholder = $$.find(`#_${$ui.id}`)[0];
+    if (!$placeholder)
+      return logger.warn("[renderDeferredd] 👀 no placeholder");
+    logger.log("[renderer::renderDeferred]", $ui.id, $placeholder);
 
     // [1] keep eventual children placeholders
     while ($placeholder.firstChild)
@@ -39,40 +77,6 @@ export const renderer = (() => {
         if (before !== after) $element.setAttribute("data-fx", after);
       }
     });
-  };
-  const init = () => {
-    // @todo do we want this?
-    // observer.l({ name: "core-loader-ui-ready", handler: renderDeferred });
-    observer.l({ name: "ankh-viewport", handler: updateVisibility });
-  };
-
-  const render = () => {
-    const siteConfigurations = <AnkhUiOptionMap[]>(
-      loader.getSiteConfigurations().get(location.pathname)
-    );
-    const mapLoaded = loader.getAllLoaded();
-    // @todo only render changes
-    const $df = document.createDocumentFragment();
-    // const $df = $$.create("<div/>");
-    const $ankh = <HTMLDivElement>$$.find("#ankh")[0];
-    $ankh.innerHTML = "";
-
-    siteConfigurations.forEach((siteConfiguration) => {
-      const { id } = siteConfiguration;
-      const uiLoaded =
-        <AnkhUiLoaded>mapLoaded.get(id) || mapLoaded.get(`_${id}`);
-      if (!uiLoaded) return;
-
-      const { parentId = "", $ui } = uiLoaded;
-      const $parent = $$.find(`#${parentId}`, $df)[0] || $df;
-      $parent.appendChild($ui.cloneNode(true));
-    });
-
-    // @todo assume this will lose all loaded references (on site load)
-    $ankh.appendChild($df);
-    // $ankh.innerHTML = $df.innerHTML; // @todo  this loses the events
-
-    observer.f("core-renderer-rendered");
   };
 
   return { init, render, renderDeferred };

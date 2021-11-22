@@ -2,15 +2,16 @@ import { observer } from "core";
 
 import { AnkhMediaViewport } from "types/media.type";
 
-const buttonSliderToggleHandler = (args: { event: MouseEvent }): void => {
-  observer.f("_ui-slider-toggle", args);
+const handler = (args: { event: MouseEvent }): void => {
+  observer.f("ui-slider-toggle", args);
 };
+
 const buttonSliderToggle = {
   events: [
     {
+      handler,
       bind: { target: "#buttonSliderToggle", type: "click" },
       name: "ui-button-slider-toggle",
-      handler: buttonSliderToggleHandler,
     },
   ],
   icon: "reorder-three",
@@ -22,8 +23,8 @@ const buttonSliderToggle = {
 const buttonSliderToggleX = {
   events: [
     {
+      handler,
       bind: { target: "#buttonSliderToggleX", type: "click" },
-      handler: buttonSliderToggleHandler,
       name: "ui-button-slider-toggle-x",
     },
   ],
