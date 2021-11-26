@@ -29,6 +29,11 @@ export const home: AnkhUiOptionMap[] = [
     parentId: "main",
     ui: "flower",
   },
+  {
+    id: "chess",
+    parentId: "main",
+    ui: "chess",
+  },
 
   footer,
   lang,

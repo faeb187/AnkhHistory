@@ -11,6 +11,7 @@ type AnkhUiOptionMap =
   | AnkhUiButtonOptions
   | AnkhUiCarouselOptions
   | AnkhUiChartOptions
+  | AnkhUiChessOptions
   | AnkhUiContextOptions
   | AnkhUiCountdownOptions
   | AnkhUiDetailsOptions
@@ -89,6 +90,8 @@ type AnkhUiCarouselOptions = AnkhUiOptions & { items: AnkhUiCarouselItem[] };
 type AnkhUiChartOptions = AnkhUiOptions & {
   chartJs?: ChartConfiguration;
 };
+// UI: chess
+type AnkhUiChessOptions = AnkhUiOptions;
 // UI: context
 type AnkhUiContextMenu = {
   events: ObserverEvent[];
@@ -275,6 +278,7 @@ export {
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,
   AnkhUiChartOptions,
+  AnkhUiChessOptions,
   AnkhUiContextOptions,
   AnkhUiCountdownOptions,
   AnkhUiDetailsOptions,
