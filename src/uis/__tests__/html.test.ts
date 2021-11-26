@@ -1,4 +1,4 @@
-import { html } from "uis/html";
+import { html } from "uis";
 import type { AnkhUiHtmlOptions } from "types/ui.type";
 
 describe("UI html", () => {

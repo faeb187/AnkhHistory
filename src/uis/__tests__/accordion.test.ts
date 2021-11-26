@@ -1,6 +1,4 @@
-import "jest-canvas-mock";
-
-import { accordion } from "uis/accordion";
+import { accordion } from "uis";
 import type { AnkhUiAccordionOptions } from "types/ui.type";
 
 describe("🪗 UI accordion", () => {

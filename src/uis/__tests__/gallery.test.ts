@@ -1,4 +1,4 @@
-import { gallery } from "uis/gallery";
+import { gallery } from "uis";
 import type { AnkhUiGalleryOptions } from "types/ui.type";
 
 describe("UI Gallery", () => {

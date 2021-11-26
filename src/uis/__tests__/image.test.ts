@@ -1,4 +1,4 @@
-import { image } from "uis/image";
+import { image } from "uis";
 import type { AnkhUiImageOptions } from "types/ui.type";
 
 describe("UI image", () => {

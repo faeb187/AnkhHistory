@@ -1,4 +1,4 @@
-import { slideshow } from "uis/slideshow";
+import { slideshow } from "uis";
 import type { AnkhUiSlideshowOptions } from "types/ui.type";
 
 describe("UI Slideshow", () => {

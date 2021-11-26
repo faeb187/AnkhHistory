@@ -3,7 +3,7 @@
 import { twoDollars as $$ } from "twodollars";
 
 import { observer, state } from "core";
-import { de, en } from "../app/i18n";
+import { de, en } from "app/i18n";
 
 import type { KeyValue } from "types/basic.type";
 import type { AnkhUiLangOptions } from "types/ui.type";

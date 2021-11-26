@@ -1,4 +1,4 @@
-import { grid } from "uis/grid";
+import { grid } from "uis";
 import type { AnkhUiGridOptions } from "types/ui.type";
 
 describe("UI button", () => {
