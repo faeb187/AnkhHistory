@@ -3,6 +3,7 @@ import { article } from "./article";
 import { button } from "./button";
 import { carousel } from "./carousel";
 import { chart } from "./chart";
+import { chess } from "./chess";
 import { context } from "./context";
 import { countdown } from "./countdown";
 import { details } from "./details";
@@ -31,6 +32,7 @@ export {
   button,
   carousel,
   chart,
+  chess,
   context,
   countdown,
   details,
