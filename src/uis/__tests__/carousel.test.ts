@@ -1,4 +1,4 @@
-import { carousel } from "uis/carousel";
+import { carousel } from "uis";
 import type { AnkhUiCarouselOptions } from "types/ui.type";
 
 describe("🎠 Carousel", () => {

@@ -1,5 +1,4 @@
-import "jest-canvas-mock";
-import { overlay } from "uis/overlay";
+import { overlay } from "uis";
 import type { AnkhUiOverlayOptions } from "types/ui.type";
 
 describe("UI Overlay", () => {

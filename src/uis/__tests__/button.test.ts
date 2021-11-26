@@ -1,6 +1,4 @@
-import "jest-canvas-mock";
-
-import { button } from "uis/button";
+import { button } from "uis";
 import type { AnkhUiButtonOptions } from "types/ui.type";
 
 describe("UI button", () => {

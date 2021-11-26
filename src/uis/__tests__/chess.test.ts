@@ -1,7 +1,4 @@
-import "jest-canvas-mock";
-
 import { chess } from "uis";
-
 import type { AnkhUiChessOptions } from "types/ui.type";
 
 describe("UI Chess", () => {

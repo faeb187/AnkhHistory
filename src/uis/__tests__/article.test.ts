@@ -1,4 +1,4 @@
-import { article } from "uis/article";
+import { article } from "uis";
 import type { AnkhUiArticleOptions } from "types/ui.type";
 
 describe("UI article", () => {

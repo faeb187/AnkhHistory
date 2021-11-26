@@ -12,7 +12,7 @@ import { twoDollars as $$ } from "twodollars";
 import { v4 as uuidv4 } from "uuid";
 
 import { observer } from "core";
-import { nav } from "uis/nav";
+import { nav } from "uis";
 
 import type { AnyObject, Position } from "types/basic.type";
 import type { AnkhUiContextOptions } from "types/ui.type";

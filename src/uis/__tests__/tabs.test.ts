@@ -1,5 +1,3 @@
-import "jest-canvas-mock";
-
 import { tabs } from "uis";
 import type { AnkhUiTabsOptions } from "types/ui.type";
 
