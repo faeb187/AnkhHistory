@@ -8,7 +8,7 @@ import type {
 const accElements: AnkhUiAccordionOptions[] = [
   {
     id: "accordion-elements",
-    targets: 11,
+    targets: 13,
     parentId: "elements",
     ui: "accordion",
   },
@@ -21,15 +21,57 @@ const accElementsDetails: AnkhUiDetailsOptions[] = [
     ui: "details",
   },
   {
+    id: "details-elements-breadcrumb",
+    parentId: "accordion-elements",
+    summary: { lang: "breadcrumb" },
+    ui: "details",
+  },
+  {
     id: "details-elements-button",
     parentId: "accordion-elements",
     summary: { lang: "button" },
     ui: "details",
   },
   {
+    id: "details-elements-carousel",
+    parentId: "accordion-elements",
+    summary: { lang: "carousel" },
+    ui: "details",
+  },
+  {
+    id: "details-elements-chart",
+    parentId: "accordion-elements",
+    summary: { lang: "chart" },
+    ui: "details",
+  },
+  {
+    id: "details-elements-context",
+    parentId: "accordion-elements",
+    summary: { lang: "context" },
+    ui: "details",
+  },
+  {
     id: "details-elements-countdown",
     parentId: "accordion-elements",
     summary: { lang: "countdown" },
+    ui: "details",
+  },
+  {
+    id: "details-elements-fab",
+    parentId: "accordion-elements",
+    summary: { lang: "fab" },
+    ui: "details",
+  },
+  {
+    id: "details-elements-icon",
+    parentId: "accordion-elements",
+    summary: { lang: "icon" },
+    ui: "details",
+  },
+  {
+    id: "details-elements-iframe",
+    parentId: "accordion-elements",
+    summary: { lang: "iframe" },
     ui: "details",
   },
   {
@@ -48,6 +90,12 @@ const accElementsDetails: AnkhUiDetailsOptions[] = [
     id: "details-elements-input",
     parentId: "accordion-elements",
     summary: { lang: "input" },
+    ui: "details",
+  },
+  {
+    id: "details-elements-list",
+    parentId: "accordion-elements",
+    summary: { lang: "list" },
     ui: "details",
   },
   {
@@ -75,6 +123,7 @@ const accElementsDetails: AnkhUiDetailsOptions[] = [
     ui: "details",
   },
 ];
+
 const accCompounds: AnkhUiAccordionOptions[] = [
   {
     id: "accordion-compounds",

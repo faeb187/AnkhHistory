@@ -28,7 +28,7 @@ import type {
   AnkhUiOverlayOptions,
 } from "types/ui.type";
 
-const uisArticle: AnkhUiArticleOptions = {
+const article: AnkhUiArticleOptions = {
   author: { username: "altruism" },
   createdAt: new Date(),
   id: "articleUis",
@@ -39,6 +39,12 @@ const uisArticle: AnkhUiArticleOptions = {
   parentId: "details-elements-article",
   title: "article",
   ui: "article",
+};
+const breadcrumb = {
+  id: "breadcrumb",
+  items: [{ lang: "home" }, { lang: "uis" }],
+  parentId: "details-elements-breadcrumb",
+  ui: "breadcrumb",
 };
 const buttonOverlayHide = {
   events: [
@@ -55,11 +61,73 @@ const buttonOverlayHide = {
   parentId: "ui-overlay-front-overlayUis",
   ui: "button",
 };
+const carousel = {
+  id: "carousel",
+  items: [
+    { title: "Bild 01" },
+    { title: "Bild 02" },
+    { title: "Bild 03" },
+    { title: "Bild 04" },
+    { title: "Bild 05" },
+  ],
+  parentId: "details-elements-carousel",
+  ui: "carousel",
+};
+const chart = {
+  chartJs: {
+    data: {
+      datasets: [
+        { data: [4634, 4545, 4527, 4505, 4478], label: "Schweizer Berge" },
+      ],
+      labels: ["dufourspitze", "dom", "liskamm", "weisshorn", "matterhorn"],
+    },
+    options: {
+      scales: {
+        y: { min: 4400 },
+      },
+    },
+    type: "bar",
+  },
+  id: "chart",
+  parentId: "details-elements-chart",
+  ui: "chart",
+};
+const context = {
+  attributes: { "data-for": "details-elements-context" },
+  id: "context",
+  menus: [
+    {
+      events: [
+        {
+          bind: { target: "#details-elements-context", type: "contextmenu" },
+          name: "ui-context-show",
+        },
+      ],
+      items: [{ lang: "first" }, { lang: "second" }, { lang: "third" }],
+    },
+  ],
+  ui: "context",
+};
 const countdownUi = {
   id: "countdownUi",
   to: new Date(+new Date() + 7000),
   parentId: "details-elements-countdown",
   ui: "countdown",
+};
+const fab = {
+  id: "fab",
+  items: [
+    { icon: "terminal", id: "list-item-1", lang: "i-am-a-terminal" },
+    { icon: "cube", id: "list-item-2", lang: "i-am-a-package" },
+    { icon: "diamond", id: "list-item-3", lang: "i-am-a-diamond" },
+  ],
+  toggle: {
+    icon: "add",
+    id: "fab-toggle",
+    ui: "button",
+    classNames: "primary",
+  },
+  ui: "fab",
 };
 const gallery = {
   id: "gallery",
@@ -71,6 +139,19 @@ const gallery = {
   })),
   parentId: "details-compounds-gallery",
   ui: "gallery",
+};
+const icon = {
+  id: "ion-icon",
+  icon: "terminal",
+  variant: "sharp",
+  parentId: "details-elements-icon",
+  ui: "icon",
+};
+const iframe = {
+  id: "iframe",
+  src: "https://about:blank",
+  parentId: "details-elements-iframe",
+  ui: "iframe",
 };
 const image = {
   attributes: { src: "https://placekitten.com/80/165" },
@@ -94,6 +175,16 @@ const input = [
   inputColor,
   inputSubmit,
 ];
+const list = {
+  id: "list",
+  items: [
+    { icon: "terminal", id: "list-item-1", lang: "i-am-a-terminal" },
+    { icon: "cube", id: "list-item-2", lang: "i-am-a-package" },
+    { icon: "diamond", id: "list-item-3", lang: "i-am-a-diamond" },
+  ],
+  parentId: "details-elements-list",
+  ui: "list",
+};
 const map = {
   id: "map",
   parentId: "details-elements-map",
@@ -172,13 +263,21 @@ export const uis: AnkhUiOptionMap[] = [
   tabs,
 
   ...accordionElements,
-  uisArticle,
+  article,
+  breadcrumb,
+  carousel,
+  chart,
+  context,
   countdownUi,
+  fab,
+  icon,
+  iframe,
   ...input,
 
   ...accordionCompounds,
   gallery,
   image,
+  list,
   map,
   overlay,
   buttonOverlayHide,
@@ -188,99 +287,3 @@ export const uis: AnkhUiOptionMap[] = [
   footer,
   lang,
 ];
-
-// @test some UI configs
-/*
-const uiCarousel = {
-    id: "carousel",
-    items: [
-      { title: "Bild 01" },
-      { title: "Bild 02" },
-      { title: "Bild 03" },
-      { title: "Bild 04" },
-      { title: "Bild 05" },
-    ],
-    parentId: "grid-main-4",
-    ui: "carousel",
-  },
-
-const uiChart = {
-    chartJs: {
-      data: {
-        datasets: [
-          { data: [4634, 4545, 4527, 4505, 4478], label: "Schweizer Berge" },
-        ],
-        labels: ["dufourspitze", "dom", "liskamm", "weisshorn", "matterhorn"],
-      },
-      options: {
-        scales: {
-          y: { min: 4400 },
-        },
-      },
-      type: "bar",
-    },
-    id: "chart",
-    parentId: "grid-main-5",
-    ui: "chart",
-  },
-
-const uiIFrame = {
-    id: "iframe-twodollars",
-    src: "https://about:blank",
-    parentId: "grid-main-9",
-    ui: "iframe",
-  };
-  
-const uiContext = {
-    attributes: { "data-for": "html" },
-    id: "nav-context",
-    menus: [
-      {
-        events: [
-          {
-            bind: { target: "#html", type: "contextmenu" },
-            name: "ui-context-show",
-          },
-        ],
-        items: [{ lang: "first" }, { lang: "second" }, { lang: "third" }],
-      },
-    ],
-    ui: "context",
-  },
-  
-  
-const uiList = {
-    id: "list",
-    items: [
-      { icon: "terminal", id: "list-item-1", lang: "i-am-a-terminal" },
-      { icon: "cube", id: "list-item-2", lang: "i-am-a-package" },
-      { icon: "diamond", id: "list-item-3", lang: "i-am-a-diamond" },
-    ],
-    parentId: "grid-main-10",
-    ui: "list",
-  },
-  
-const uiFab = {
-    id: "fab",
-    items: [
-      { icon: "terminal", id: "list-item-1", lang: "i-am-a-terminal" },
-      { icon: "cube", id: "list-item-2", lang: "i-am-a-package" },
-      { icon: "diamond", id: "list-item-3", lang: "i-am-a-diamond" },
-    ],
-    toggle: {
-      icon: "add",
-      id: "fab-toggle",
-      ui: "button",
-      classNames: "primary",
-    },
-    ui: "fab",
-  },
-  {
-    id: "ion-icon",
-    icon: "terminal",
-    variant: "sharp",
-    parentId: "home-grid-main-4",
-    ui: "icon",
-  },
-];
-*/

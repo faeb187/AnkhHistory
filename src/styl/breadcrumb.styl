@@ -1,6 +1,6 @@
 $breadcrumbH = 36px
 
-.corner
+.ui-breadcrumb-corner
   bc $white
   cnt ''
   pos absolute
@@ -20,13 +20,13 @@ $breadcrumbH = 36px
   mrgb 2*$mrg
 
   &:before
-    @extend .corner
+    @extend .ui-breadcrumb-corner
     bc transparent
     lft 0
 
   a
     bc $white
-    c $grey-01
+    c md-black
     dsp block
     fs ($breadcrumbH / 3)
     fw $fw-thin
@@ -36,17 +36,17 @@ $breadcrumbH = 36px
     ws nowrap
 
     &.active
-      bc $grey-04
+      bc md-black
       c $black
       fw $fw-bold
 
       &:after
-        bc $grey-04
+        bc md-black
 
     &:not(:last-child):after
-      @extend .corner
+      @extend .ui-breadcrumb-corner
       rgt ($breadcrumbH / -2)
-      bs 2px -2px 0 2px $grey-04, 3px -3px 0 2px rgba($white, .1)
+      bs 2px -2px 0 2px md-black, 3px -3px 0 2px rgba($white, .1)
       brad 0 5px 0 50px
 
   &.numbered
@@ -66,10 +66,3 @@ $breadcrumbH = 36px
   &.readonly
     a
       curs default
-
-+above('l')
-  .ui-breadcrumb
-    fxd row
-
-    &:before
-      bc $white

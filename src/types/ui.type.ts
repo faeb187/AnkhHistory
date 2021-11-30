@@ -8,6 +8,7 @@ type AnkhUiModules = { [prop: string]: AnkhUi };
 type AnkhUiOptionMap =
   | AnkhUiAccordionOptions
   | AnkhUiArticleOptions
+  | AnkhUiBreadcrumbOptions
   | AnkhUiButtonOptions
   | AnkhUiCarouselOptions
   | AnkhUiChartOptions
@@ -74,6 +75,18 @@ type AnkhUiArticleOptions = AnkhUiOptions & {
   createdAt?: Date;
   paragraphs: AnkhUiArticleParagraph[];
   title: string;
+};
+// UI: breadcrumb
+type AnkhUiBreadcrumbItem = { lang?: string };
+type AnkhUiBreadcrumbOptions = AnkhUiOptions & {
+  active: number;
+  items: AnkhUiBreadcrumbItem[];
+  numbered: boolean;
+  readonly: boolean;
+};
+type AnkhUiBreadcrumbUpdateOptions = {
+  active: number;
+  target: HTMLElement;
 };
 // UI: button
 type AnkhUiButtonOptions = AnkhUiOptions & {
@@ -275,6 +288,9 @@ export {
   //
   AnkhUiAccordionOptions,
   AnkhUiArticleOptions,
+  AnkhUiBreadcrumbItem,
+  AnkhUiBreadcrumbOptions,
+  AnkhUiBreadcrumbUpdateOptions,
   AnkhUiButtonOptions,
   AnkhUiCarouselOptions,
   AnkhUiChartOptions,

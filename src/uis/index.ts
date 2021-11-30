@@ -1,5 +1,6 @@
 import { accordion } from "./accordion/accordion";
 import { article } from "./article/article";
+import { breadcrumb } from "./breadcrumb/breadcrumb";
 import { button } from "./button/button";
 import { carousel } from "./carousel/carousel";
 import { chart } from "./chart/chart";
@@ -29,6 +30,7 @@ import { tabs } from "./tabs/tabs";
 export {
   accordion,
   article,
+  breadcrumb,
   button,
   carousel,
   chart,
