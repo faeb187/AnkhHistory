@@ -63,6 +63,12 @@ const accElementsDetails: AnkhUiDetailsOptions[] = [
     ui: "details",
   },
   {
+    id: "details-elements-html",
+    parentId: "accordion-elements",
+    summary: { lang: "html" },
+    ui: "details",
+  },
+  {
     id: "details-elements-icon",
     parentId: "accordion-elements",
     summary: { lang: "icon" },
@@ -72,12 +78,6 @@ const accElementsDetails: AnkhUiDetailsOptions[] = [
     id: "details-elements-iframe",
     parentId: "accordion-elements",
     summary: { lang: "iframe" },
-    ui: "details",
-  },
-  {
-    id: "details-elements-html",
-    parentId: "accordion-elements",
-    summary: { lang: "html" },
     ui: "details",
   },
   {
