@@ -1,7 +1,7 @@
 .ui-fab
   pos fixed
-  btm ($icon-h + 4px)
-  rgt ($icon-w + 10px)
+  btm "calc(%s + 4px)" % $icon-h
+  rgt "calc(%s + 10px)" % $icon-w
   w   $icon-w
 
   .ui-button
@@ -9,17 +9,17 @@
     
     &:hover + .ui-list
       o   1
-      vis 1
+      vis visible
 
   .ui-list
     pos absolute
     w 200px
     
-    btm ($icon-h + 4px)
-    rgt ($icon-w + 10px)
+    btm "calc(%s + 4px)" % $icon-h
+    rgt "calc(%s + 10px)" % $icon-w
     
     o 0
-    vis 0
+    vis hidden
     tra .2s
 
     // @todo extends from list style

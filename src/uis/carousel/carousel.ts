@@ -4,6 +4,7 @@ import type { AnkhUiCarouselOptions } from "types/ui.type";
 
 export const carousel = (() => ({
   init: (options: AnkhUiCarouselOptions) => {
+    console.log("carousel options:", options);
     const { id, items } = options;
 
     const $ui = $$.create("<div/>", { id, class: "ui-carousel" });
