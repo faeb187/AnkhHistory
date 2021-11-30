@@ -52,13 +52,13 @@ const buttonOverlayHide = {
       bind: { target: "#buttonOverlayHide", type: "click" },
       name: "ui-button-overlay-hide",
       handler: (args: { event: MouseEvent }): void => {
-        observer.f("ui-overlay-hide-overlayUis", { ...args, id: "overlayUis" });
+        observer.f("ui-overlay-hide-overlay", { ...args, id: "overlay" });
       },
     },
   ],
   icon: "close",
   id: "buttonOverlayHide",
-  parentId: "ui-overlay-front-overlayUis",
+  parentId: "ui-overlay-front-overlay",
   ui: "button",
 };
 const carousel = {
@@ -191,8 +191,7 @@ const map = {
   ui: "map",
 };
 const overlay: AnkhUiOverlayOptions = {
-  id: "overlayUis",
-  parentId: "details-elements-overlay",
+  id: "overlay",
   ui: "overlay",
 };
 const slideshow = {
@@ -220,9 +219,9 @@ const tabs = {
   events: [
     {
       bind: { target: "#details-elements-overlay", type: "click" },
-      name: "ui-details-overlay-show-overlayUis",
+      name: "ui-details-overlay-show-overlay",
       handler: (args: { event: MouseEvent }): void => {
-        observer.f("ui-overlay-show-overlayUis", { ...args, id: "overlayUis" });
+        observer.f("ui-overlay-show-overlay", { ...args, id: "overlay" });
       },
     },
     {

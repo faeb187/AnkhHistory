@@ -107,11 +107,7 @@ export const input = (() => {
       } = options;
 
       const inputId = `${id}-input`;
-      const tag = attributes.type === "select" ? "select" : "input";
-      const changeEvent =
-        tag === "select" || type === "color" || type === "date"
-          ? "change"
-          : "keyup";
+      const tag = type === "select" ? "select" : "input";
       const $ui = $$.create("<div/>", { id, class: "ui-input" });
       const $input = <AnkhInput>(
         $$.create(`<${tag}/>`, { id: inputId, ...attributes })
@@ -123,9 +119,8 @@ export const input = (() => {
       $input.value = <string>state.get({ id: inputId }) || "";
 
       observer.l({
-        bind: { target: $input, type: changeEvent },
+        name: `ui-input-${id}-state`,
         handler: ui.setState,
-        name: `ui-input-${id}-${changeEvent}`,
       });
 
       label &&
