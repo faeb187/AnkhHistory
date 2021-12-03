@@ -86,6 +86,7 @@ const chart = {
         y: { min: 4400 },
       },
     },
+    responsive: true,
     type: "bar",
   },
   id: "chart",

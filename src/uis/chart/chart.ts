@@ -18,15 +18,15 @@ export const chart = (() => {
 
   return {
     init: (options: AnkhUiChartOptions) => {
-      const { chartJs } = options;
-      const $ui = $$.create("<div/>", { class: "ui-chart" });
+      const { chartJs, id } = options;
+      const $ui = $$.create("<section/>", { id, class: "ui-chart" });
 
       // only (well that's a lot) chartJS atm
       if (chartJs) {
         Chart.register(BarController, BarElement, CategoryScale, LinearScale);
 
-        const $chart = new Chart(ctx, chartJs).canvas;
-        $ui.appendChild($chart);
+        const chh = new Chart(ctx, chartJs);
+        $ui.appendChild(chh.canvas);
       }
       observer.l({
         name: "ankh-viewport",
