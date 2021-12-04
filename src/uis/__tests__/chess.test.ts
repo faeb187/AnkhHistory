@@ -1,6 +1,5 @@
 import { twoDollars as $$ } from "twodollars";
 
-import { logger } from "core";
 import { chess } from "uis";
 
 import type { AnkhUiChessOptions } from "types/ui.type";
@@ -21,10 +20,13 @@ describe("UI Chess", () => {
 
   it("[renderMove] 1 e4", () => {
     const $ui = chess.init(options);
-    moves.forEach((move: Move) => chess.renderMove(move));
+    const $board = $$.find(".ui-chess-board", $ui)[0];
 
-    const $e4 = $$.find("#ui-chess-board-square-36 > span", $ui)[0];
-    const $e2 = $$.find("#ui-chess-board-square-52", $ui)[0];
+    moves.forEach((move: Move) => chess.renderMove(move, $board));
+
+    const $e4 = $$.find("[data-index='36'] > span", $ui)[0];
+    const $e2 = $$.find("[data-index='52']", $ui)[0];
+
     expect($e4.className).toBe("ui-chess-board-piece");
     expect($e2.innerHTML).toBeFalsy();
   });
