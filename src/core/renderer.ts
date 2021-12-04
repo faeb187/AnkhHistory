@@ -1,6 +1,7 @@
 import { twoDollars as $$ } from "twodollars";
 
 import { loader, logger, media, observer } from "core";
+
 import type { AnkhUiLoaded, AnkhUiOptionMap } from "types/ui.type";
 
 export const renderer = (() => {
@@ -18,7 +19,8 @@ export const renderer = (() => {
     const $df = document.createDocumentFragment();
     // const $df = $$.create("<div/>");
     const $ankh = <HTMLDivElement>$$.find("#ankh")[0];
-    $ankh.innerHTML = "";
+
+    while ($ankh.firstChild) $ankh.removeChild($ankh.firstChild);
 
     siteConfigurations.forEach((siteConfiguration) => {
       const { id } = siteConfiguration;

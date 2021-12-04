@@ -7,8 +7,6 @@ export const countdown = (() => {
   let remainingSeconds: number;
 
   const ui = {
-    $tpl: $$.create("<div/>", { class: "ui-countdown" }),
-
     update: (to: Date) => {
       remainingSeconds = new Date(+to - +new Date()).getSeconds();
 
@@ -27,7 +25,7 @@ export const countdown = (() => {
 
       remainingSeconds = new Date(+to - +new Date()).getSeconds();
 
-      $ui = <HTMLElement>ui.$tpl.cloneNode();
+      $ui = $$.create("<div/>", { class: "ui-countdown" });
       $ui.id = id;
       $ui.innerText = remainingSeconds.toString();
 

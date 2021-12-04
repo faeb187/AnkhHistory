@@ -3,8 +3,6 @@ import type { AnkhUiGalleryItem, AnkhUiGalleryOptions } from "types/ui.type";
 
 export const gallery = (() => {
   const ui = {
-    $tpl: $$.create("<section/>", { class: "ui-gallery" }),
-
     addImage: (img: AnkhUiGalleryItem, $ul: HTMLElement) => {
       const { alt, src, title, text } = img;
       const $li = $$.create("<li/>");
@@ -41,7 +39,7 @@ export const gallery = (() => {
   return {
     init: (options: AnkhUiGalleryOptions) => {
       const { id, interval = 8000, items } = options;
-      const $ui = <HTMLElement>ui.$tpl.cloneNode();
+      const $ui = $$.create("<section/>", { class: "ui-gallery" });
       const $ul = $$.create("<ul/>");
 
       $ui.id = id;
