@@ -2,7 +2,7 @@
 
 This project was moved due to NextJS Migration to:
 
-https://github.com/faeb187/Ankhorage.git(https://github.com/faeb187/Ankhorage.git)
+[https://github.com/faeb187/Ankhorage.git](https://github.com/faeb187/Ankhorage.git)
 
 The new framework is still private and will be open-source (probably) soon.
 
